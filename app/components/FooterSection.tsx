@@ -10,7 +10,7 @@ export default function FooterSection() {
       <div className="w-full px-0 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         {/* LEFT TEXT */}
         <div className="text-center sm:text-left">
-          <p>© {new Date().getFullYear()} Mohamed Nagy. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} MoNAGY.com</p>
           <p className="mt-1">React • TS • Tailwind • Next.js • Vercel</p>
         </div>
 
