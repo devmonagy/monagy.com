@@ -1,13 +1,7 @@
-/* ==============================
-   TAILWIND CORE IMPORTS
-============================== */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ==============================
-   COLOR VARIABLES (DARK & LIGHT)
-============================== */
 :root {
   --bg: #0d1117;
   --text: #c9d1d9;
@@ -30,9 +24,6 @@ body.light {
   --text-contrast: #1a1a1a;
 }
 
-/* ==============================
-   GLOBAL RESETS
-============================== */
 * {
   margin: 0;
   padding: 0;
@@ -51,9 +42,7 @@ body {
   transition: background 0.4s ease, color 0.4s ease;
 }
 
-/* ==============================
-   CODE SYNTAX HIGHLIGHTING
-============================== */
+/* LIGHT MODE code syntax */
 body.light pre code span.keyword {
   color: #af00db;
 }
@@ -67,6 +56,7 @@ body.light pre code span.control {
   color: #0000ff;
 }
 
+/* DARK MODE code syntax */
 body:not(.light) pre code span.keyword {
   color: #c586c0;
 }
@@ -80,9 +70,7 @@ body:not(.light) pre code span.control {
   color: #569cd6;
 }
 
-/* ==============================
-            NAVBAR
-============================== */
+/* NAVBAR */
 .navbar-wrapper {
   width: 100%;
   position: sticky;
@@ -111,86 +99,42 @@ nav ul {
   display: flex;
   list-style: none;
   gap: 2rem;
-  overflow-y: hidden !important;
-  scrollbar-width: none !important;
 }
 
-nav ul::-webkit-scrollbar {
-  display: none !important;
-}
-
-.nav-link {
-  position: relative;
-  padding-bottom: 4px;
-  text-decoration: none;
-  color: var(--text);
-  opacity: 0.85;
-  transition: opacity 0.25s ease, color 0.25s ease;
-}
-
-.nav-link:hover,
-.nav-link.active {
-  opacity: 1;
-  color: var(--highlight);
-}
-
-/* ==============================
-      NAV LINKS + UNDERLINE
-============================== */
-nav a,
-.nav-link {
+nav a {
   text-decoration: none;
   color: var(--text);
   padding-bottom: 4px;
   position: relative;
   opacity: 0.85;
-  display: inline-block; /* <-- CRITICAL FIX */
-  transition: opacity 0.25s ease, color 0.25s ease;
+  transition: 0.25s ease;
 }
 
 nav a:hover,
-.nav-link:hover,
-nav a.active,
-.nav-link.active {
+nav a.active {
   opacity: 1;
   color: var(--highlight);
 }
 
-/* Underline */
-nav a::after,
-.nav-link::after {
+nav a::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
-
   width: 100%;
   height: 2px;
   background: var(--highlight);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s ease;
+}
 
-  opacity: 0;
+nav a.active::after {
   transform: scaleX(1);
-  transition: opacity 0.25s ease;
+  transform-origin: left;
 }
 
-nav a:hover::after,
-.nav-link:hover::after,
-nav a.active::after,
-.nav-link.active::after {
-  opacity: 1;
-}
-
-/* MOBILE */
-@media (hover: none) {
-  nav a.active::after,
-  .nav-link.active::after {
-    opacity: 1;
-  }
-}
-
-/* ==============================
-      THEME TOGGLE
-============================== */
+/* THEME TOGGLE + SCROLL TO TOP BUTTONS */
 .theme-toggle,
 .scroll-to-top {
   width: 42px;
@@ -228,9 +172,7 @@ body.light #iconMoon {
   transform: scale(0.5);
 }
 
-/* ==============================
-    SCROLL TO TOP
-============================== */
+/* SCROLL TO TOP POSITIONING */
 .scroll-to-top {
   position: fixed;
   bottom: 24px;
@@ -244,9 +186,7 @@ body.light #iconMoon {
   pointer-events: auto;
 }
 
-/* ==============================
-          CONTENT
-============================== */
+/* CONTENT */
 .container {
   max-width: 900px;
   margin: auto;
@@ -279,9 +219,6 @@ h3 {
   margin-bottom: 1rem;
 }
 
-/* ==============================
-            PROJECT TILES
-============================== */
 .tile {
   background: var(--card-bg);
   padding: 1.5rem;
@@ -306,12 +243,10 @@ h3 {
   font-size: 0.75rem;
 }
 
-/* ==============================
-              FOOTER
-============================== */
+/* FOOTER */
 footer {
   text-align: center;
-  padding: 2rem 0 3rem; /* FIX: remove left/right padding */
+  padding: 2rem 1rem 3rem;
   border-top: 1px solid var(--border-color);
   margin-top: 4rem;
 }
@@ -344,20 +279,9 @@ footer p {
   opacity: 0.7;
 }
 
-/* ==============================
-        ScrollTop Border
-============================== */
-#scrollToTop {
-  border: 1px solid var(--border-color);
-}
-
-/* ==============================
-          FADE IN
-============================== */
 .fade-in {
   animation: fadeIn 0.4s ease-in-out;
 }
-
 @keyframes fadeIn {
   from {
     opacity: 0;
