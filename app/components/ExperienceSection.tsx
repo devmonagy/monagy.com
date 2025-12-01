@@ -45,7 +45,7 @@ const experiences: Experience[] = [
       "Accessibility",
     ],
     details: [
-      "Develop and maintain accessible, user-focused WordPress sites using HTML, CSS, JavaScript, and PHP.",
+      "Build and refine custom WordPress themes and UI components to deliver responsive, accessible, and user-centered experiences.",
       "Build custom integrations and features using REST APIs to connect WordPress with internal systems and third-party services.",
       "Optimize performance through code refinement, caching, image optimization, and streamlined plugin/theme management.",
       "Collaborate with multiple departments to ensure accurate updates, consistent branding, and smooth site functionality.",
