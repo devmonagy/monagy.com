@@ -15,17 +15,18 @@ const experiences: Experience[] = [
     summary:
       "Design and maintain Power Platform apps, manage SQL Server data, integrate with Microsoft Fabric/Azure, and deliver stakeholder support and continuous system improvements.",
     skills: [
-      "Power Platform",
-      "Power Apps",
-      "Power Automate",
-      "SQL Server",
-      "Azure Integration",
+      "React",
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "Component-Based Architecture",
+      "UI Performance Optimization",
     ],
     details: [
-      "Design, build, and maintain scalable Power Apps solutions, automating workflows and improving efficiency across multiple departments.",
-      "Manage SQL Server tables, queries, and data models while ensuring accuracy, performance, and integration with Power Platform and Microsoft Fabric/Azure services.",
-      "Create dynamic user interfaces, dashboards, and role-based logic to support clinicians, educators, HR, and operations teams.",
-      "Provide ongoing stakeholder support — troubleshooting issues, refining features, and deploying continuous enhancements based on real-world feedback.",
+      "Develop internal web applications using React, TypeScript, and REST APIs, improving performance by ~25%.",
+      "Build reusable React components and hooks, accelerating internal workflow development by ~30%.",
+      "Integrate REST APIs and Azure services to enable secure internal data exchange by ~35%",
+      "Optimize front-end state management and backend queries, reducing manual processing time by ~40%.",
+      "Lead Agile sprints to deliver component-based features, improving team delivery predictability by ~20%.",
     ],
   },
   {
