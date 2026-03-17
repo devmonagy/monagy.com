@@ -22,7 +22,7 @@ const experiences: Experience[] = [
       "UI Performance Optimization",
     ],
     details: [
-      "Develop internal web applications using React, TypeScript, and REST APIs, improving performance by ~25%.",
+      "Develop internal web applications using React, improving performance by ~25%.",
       "Build reusable React components and hooks, accelerating internal workflow development by ~30%.",
       "Integrate REST APIs and Azure services to enable secure internal data exchange by ~35%",
       "Optimize front-end state management and backend queries, reducing manual processing time by ~40%.",
