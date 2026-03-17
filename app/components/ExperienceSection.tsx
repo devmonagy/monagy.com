@@ -19,7 +19,10 @@ const experiences: Experience[] = [
       "TypeScript",
       "JavaScript (ES6+)",
       "Component-Based Architecture",
+      "Reusable Components",
       "UI Performance Optimization",
+      "React Hooks",
+      "State Management",
     ],
     details: [
       "Develop internal web applications using React, improving performance by ~25%.",
@@ -46,10 +49,10 @@ const experiences: Experience[] = [
       "Accessibility",
     ],
     details: [
-      "Build and refine custom WordPress themes and UI components to deliver responsive, accessible, and user-centered experiences.",
-      "Build custom integrations and features using REST APIs to connect WordPress with internal systems and third-party services.",
-      "Optimize performance through code refinement, caching, image optimization, and streamlined plugin/theme management.",
-      "Collaborate with multiple departments to ensure accurate updates, consistent branding, and smooth site functionality.",
+      "Built responsive SEO-optimized web applications using JavaScript, PHP, WordPress, and REST APIs, improving page load speeds by ~20–30%.",
+      "Developed reusable React components and internal dashboards, reducing manual workflows by ~25%.",
+      "Implemented caching, asset optimization, and code refactoring, decreasing load times by ~30–40%.",
+      "Ensured WCAG 2.2 accessibility and cross-browser compatibility, reducing UI issues by ~20%.",
     ],
   },
   {
@@ -66,10 +69,10 @@ const experiences: Experience[] = [
       "Accessibility",
     ],
     details: [
-      "Designed and developed fully custom, responsive websites for small and mid-sized clients, focusing on clean UI, fast performance, and modern best practices.",
-      "Managed complete end-to-end launches — domain setup, DNS configuration, hosting, deployment workflows, and ongoing maintenance.",
-      "Built brand identities including logos, color systems, and visual guidelines to give clients a polished, professional online presence.",
-      "Implemented essential SEO foundations (meta structure, sitemap, performance tuning) to improve visibility and search ranking.",
+      "Delivered full‑stack solutions with JS/React/Node/PHP, improving delivery speed by ~25%.",
+      "Built reusable UI components, cutting dev time by ~30%.",
+      "Handled hosting, DNS, and deployments, reducing launch issues by ~40%.",
+      "Led projects end‑to‑end, increasing on‑time delivery and client satisfaction by ~20%.",
     ],
   },
 ];
