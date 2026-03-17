@@ -13,7 +13,7 @@ const experiences: Experience[] = [
     range: "2025 — Present",
     title: "Software Developer · ADAPT Community Network",
     summary:
-      "Design and maintain Power Platform apps, manage SQL Server data, integrate with Microsoft Fabric/Azure, and deliver stakeholder support and continuous system improvements.",
+      "Design and maintain internal web applications using modular, reusable components, structured workflows, and secure integrations across SQL Server, Microsoft Fabric, and Azure services. Support stakeholders and continuously improve system performance and reliability.",
     skills: [
       "React",
       "TypeScript",
