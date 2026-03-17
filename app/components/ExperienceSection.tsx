@@ -56,8 +56,8 @@ const experiences: Experience[] = [
     ],
   },
   {
-    range: "2016 — 2024",
-    title: "Founder & Web Developer · webDefinitely",
+    range: "2018 — Present",
+    title: "Founder & Freelance Web Developer · webDefinitely",
     summary:
       "Partnered with local clients to build custom websites and brand identities, managing everything from domain setup to SEO to deliver polished, user-friendly digital experiences.",
     skills: [
