@@ -66,6 +66,44 @@ export default function ProjectsSection() {
 
         {/* Add more projects here if needed */}
       </div>
+
+      <pre className="bg-background dark:bg-darkBackground text-textLight dark:text-textDark text-sm rounded overflow-x-auto text-left font-mono w-full max-w-2xl mt-16">
+        <code>
+          <span className="text-blue-600 dark:text-[#569CD6]">function</span>{" "}
+          <span className="text-yellow-700 dark:text-[#DCDCAA]">evolve</span>
+          <span className="text-inherit">(</span>
+          <span className="text-purple-700 dark:text-[#9CDCFE]">knowledge</span>
+          , <span className="text-purple-700 dark:text-[#9CDCFE]">age</span>,{" "}
+          <span className="text-purple-700 dark:text-[#9CDCFE]">life</span>
+          <span className="text-inherit">)</span>{" "}
+          <span className="text-inherit">&#123;</span>
+          <br />
+          &nbsp;&nbsp;
+          <span className="text-green-600 dark:text-[#C586C0]">while</span>{" "}
+          <span className="text-inherit">(</span>
+          <span className="text-purple-700 dark:text-[#9CDCFE]">age</span>
+          <span className="text-inherit">++ &lt; </span>
+          <span className="text-purple-700 dark:text-[#9CDCFE]">life</span>.
+          <span className="text-yellow-700 dark:text-[#DCDCAA]">length</span>
+          <span className="text-inherit">)</span>{" "}
+          <span className="text-inherit">&#123;</span>
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-inherit">++</span>
+          <span className="text-purple-700 dark:text-[#9CDCFE]">knowledge</span>
+          <span className="text-inherit">;</span>
+          <br />
+          &nbsp;&nbsp;<span className="text-inherit">&#125;</span>
+          <br />
+          &nbsp;&nbsp;
+          <span className="text-green-600 dark:text-[#C586C0]">
+            return
+          </span>{" "}
+          <span className="text-purple-700 dark:text-[#9CDCFE]">knowledge</span>
+          <span className="text-inherit">;</span>
+          <br />
+          <span className="text-inherit">&#125;</span>
+        </code>
+      </pre>
     </section>
   );
 }
