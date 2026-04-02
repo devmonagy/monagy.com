@@ -59,12 +59,80 @@ export default function ProjectsSection() {
                 <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
                   Vercel
                 </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  JWT
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  REST API
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  React Hooks
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  State Management
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  CRUD Operations
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Dynamic Routing
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Git
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  GitHub
+                </span>
               </div>
             </div>
           </div>
         </a>
 
-        {/* Add more projects here if needed */}
+        {/* Version_ONE / MoNAGY.com */}
+        <a
+          href="https://v1.monagy.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)]"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
+              <img
+                src="/assets/MoLightv1.webp"
+                alt="Blog web app screenshot"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm text-[var(--highlight)] mb-1">Portfolio</p>
+              <h3 className="text-lg font-semibold mb-2">
+                Version 1 of Personal Protfolio
+              </h3>
+              <p className="text-sm text-[var(--text-contrast)] mb-3">
+                A personal portfolio website using HTML, CSS, and JavaScript,
+                incorporating responsive design and interactive UI elements to
+                create a polished and engaging user experience.
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs">
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  React
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  TypeScript
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Tailwind CSS
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Next.js
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Vercel
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
       </div>
 
       <pre className="bg-background dark:bg-darkBackground text-textLight dark:text-textDark text-sm rounded overflow-x-auto text-left font-mono w-full max-w-2xl mt-16">
