@@ -6,6 +6,56 @@ export default function ProjectsSection() {
       <h2 className="text-3xl font-bold mb-6">Projects</h2>
 
       <div className="space-y-6">
+        {/* FusionRXDubai*/}
+        <a
+          href="https://fusionrxdubai.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)]"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
+              <img
+                src="/assets/FusionRXDubai.webp"
+                alt="Blog web app screenshot"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm text-[var(--highlight)] mb-1">
+                WordPress Development
+              </p>
+              <h3 className="text-lg font-semibold mb-2">
+                Fusion Rx Dubai Website
+              </h3>
+              <p className="text-sm text-[var(--text-contrast)] mb-3">
+                A custom WordPress theme developed for a premium medical
+                compounding pharmacy and wellness lab in Dubai. Features a
+                clean, professional layout designed to showcase bespoke
+                healthcare services, specialized lab facilities, and custom IV
+                drip therapies.
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs">
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  WordPress
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  PHP
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  JavaScript
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  HTML5
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  CSS
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+
         {/* BlogWebApp / Blog Engine project */}
         <a
           href="https://blogwebapp.monagy.com"
