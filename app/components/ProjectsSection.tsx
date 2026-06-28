@@ -26,7 +26,7 @@ export default function ProjectsSection() {
                 WordPress Development
               </p>
               <h3 className="text-lg font-semibold mb-2">
-                Fusion Rx Dubai Website
+                Fusion Apothecary Dubai Website
               </h3>
               <p className="text-sm text-[var(--text-contrast)] mb-3">
                 A custom WordPress theme developed for a premium medical
