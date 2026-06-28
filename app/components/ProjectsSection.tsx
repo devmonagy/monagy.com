@@ -22,7 +22,7 @@ export default function ProjectsSection() {
             <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
               <img
                 src="/assets/blogwebapp-screen.webp"
-                alt="Blog web app screenshot"
+                alt="Blogwebapp"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -106,7 +106,7 @@ export default function ProjectsSection() {
             <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
               <img
                 src="/assets/APATax.webp"
-                alt="Blog web app screenshot"
+                alt="APATax"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -159,7 +159,7 @@ export default function ProjectsSection() {
             <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
               <img
                 src="/assets/FusionRXDubai.webp"
-                alt="Blog web app screenshot"
+                alt="Fusion Apothecary Dubai"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -209,7 +209,7 @@ export default function ProjectsSection() {
             <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
               <img
                 src="/assets/MoLightv1.webp"
-                alt="Blog web app screenshot"
+                alt="Version 1 of MoNAGY.com"
                 className="w-full h-full object-cover"
               />
             </div>
