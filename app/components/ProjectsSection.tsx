@@ -94,7 +94,7 @@ export default function ProjectsSection() {
           className="block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)]"
         >
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
+            <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative">
               <img
                 src="/assets/APATax.webp"
                 alt="APATax"
@@ -147,7 +147,7 @@ export default function ProjectsSection() {
           className="block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)]"
         >
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
+            <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative">
               <img
                 src="/assets/FusionRXDubai.webp"
                 alt="Fusion Apothecary Dubai"
@@ -197,7 +197,7 @@ export default function ProjectsSection() {
           className="block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)]"
         >
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
+            <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative">
               <img
                 src="/assets/MoLightv1.webp"
                 alt="Version 1 of MoNAGY.com"
