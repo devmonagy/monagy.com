@@ -1,4 +1,15 @@
 // app/components/ExperienceSection.tsx
+"use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+// Register ScrollTrigger safely for client environments
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 type Experience = {
   range: string;
@@ -78,30 +89,119 @@ const experiences: Experience[] = [
 ];
 
 export default function ExperienceSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const cards = gsap.utils.toArray(".experience-card-vibe");
+
+      cards.forEach((card: any) => {
+        const metaText = card.querySelectorAll(".exp-meta-reveal");
+        const listItems = card.querySelectorAll(".exp-list-item");
+        const skillBadges = card.querySelectorAll(".exp-skill-badge");
+
+        // Masked and scaled state configuration
+        gsap.set(card, { opacity: 0, y: 35 });
+        gsap.set(metaText, { opacity: 0, y: 20 });
+        gsap.set(listItems, { opacity: 0, x: -15 });
+        gsap.set(skillBadges, { opacity: 0, scale: 0.8, y: 5 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: "top 88%",
+            end: "bottom 15%",
+            toggleActions: "play none none reverse", // Continuous interactive loop back and forth
+          },
+        });
+
+        tl.to(card, {
+          opacity: 1,
+          y: 0,
+          duration: 0.85,
+          ease: "power4.out",
+        })
+          .to(
+            metaText,
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              stagger: 0.08,
+              ease: "power3.out",
+            },
+            "-=0.5",
+          )
+          .to(
+            listItems,
+            {
+              opacity: 1,
+              x: 0,
+              duration: 0.5,
+              stagger: 0.05,
+              ease: "power2.out",
+            },
+            "-=0.4",
+          )
+          .to(
+            skillBadges,
+            {
+              opacity: 1,
+              scale: 1,
+              y: 0,
+              duration: 0.4,
+              stagger: 0.02,
+              ease: "back.out(1.5)",
+            },
+            "-=0.3",
+          );
+      });
+    },
+    { scope: containerRef },
+  );
+
   return (
-    <section id="experience" className="mt-16">
+    <section id="experience" ref={containerRef} className="mt-16 scroll-mt-20">
       <h2 className="text-3xl font-bold mb-6">Experience</h2>
       <div className="space-y-6">
         {experiences.map((exp) => (
           <article
             key={exp.title}
-            className="experience-card bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer"
+            className="experience-card-vibe bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] transition-all cursor-pointer group relative overflow-hidden"
           >
-            <p className="text-sm text-zinc-400 mb-1">{exp.range}</p>
-            <p className="text-lg font-semibold mb-2">{exp.title}</p>
-            <p className="text-sm text-[var(--text-contrast)] mb-3">
+            {/* Range / Date Label */}
+            <p className="exp-meta-reveal text-sm text-zinc-400 mb-1 font-mono">
+              {exp.range}
+            </p>
+
+            {/* Title Block */}
+            <p className="exp-meta-reveal text-lg font-semibold mb-2 group-hover:text-[var(--highlight)] transition-colors duration-300">
+              {exp.title}
+            </p>
+
+            {/* Summary */}
+            <p className="exp-meta-reveal text-sm text-[var(--text-contrast)] leading-relaxed mb-4">
               {exp.summary}
             </p>
-            <ul className="list-disc pl-5 space-y-2 text-sm mb-4">
+
+            {/* Bullets Detail List */}
+            <ul className="list-disc pl-5 space-y-2 text-sm mb-5 text-[var(--text-contrast)]">
               {exp.details.map((d) => (
-                <li key={d}>{d}</li>
+                <li
+                  key={d}
+                  className="exp-list-item marker:text-[var(--highlight)]"
+                >
+                  {d}
+                </li>
               ))}
             </ul>
-            <div className="flex flex-wrap gap-2 text-sm">
+
+            {/* Tech Badges Grid */}
+            <div className="flex flex-wrap gap-2 text-sm pt-2 border-t border-white/5">
               {exp.skills.map((s) => (
                 <span
                   key={s}
-                  className="bg-[var(--badge-bg)] px-3 py-1 rounded-md"
+                  className="exp-skill-badge bg-[var(--badge-bg)] px-3 py-1 rounded-md border border-white/5 hover:border-[var(--highlight)]/30 transition-colors duration-300"
                 >
                   {s}
                 </span>

@@ -11,7 +11,9 @@ export default function FooterSection() {
         {/* LEFT TEXT */}
         <div className="text-center sm:text-left">
           <p>© {new Date().getFullYear()} MoNAGY.com</p>
-          <p className="mt-1">React • TS • Tailwind • Next.js • Vercel</p>
+          <p className="mt-1">
+            React • TS • Tailwind • GSAP • Next.js • Vercel
+          </p>
         </div>
 
         {/* RIGHT ICONS */}

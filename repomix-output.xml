@@ -1,0 +1,1912 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitignore
+app/components/AboutSection.tsx
+app/components/ExperienceSection.tsx
+app/components/FooterSection.tsx
+app/components/globals.css
+app/components/MainPage.tsx
+app/components/ProjectsSection.tsx
+app/components/SiteShell.tsx
+app/favicon.ico
+app/globals.css
+app/layout.tsx
+app/page.tsx
+eslint.config.mjs
+next.config.ts
+package.json
+postcss.config.js
+public/assets/APATax.webp
+public/assets/blogwebapp-screen.webp
+public/assets/favicon.png
+public/assets/FusionRXDubai.webp
+public/assets/MoLightv1.webp
+public/assets/MoNAGY.e394353aadbc43660045.webp
+public/assets/Resume-MohamedNAGY.pdf
+public/file.svg
+public/globe.svg
+public/next.svg
+public/vercel.svg
+public/window.svg
+README.md
+tailwind.config.ts
+tsconfig.json
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".gitignore">
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+</file>
+
+<file path="app/components/globals.css">
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0d1117;
+  --text: #c9d1d9;
+  --highlight: #58a6ff;
+  --card-bg: #161b22;
+  --badge-bg: #2d3748;
+  --hover-glow: rgba(88, 166, 255, 0.2);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --text-contrast: #d1d5db;
+}
+
+body.light {
+  --bg: #f5f5f5;
+  --text: #111;
+  --highlight: #007acc;
+  --card-bg: #ffffff;
+  --badge-bg: #e2e8f0;
+  --hover-glow: rgba(0, 122, 204, 0.12);
+  --border-color: rgba(167, 169, 173, 0.2);
+  --text-contrast: #1a1a1a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* LIGHT MODE code syntax */
+body.light pre code span.keyword {
+  color: #af00db;
+}
+body.light pre code span.function {
+  color: #795e26;
+}
+body.light pre code span.variable {
+  color: #001080;
+}
+body.light pre code span.control {
+  color: #0000ff;
+}
+
+/* DARK MODE code syntax */
+body:not(.light) pre code span.keyword {
+  color: #c586c0;
+}
+body:not(.light) pre code span.function {
+  color: #dcdcaa;
+}
+body:not(.light) pre code span.variable {
+  color: #9cdcfe;
+}
+body:not(.light) pre code span.control {
+  color: #569cd6;
+}
+
+/* NAVBAR */
+.navbar-wrapper {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  backdrop-filter: blur(0px);
+  transition: 0.3s ease;
+  background: transparent;
+}
+
+.navbar-wrapper.scrolled {
+  backdrop-filter: blur(10px);
+  background: var(--bg);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  margin: 0 max(20px, 5vw);
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--text);
+  padding-bottom: 4px;
+  position: relative;
+  opacity: 0.85;
+  transition: 0.25s ease;
+}
+
+nav a:hover,
+nav a.active {
+  opacity: 1;
+  color: var(--highlight);
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--highlight);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.25s ease;
+}
+
+nav a.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* THEME TOGGLE + SCROLL TO TOP BUTTONS */
+.theme-toggle,
+.scroll-to-top {
+  width: 42px;
+  height: 42px;
+  background: var(--card-bg);
+  border-radius: 50%;
+  border: 1px solid var(--text-contrast);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: 0.3s ease;
+}
+
+.theme-toggle svg,
+.scroll-to-top svg {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  fill: var(--text);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+#iconSun {
+  opacity: 0;
+  transform: scale(0.5);
+}
+body.light #iconSun {
+  opacity: 1;
+  transform: scale(1);
+}
+body.light #iconMoon {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+/* SCROLL TO TOP POSITIONING */
+.scroll-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+.scroll-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* CONTENT */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem 1rem;
+}
+
+header {
+  margin-bottom: 1.5rem;
+  padding-top: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+h1 span {
+  color: var(--highlight);
+}
+
+h2 {
+  margin-top: 0.4rem;
+  opacity: 0.85;
+}
+
+section {
+  margin-top: 3rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.tile {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  transition: 0.3s ease;
+}
+
+.tile:hover {
+  border-color: var(--highlight);
+  box-shadow: 0 0 10px var(--highlight);
+  background: var(--hover-glow);
+}
+
+.tech-stack span {
+  display: inline-block;
+  padding: 0.35rem 0.6rem;
+  background: var(--badge-bg);
+  margin: 0.3rem 0.5rem 0.3rem 0;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 2rem 1rem 3rem;
+  border-top: 1px solid var(--border-color);
+  margin-top: 4rem;
+}
+
+footer .icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+footer .icons a {
+  color: var(--text);
+  transition: 0.3s ease;
+}
+
+footer .icons a:hover {
+  color: var(--highlight);
+  transform: scale(1.2);
+}
+
+footer svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+footer p {
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</file>
+
+<file path="app/components/MainPage.tsx">
+// app/components/MainPage.tsx
+"use client";
+
+import { useEffect, useState } from "react";
+import AboutSection from "./AboutSection";
+import ExperienceSection from "./ExperienceSection";
+import ProjectsSection from "./ProjectsSection";
+import FooterSection from "./FooterSection";
+
+export default function MainPage() {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  // Load theme from localStorage on first render
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = localStorage.getItem("theme");
+    if (stored === "light") {
+      setTheme("light");
+      document.body.classList.add("light");
+    } else {
+      setTheme("dark");
+      document.body.classList.remove("light");
+    }
+  }, []);
+
+  // Keep body class + localStorage in sync with theme state
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (theme === "light") {
+      document.body.classList.add("light");
+    } else {
+      document.body.classList.remove("light");
+    }
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  // Navbar active link, scrolled state, and scroll-to-top visibility
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']")
+    );
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>("main section[id]")
+    );
+    const wrapper = document.getElementById("navbarWrapper");
+
+    const handleLinkClick = (e: MouseEvent, link: HTMLAnchorElement) => {
+      e.preventDefault();
+      const href = link.getAttribute("href");
+      if (!href) return;
+      const target = document.querySelector<HTMLElement>(href);
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    links.forEach((link) => {
+      const listener = (e: MouseEvent) => handleLinkClick(e, link);
+      link.addEventListener("click", listener);
+      // store listener on the element for cleanup
+      (link as any)._navListener = listener;
+    });
+
+    const onScroll = () => {
+      const scrollPos = window.scrollY + 120;
+
+      // active link highlighting
+      sections.forEach((sec) => {
+        if (
+          scrollPos >= sec.offsetTop &&
+          scrollPos < sec.offsetTop + sec.offsetHeight
+        ) {
+          links.forEach((a) => a.classList.remove("active"));
+          const activeLink = document.querySelector<HTMLAnchorElement>(
+            `nav a[href="#${sec.id}"]`
+          );
+          activeLink?.classList.add("active");
+        }
+      });
+
+      // navbar "scrolled" style
+      if (wrapper) {
+        if (window.scrollY > 20) {
+          wrapper.classList.add("scrolled");
+        } else {
+          wrapper.classList.remove("scrolled");
+        }
+      }
+
+      // scroll-to-top button
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener("scroll", onScroll);
+    onScroll(); // run once
+
+    // Fix mobile "stuck hover" on project cards (like in original JS)
+    if (window.innerWidth <= 768) {
+      const projectCards = document.querySelectorAll<HTMLElement>(
+        "#projects .hover\\:border-\\[var\\(--highlight\\)\\]"
+      );
+      projectCards.forEach((card) => {
+        const touchHandler = () => {
+          card.classList.remove(
+            "hover:border-[var(--highlight)]",
+            "hover:shadow-[0_0_10px_var(--highlight)]"
+          );
+          void card.offsetWidth; // reflow
+          card.classList.add(
+            "hover:border-[var(--highlight)]",
+            "hover:shadow-[0_0_10px_var(--highlight)]"
+          );
+        };
+        card.addEventListener("touchstart", touchHandler);
+        (card as any)._touchHandler = touchHandler;
+      });
+    }
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      links.forEach((link) => {
+        const listener = (link as any)._navListener as
+          | ((e: MouseEvent) => void)
+          | undefined;
+        if (listener) {
+          link.removeEventListener("click", listener);
+        }
+      });
+      // no need to cleanup projectCard touch handlers aggressively, but could here if desired
+    };
+  }, []);
+
+  const handleScrollTopClick = () => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
+
+  return (
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+      {/* NAVBAR – top scrollable nav, like original */}
+      <div
+        id="navbarWrapper"
+        className="sticky top-0 z-50 w-full backdrop-blur-sm bg-[var(--bg)]/70 border-b transition-all"
+        style={{ borderColor: "var(--border-color)" }}
+      >
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3">
+          <nav>
+            <ul className="flex gap-6 sm:gap-8 text-sm">
+              <li>
+                <a
+                  href="#about"
+                  className="relative active pb-1 border-b-2 border-transparent hover:text-[var(--highlight)] transition-all"
+                >
+                  About
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#experience"
+                  className="relative pb-1 border-b-2 border-transparent hover:text-[var(--highlight)] transition-all"
+                >
+                  Experience
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#projects"
+                  className="relative pb-1 border-b-2 border-transparent hover:text-[var(--highlight)] transition-all"
+                >
+                  Projects
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          {/* THEME TOGGLE – same id so JS + CSS work; uses CSS variables */}
+          <button
+            id="themeToggle"
+            type="button"
+            onClick={toggleTheme}
+            className="theme-toggle w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer relative"
+            style={{ borderColor: "var(--border-color)" }}
+            aria-label="Toggle theme"
+          >
+            {/* Moon icon */}
+            <svg
+              id="iconMoon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className={`w-5 h-5 fill-current absolute transition-all ${
+                theme === "dark"
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-50"
+              }`}
+            >
+              <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
+            </svg>
+            {/* Sun icon */}
+            <svg
+              id="iconSun"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className={`w-5 h-5 fill-current absolute transition-all ${
+                theme === "light"
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-50"
+              }`}
+            >
+              <circle cx="12" cy="12" r="5" />
+              <g stroke="currentColor" strokeWidth="2">
+                <line x1="12" y1="1" x2="12" y2="4" />
+                <line x1="12" y1="20" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
+                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="4" y2="12" />
+                <line x1="20" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
+                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
+              </g>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* HERO under navbar */}
+      <div className="max-w-3xl mx-auto px-4 py-10 text-left">
+        <h1 className="text-4xl font-bold mb-2">Mohamed Nagy</h1>
+        <p className="text-xl text-[var(--highlight)] mb-3">
+          Crafting pixel-perfect, user-centric web experiences 🚀
+        </p>
+      </div>
+
+      {/* MAIN CONTENT */}
+      <main className="max-w-3xl mx-auto px-4 pb-16">
+        <AboutSection />
+        <ExperienceSection />
+        <ProjectsSection />
+        <FooterSection />
+      </main>
+
+      {/* Scroll to top button */}
+      <button
+        id="scrollToTop"
+        onClick={handleScrollTopClick}
+        className={`fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer transition-all ${
+          showScrollTop
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        aria-label="Scroll to top"
+      >
+        <span className="text-xl">↑</span>
+      </button>
+    </div>
+  );
+}
+</file>
+
+<file path="app/components/SiteShell.tsx">
+"use client";
+
+import { useEffect } from "react";
+import AboutSection from "./AboutSection";
+import ExperienceSection from "./ExperienceSection";
+import ProjectsSection from "./ProjectsSection";
+import FooterSection from "./FooterSection";
+
+export default function SiteShell() {
+  useEffect(() => {
+    // ====== Smooth scroll + active nav links ======
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']")
+    );
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>("main section[id]")
+    );
+    const wrapper = document.getElementById("navbarWrapper");
+    const scrollBtn = document.getElementById("scrollToTop");
+    const themeToggle = document.getElementById("themeToggle");
+
+    // Smooth scroll on click
+    links.forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const href = link.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+        const target = document.querySelector<HTMLElement>(href);
+        if (!target) return;
+
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    const onScroll = () => {
+      const pos = window.scrollY + 120;
+
+      // Active link highlight
+      sections.forEach((sec) => {
+        if (pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
+          links.forEach((a) => a.classList.remove("active"));
+          const activeLink = document.querySelector<HTMLAnchorElement>(
+            `nav a[href="#${sec.id}"]`
+          );
+          activeLink?.classList.add("active");
+        }
+      });
+
+      // Navbar scrolled class
+      if (wrapper) {
+        if (window.scrollY > 20) {
+          wrapper.classList.add("scrolled");
+        } else {
+          wrapper.classList.remove("scrolled");
+        }
+      }
+
+      // Scroll to top visibility
+      if (scrollBtn) {
+        if (window.scrollY > 300) {
+          scrollBtn.classList.add("opacity-100", "pointer-events-auto");
+          scrollBtn.classList.remove("opacity-0", "pointer-events-none");
+        } else {
+          scrollBtn.classList.add("opacity-0", "pointer-events-none");
+          scrollBtn.classList.remove("opacity-100", "pointer-events-auto");
+        }
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+    onScroll(); // run once on load
+
+    // Theme toggle + persistence
+    if (themeToggle) {
+      if (localStorage.getItem("theme") === "light") {
+        document.body.classList.add("light");
+      }
+
+      const handleThemeClick = () => {
+        document.body.classList.toggle("light");
+        localStorage.setItem(
+          "theme",
+          document.body.classList.contains("light") ? "light" : "dark"
+        );
+      };
+
+      themeToggle.addEventListener("click", handleThemeClick);
+
+      // Cleanup theme handler on unmount
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        themeToggle.removeEventListener("click", handleThemeClick);
+      };
+    }
+
+    // Cleanup scroll if themeToggle not found
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen flex bg-[var(--bg)] text-[var(--text)]">
+      {/* Scroll to top button (same id & classes as original) */}
+      <button
+        id="scrollToTop"
+        className="fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer opacity-0 pointer-events-none transition-all"
+        aria-label="Scroll to top"
+        onClick={() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
+        <span className="text-xl">↑</span>
+      </button>
+
+      <main className="flex-1 max-w-3xl mx-auto px-4 py-10 md:py-16">
+        {/* Hero (title + tagline) is inside Sidebar on desktop, but your current layout also has heading under navbar.
+            We'll keep About/Experience/Projects/Footer as separate sections. */}
+        <AboutSection />
+        <ExperienceSection />
+        <ProjectsSection />
+        <FooterSection />
+      </main>
+    </div>
+  );
+}
+</file>
+
+<file path="eslint.config.mjs">
+import { defineConfig, globalIgnores } from "eslint/config";
+import nextVitals from "eslint-config-next/core-web-vitals";
+import nextTs from "eslint-config-next/typescript";
+
+const eslintConfig = defineConfig([
+  ...nextVitals,
+  ...nextTs,
+  // Override default ignores of eslint-config-next.
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    ".next/**",
+    "out/**",
+    "build/**",
+    "next-env.d.ts",
+  ]),
+]);
+
+export default eslintConfig;
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  /* config options here */
+};
+
+export default nextConfig;
+</file>
+
+<file path="postcss.config.js">
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+</file>
+
+<file path="public/file.svg">
+<svg fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 13.5V5.41a1 1 0 0 0-.3-.7L9.8.29A1 1 0 0 0 9.08 0H1.5v13.5A2.5 2.5 0 0 0 4 16h8a2.5 2.5 0 0 0 2.5-2.5m-1.5 0v-7H8v-5H3v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1M9.5 5V2.12L12.38 5zM5.13 5h-.62v1.25h2.12V5zm-.62 3h7.12v1.25H4.5zm.62 3h-.62v1.25h7.12V11z" clip-rule="evenodd" fill="#666" fill-rule="evenodd"/></svg>
+</file>
+
+<file path="public/globe.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><g clip-path="url(#a)"><path fill-rule="evenodd" clip-rule="evenodd" d="M10.27 14.1a6.5 6.5 0 0 0 3.67-3.45q-1.24.21-2.7.34-.31 1.83-.97 3.1M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.48-1.52a7 7 0 0 1-.96 0H7.5a4 4 0 0 1-.84-1.32q-.38-.89-.63-2.08a40 40 0 0 0 3.92 0q-.25 1.2-.63 2.08a4 4 0 0 1-.84 1.31zm2.94-4.76q1.66-.15 2.95-.43a7 7 0 0 0 0-2.58q-1.3-.27-2.95-.43a18 18 0 0 1 0 3.44m-1.27-3.54a17 17 0 0 1 0 3.64 39 39 0 0 1-4.3 0 17 17 0 0 1 0-3.64 39 39 0 0 1 4.3 0m1.1-1.17q1.45.13 2.69.34a6.5 6.5 0 0 0-3.67-3.44q.65 1.26.98 3.1M8.48 1.5l.01.02q.41.37.84 1.31.38.89.63 2.08a40 40 0 0 0-3.92 0q.25-1.2.63-2.08a4 4 0 0 1 .85-1.32 7 7 0 0 1 .96 0m-2.75.4a6.5 6.5 0 0 0-3.67 3.44 29 29 0 0 1 2.7-.34q.31-1.83.97-3.1M4.58 6.28q-1.66.16-2.95.43a7 7 0 0 0 0 2.58q1.3.27 2.95.43a18 18 0 0 1 0-3.44m.17 4.71q-1.45-.12-2.69-.34a6.5 6.5 0 0 0 3.67 3.44q-.65-1.27-.98-3.1" fill="#666"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h16v16H0z"/></clipPath></defs></svg>
+</file>
+
+<file path="public/next.svg">
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 394 80"><path fill="#000" d="M262 0h68.5v12.7h-27.2v66.6h-13.6V12.7H262V0ZM149 0v12.7H94v20.4h44.3v12.6H94v21h55v12.6H80.5V0h68.7zm34.3 0h-17.8l63.8 79.4h17.9l-32-39.7 32-39.6h-17.9l-23 28.6-23-28.6zm18.3 56.7-9-11-27.1 33.7h17.8l18.3-22.7z"/><path fill="#000" d="M81 79.3 17 0H0v79.3h13.6V17l50.2 62.3H81Zm252.6-.4c-1 0-1.8-.4-2.5-1s-1.1-1.6-1.1-2.6.3-1.8 1-2.5 1.6-1 2.6-1 1.8.3 2.5 1a3.4 3.4 0 0 1 .6 4.3 3.7 3.7 0 0 1-3 1.8zm23.2-33.5h6v23.3c0 2.1-.4 4-1.3 5.5a9.1 9.1 0 0 1-3.8 3.5c-1.6.8-3.5 1.3-5.7 1.3-2 0-3.7-.4-5.3-1s-2.8-1.8-3.7-3.2c-.9-1.3-1.4-3-1.4-5h6c.1.8.3 1.6.7 2.2s1 1.2 1.6 1.5c.7.4 1.5.5 2.4.5 1 0 1.8-.2 2.4-.6a4 4 0 0 0 1.6-1.8c.3-.8.5-1.8.5-3V45.5zm30.9 9.1a4.4 4.4 0 0 0-2-3.3 7.5 7.5 0 0 0-4.3-1.1c-1.3 0-2.4.2-3.3.5-.9.4-1.6 1-2 1.6a3.5 3.5 0 0 0-.3 4c.3.5.7.9 1.3 1.2l1.8 1 2 .5 3.2.8c1.3.3 2.5.7 3.7 1.2a13 13 0 0 1 3.2 1.8 8.1 8.1 0 0 1 3 6.5c0 2-.5 3.7-1.5 5.1a10 10 0 0 1-4.4 3.5c-1.8.8-4.1 1.2-6.8 1.2-2.6 0-4.9-.4-6.8-1.2-2-.8-3.4-2-4.5-3.5a10 10 0 0 1-1.7-5.6h6a5 5 0 0 0 3.5 4.6c1 .4 2.2.6 3.4.6 1.3 0 2.5-.2 3.5-.6 1-.4 1.8-1 2.4-1.7a4 4 0 0 0 .8-2.4c0-.9-.2-1.6-.7-2.2a11 11 0 0 0-2.1-1.4l-3.2-1-3.8-1c-2.8-.7-5-1.7-6.6-3.2a7.2 7.2 0 0 1-2.4-5.7 8 8 0 0 1 1.7-5 10 10 0 0 1 4.3-3.5c2-.8 4-1.2 6.4-1.2 2.3 0 4.4.4 6.2 1.2 1.8.8 3.2 2 4.3 3.4 1 1.4 1.5 3 1.5 5h-5.8z"/></svg>
+</file>
+
+<file path="public/vercel.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1155 1000"><path d="m577.3 0 577.4 1000H0z" fill="#fff"/></svg>
+</file>
+
+<file path="public/window.svg">
+<svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M1.5 2.5h13v10a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1zM0 1h16v11.5a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 0 12.5zm3.75 4.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5M7 4.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0m1.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5" fill="#666"/></svg>
+</file>
+
+<file path="README.md">
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+</file>
+
+<file path="tailwind.config.ts">
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}", // optional if you use /src
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+
+export default config;
+</file>
+
+<file path="app/components/AboutSection.tsx">
+// app/components/AboutSection.tsx
+export default function AboutSection() {
+  return (
+    <section id="about" className="mt-0">
+      <h2 className="text-3xl font-bold mb-4">About</h2>
+      <p className="mb-4">
+        Web Developer with 7+ years of experience specializing in front-end
+        engineering while also contributing to back-end development. Skilled in
+        building scalable, component-driven applications using React, Next.js,
+        and TypeScript, with hands-on experience in Node.js and RESTful APIs.
+        Strong focus on responsive UI design, accessibility (WCAG 2.2), state
+        management, and performance optimization within Agile SDLC environments.
+      </p>
+
+      <div>
+        <a
+          href="/assets/Resume-MohamedNAGY.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative inline-block text-[var(--highlight)] font-medium after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-[var(--highlight)] after:transition-all hover:after:w-full"
+        >
+          Download Résumé
+        </a>
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/globals.css">
+/* ==============================
+   TAILWIND CORE IMPORTS
+============================== */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==============================
+   COLOR VARIABLES (DARK & LIGHT)
+============================== */
+:root {
+  --bg: #0d1117;
+  --text: #c9d1d9;
+  --highlight: #58a6ff;
+  --card-bg: #161b22;
+  --badge-bg: #2d3748;
+  --hover-glow: rgba(88, 166, 255, 0.2);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --text-contrast: #d1d5db;
+}
+
+body.light {
+  --bg: #f5f5f5;
+  --text: #111;
+  --highlight: #007acc;
+  --card-bg: #ffffff;
+  --badge-bg: #e2e8f0;
+  --hover-glow: rgba(0, 122, 204, 0.12);
+  --border-color: rgba(167, 169, 173, 0.2);
+  --text-contrast: #1a1a1a;
+}
+
+/* ==============================
+   GLOBAL RESETS
+============================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* ==============================
+   CODE SYNTAX HIGHLIGHTING
+============================== */
+body.light pre code span.keyword {
+  color: #af00db;
+}
+body.light pre code span.function {
+  color: #795e26;
+}
+body.light pre code span.variable {
+  color: #001080;
+}
+body.light pre code span.control {
+  color: #0000ff;
+}
+
+body:not(.light) pre code span.keyword {
+  color: #c586c0;
+}
+body:not(.light) pre code span.function {
+  color: #dcdcaa;
+}
+body:not(.light) pre code span.variable {
+  color: #9cdcfe;
+}
+body:not(.light) pre code span.control {
+  color: #569cd6;
+}
+
+/* ==============================
+            NAVBAR
+============================== */
+.navbar-wrapper {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+  backdrop-filter: blur(0px);
+  transition: 0.3s ease;
+  background: transparent;
+}
+
+.navbar-wrapper.scrolled {
+  backdrop-filter: blur(10px);
+  background: var(--bg);
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  margin: 0 max(20px, 5vw);
+  border-bottom: 1px solid var(--border-color);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  overflow-y: hidden !important;
+  scrollbar-width: none !important;
+}
+
+nav ul::-webkit-scrollbar {
+  display: none !important;
+}
+
+.nav-link {
+  position: relative;
+  padding-bottom: 4px;
+  text-decoration: none;
+  color: var(--text);
+  opacity: 0.85;
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  opacity: 1;
+  color: var(--highlight);
+}
+
+/* ==============================
+      NAV LINKS + UNDERLINE
+============================== */
+nav a,
+.nav-link {
+  text-decoration: none;
+  color: var(--text);
+  padding-bottom: 4px;
+  position: relative;
+  opacity: 0.85;
+  display: inline-block; /* <-- CRITICAL FIX */
+  transition: opacity 0.25s ease, color 0.25s ease;
+}
+
+nav a:hover,
+.nav-link:hover,
+nav a.active,
+.nav-link.active {
+  opacity: 1;
+  color: var(--highlight);
+}
+
+/* Underline */
+nav a::after,
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: 2px;
+  background: var(--highlight);
+
+  opacity: 0;
+  transform: scaleX(1);
+  transition: opacity 0.25s ease;
+}
+
+nav a:hover::after,
+.nav-link:hover::after,
+nav a.active::after,
+.nav-link.active::after {
+  opacity: 1;
+}
+
+/* MOBILE */
+@media (hover: none) {
+  nav a.active::after,
+  .nav-link.active::after {
+    opacity: 1;
+  }
+}
+
+/* ==============================
+      THEME TOGGLE
+============================== */
+.theme-toggle,
+.scroll-to-top {
+  width: 42px;
+  height: 42px;
+  background: var(--card-bg);
+  border-radius: 50%;
+  border: 1px solid var(--text-contrast);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: 0.3s ease;
+}
+
+.theme-toggle svg,
+.scroll-to-top svg {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  fill: var(--text);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+#iconSun {
+  opacity: 0;
+  transform: scale(0.5);
+}
+body.light #iconSun {
+  opacity: 1;
+  transform: scale(1);
+}
+body.light #iconMoon {
+  opacity: 0;
+  transform: scale(0.5);
+}
+
+/* ==============================
+    SCROLL TO TOP
+============================== */
+.scroll-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+.scroll-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==============================
+          CONTENT
+============================== */
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem 1rem;
+}
+
+header {
+  margin-bottom: 1.5rem;
+  padding-top: 1rem;
+}
+
+h1 {
+  font-size: 3rem;
+}
+h1 span {
+  color: var(--highlight);
+}
+
+h2 {
+  margin-top: 0.4rem;
+  opacity: 0.85;
+}
+
+section {
+  margin-top: 3rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ==============================
+            PROJECT TILES
+============================== */
+.tile {
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 1.5rem;
+  transition: 0.3s ease;
+}
+
+.tile:hover {
+  border-color: var(--highlight);
+  box-shadow: 0 0 10px var(--highlight);
+  background: var(--hover-glow);
+}
+
+.tech-stack span {
+  display: inline-block;
+  padding: 0.35rem 0.6rem;
+  background: var(--badge-bg);
+  margin: 0.3rem 0.5rem 0.3rem 0;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+/* ==============================
+              FOOTER
+============================== */
+footer {
+  text-align: center;
+  padding: 2rem 0 3rem; /* FIX: remove left/right padding */
+  border-top: 1px solid var(--border-color);
+  margin-top: 4rem;
+}
+
+footer .icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.8rem;
+}
+
+footer .icons a {
+  color: var(--text);
+  transition: 0.3s ease;
+}
+
+footer .icons a:hover {
+  color: var(--highlight);
+  transform: scale(1.2);
+}
+
+footer svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+footer p {
+  font-size: 0.875rem;
+  opacity: 0.7;
+}
+
+/* ==============================
+        ScrollTop Border
+============================== */
+#scrollToTop {
+  border: 1px solid var(--border-color);
+}
+
+/* ==============================
+          FADE IN
+============================== */
+.fade-in {
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</file>
+
+<file path="app/layout.tsx">
+// app/layout.tsx
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Mohamed Nagy | Front-End Developer",
+  description:
+    "Mohamed Nagy – Front-End Developer passionate about building clean, responsive, user-focused applications with modern technologies like React, Tailwind, and TypeScript.",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" className="scroll-smooth">
+      <body className="bg-[var(--bg)] text-[var(--text)] transition-colors duration-500">
+        {children}
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="app/page.tsx">
+// app/page.tsx
+import MainPage from "./components/MainPage";
+
+export default function HomePage() {
+  return <MainPage />;
+}
+</file>
+
+<file path="tsconfig.json">
+{
+  "compilerOptions": {
+    "target": "ES2020", // 🔥 better for modern Next.js
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": false, // 🔥 optional; set to true if you use .js files
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler", // ✔ correct for Next.js 14–16
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./*"] // ✔ allows root imports
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}
+</file>
+
+<file path="package.json">
+{
+  "name": "monagy-nextjs",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "next": "^16.0.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10",
+    "eslint": "^9",
+    "eslint-config-next": "^16.0.7",
+    "postcss": "^8",
+    "tailwindcss": "3.4.14",
+    "typescript": "^5"
+  }
+}
+</file>
+
+<file path="app/components/FooterSection.tsx">
+// app/components/FooterSection.tsx
+
+export default function FooterSection() {
+  return (
+    <footer
+      className="mt-16 text-sm text-[var(--text-contrast)] border-t"
+      style={{ borderColor: "var(--border-color)" }}
+    >
+      {/* NOW FULL-WIDTH CONTENT */}
+      <div className="w-full px-0 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        {/* LEFT TEXT */}
+        <div className="text-center sm:text-left">
+          <p>© {new Date().getFullYear()} MoNAGY.com</p>
+          <p className="mt-1">React • TS • Tailwind • Next.js • Vercel</p>
+        </div>
+
+        {/* RIGHT ICONS */}
+        <div className="flex gap-5 justify-center sm:justify-end">
+          {/* GitHub */}
+          <a
+            href="https://github.com/devmonagy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--highlight)] transition-transform hover:scale-110"
+            title="GitHub"
+          >
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.5-3.9-1.5-.6-1.3-1.4-1.6-1.4-1.6-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.3 1.8 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.2 11.2 0 0 1 5.4 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1 .8 2v3c0 .3.2.7.8.6C20.7 21.4 23.5 17 23.5 12 23.5 5.7 18.3.5 12 .5z" />
+            </svg>
+          </a>
+
+          {/* LinkedIn */}
+          <a
+            href="https://www.linkedin.com/in/devmonagy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--highlight)] transition-transform hover:scale-110"
+            title="LinkedIn"
+          >
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M4.98 3a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4 8h2v12H4zM9 8h2v1.5h.03c.28-.5.98-1.02 2.02-1.02 2.17 0 2.57 1.42 2.57 3.27V20h-2v-6c0-1.43-.03-3.26-2-3.26S9.3 12.3 9.3 14V20H9z" />
+            </svg>
+          </a>
+
+          {/* CodePen */}
+          <a
+            href="https://codepen.io/devmonagy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[var(--highlight)] transition-transform hover:scale-110"
+            title="CodePen"
+          >
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M21.438 8.518l-9-6a1.003 1.003 0 0 0-1.113 0l-9 6A1.001 1.001 0 0 0 2 9.384v5.232a1 1 0 0 0 .438.866l9 6a1.003 1.003 0 0 0 1.124 0l9-6A1.001 1.001 0 0 0 22 14.616V9.384a1 1 0 0 0-.562-.866zM12 4.131 18.876 8.5 15.266 10.9 12 8.732 8.734 10.9 5.124 8.5 12 4.131zM4 10.616l2.934 2L4 14.616v-4zm8 9.253-6.876-4.369L8.734 13.1 12 15.268l3.266-2.168 3.61 1.4L12 19.869zm8-5.253-2.934-2L20 9.384v4z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+</file>
+
+<file path="app/components/ExperienceSection.tsx">
+// app/components/ExperienceSection.tsx
+
+type Experience = {
+  range: string;
+  title: string;
+  summary: string;
+  skills: string[];
+  details: string[];
+};
+
+const experiences: Experience[] = [
+  {
+    range: "2025 — Present",
+    title: "Software Developer · ADAPT Community Network",
+    summary:
+      "Design and maintain internal web applications using modular, reusable components, structured workflows, and secure integrations across SQL Server, Microsoft Fabric, and Azure services. Support stakeholders and continuously improve system performance and reliability.",
+    skills: [
+      "React",
+      "TypeScript",
+      "JavaScript (ES6+)",
+      "Component-Based Architecture",
+      "Reusable Components",
+      "UI Performance Optimization",
+      "React Hooks",
+      "State Management",
+    ],
+    details: [
+      "Develop internal web applications using React, improving performance by ~25%.",
+      "Build reusable React components and hooks, accelerating internal workflow development by ~30%.",
+      "Integrate REST APIs and Azure services to enable secure internal data exchange by ~35%",
+      "Optimize front-end state management and backend queries, reducing manual processing time by ~40%.",
+      "Lead Agile sprints to deliver component-based features, improving team delivery predictability by ~20%.",
+    ],
+  },
+  {
+    range: "2021 — 2025",
+    title: "Web Developer · ADAPT Community Network",
+    summary:
+      "Develop and maintain accessible, user-focused WordPress sites using HTML, CSS, JavaScript, and PHP to support organizational goals.",
+    skills: [
+      "HTML",
+      "CSS",
+      "JavaScript",
+      "WordPress",
+      "PHP",
+      "API Integration",
+      "Responsive Design",
+      "SEO",
+      "Accessibility",
+    ],
+    details: [
+      "Built responsive SEO-optimized web applications using JavaScript, PHP, WordPress, and REST APIs, improving page load speeds by ~20–30%.",
+      "Developed reusable React components and internal dashboards, reducing manual workflows by ~25%.",
+      "Implemented caching, asset optimization, and code refactoring, decreasing load times by ~30–40%.",
+      "Ensured WCAG 2.2 accessibility and cross-browser compatibility, reducing UI issues by ~20%.",
+    ],
+  },
+  {
+    range: "2018 — Present",
+    title: "Founder & Freelance Web Developer · webDefinitely",
+    summary:
+      "Partnered with local clients to build custom websites and brand identities, managing everything from domain setup to SEO to deliver polished, user-friendly digital experiences.",
+    skills: [
+      "Web Development",
+      "Full Stack Development",
+      "SEO",
+      "Client Collaboration",
+      "Responsive Design",
+      "Accessibility",
+    ],
+    details: [
+      "Delivered full‑stack solutions with JS/React/Node/PHP, improving delivery speed by ~25%.",
+      "Built reusable UI components, cutting dev time by ~30%.",
+      "Handled hosting, DNS, and deployments, reducing launch issues by ~40%.",
+      "Led projects end‑to‑end, increasing on‑time delivery and client satisfaction by ~20%.",
+    ],
+  },
+];
+
+export default function ExperienceSection() {
+  return (
+    <section id="experience" className="mt-16">
+      <h2 className="text-3xl font-bold mb-6">Experience</h2>
+      <div className="space-y-6">
+        {experiences.map((exp) => (
+          <article
+            key={exp.title}
+            className="experience-card bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer"
+          >
+            <p className="text-sm text-zinc-400 mb-1">{exp.range}</p>
+            <p className="text-lg font-semibold mb-2">{exp.title}</p>
+            <p className="text-sm text-[var(--text-contrast)] mb-3">
+              {exp.summary}
+            </p>
+            <ul className="list-disc pl-5 space-y-2 text-sm mb-4">
+              {exp.details.map((d) => (
+                <li key={d}>{d}</li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-2 text-sm">
+              {exp.skills.map((s) => (
+                <span
+                  key={s}
+                  className="bg-[var(--badge-bg)] px-3 py-1 rounded-md"
+                >
+                  {s}
+                </span>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+</file>
+
+<file path="app/components/ProjectsSection.tsx">
+// app/components/ProjectsSection.tsx
+
+export default function ProjectsSection() {
+  return (
+    <section id="projects" className="mt-16">
+      <h2 className="text-3xl font-bold mb-6">Projects</h2>
+
+      <div className="space-y-6">
+        {/* BlogWebApp / Blog Engine project */}
+        <a
+          href="https://blogwebapp.monagy.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative block bg-[var(--card-bg)] p-4 sm:p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer overflow-hidden group"
+        >
+          {/* The Solid, Mobile-First Badge */}
+          {/* Positioned at top-0 right-0, with solid background color and text */}
+          <div className="absolute top-0 right-0 z-10 bg-[var(--highlight)] text-[var(--card-bg)] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg shadow-md sm:text-xs">
+            In Development
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+            {/* Optimized Thumbnail Container */}
+            <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative">
+              <img
+                src="/assets/blogwebapp-screen.webp"
+                alt="Blog web app screenshot"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+              />
+              {/* Visual fix for previous overlap: ensured this image container isn't behind the main badge */}
+            </div>
+
+            <div className="flex-1 space-y-2">
+              {/* Category Label (Small Blue Text) */}
+              <p className="text-sm text-[var(--highlight)] pt-1">
+                Full-Stack Project
+              </p>
+
+              {/* Dynamic Title with line clamp for mobile */}
+              <h3 className="text-xl font-bold leading-snug sm:text-lg sm:font-semibold">
+                <span className="line-clamp-1">
+                  Blog Engine · MERN + TypeScript
+                </span>
+              </h3>
+
+              {/* Truncated Description for clean look on mobile */}
+              <p className="text-sm text-[var(--text-contrast)] leading-relaxed line-clamp-3 sm:line-clamp-none mb-3">
+                A full-stack blog engine inspired by platforms like Medium,
+                built with the MERN stack, TypeScript, Tailwind CSS, and modern
+                tooling. Includes authentication, post management, and a
+                responsive, modern UI.
+              </p>
+
+              {/* Simplified Tech Stack with better wrapping for small screens */}
+              <div className="flex flex-wrap gap-2 text-[10px] sm:text-xs pt-2">
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  MongoDB
+                </span>
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  Express
+                </span>
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  React
+                </span>
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  Node.js
+                </span>
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  TypeScript
+                </span>
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  Tailwind CSS
+                </span>
+                {/* Hiding lower-priority tags on smallest screens for clarity */}
+                <span className="hidden xs:block bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  JWT
+                </span>
+                <span className="hidden xs:block bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  REST API
+                </span>
+                <span className="hidden sm:block bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  Vercel
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        {/* APATax*/}
+        <a
+          href="https://apatax.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)]"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative">
+              <img
+                src="/assets/APATax.webp"
+                alt="APATax"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm text-[var(--highlight)] mb-1">
+                Website Development & Edits
+              </p>
+              <h3 className="text-lg font-semibold mb-2">
+                APA Tax Accounting Inc
+              </h3>
+              <p className="text-sm text-[var(--text-contrast)] mb-3">
+                Developed a multi-page business website for a certified public
+                accounting firm. Built using clean, semantic markup, PHP
+                templating, and Bootstrap for a responsive layout, featuring
+                integrated analytics, user consultation intake forms, and
+                external secure client portal logic.
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs">
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  PHP
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Bootstrap
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  JavaScript
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  jQuery
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  HTML5
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  CSS
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        {/* FusionRXDubai*/}
+        <a
+          href="https://fusionrxdubai.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)]"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative">
+              <img
+                src="/assets/FusionRXDubai.webp"
+                alt="Fusion Apothecary Dubai"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm text-[var(--highlight)] mb-1">
+                WordPress Development
+              </p>
+              <h3 className="text-lg font-semibold mb-2">
+                Fusion Apothecary Dubai Website
+              </h3>
+              <p className="text-sm text-[var(--text-contrast)] mb-3">
+                A custom WordPress theme developed for a premium medical
+                compounding pharmacy and wellness lab in Dubai. Features a
+                clean, professional layout designed to showcase bespoke
+                healthcare services, specialized lab facilities, and custom IV
+                drip therapies.
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs">
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  WordPress
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  PHP
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  JavaScript
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  HTML5
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  CSS
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        {/* Version_ONE / MoNAGY.com */}
+        <a
+          href="https://v1.monagy.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)]"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+            <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative">
+              <img
+                src="/assets/MoLightv1.webp"
+                alt="Version 1 of MoNAGY.com"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm text-[var(--highlight)] mb-1">Portfolio</p>
+              <h3 className="text-lg font-semibold mb-2">
+                Version 1 of Personal Protfolio
+              </h3>
+              <p className="text-sm text-[var(--text-contrast)] mb-3">
+                A personal portfolio website using HTML, CSS, and JavaScript,
+                incorporating responsive design and interactive UI elements to
+                create a polished and engaging user experience.
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs">
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  React
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  TypeScript
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Tailwind CSS
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Next.js
+                </span>
+                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                  Vercel
+                </span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <pre className="bg-background dark:bg-darkBackground text-textLight dark:text-textDark text-sm rounded overflow-x-auto text-left font-mono w-full max-w-2xl mt-16">
+        <code>
+          <span className="control">function</span>{" "}
+          <span className="function">evolve</span>
+          <span className="text-inherit">(</span>
+          <span className="variable">knowledge</span>
+          <span className="text-inherit">, </span>
+          <span className="variable">age</span>
+          <span className="text-inherit">, </span>
+          <span className="variable">life</span>
+          <span className="text-inherit">) &#123;</span>
+          <br />
+          &nbsp;&nbsp;
+          <span className="keyword">while</span>{" "}
+          <span className="text-inherit">(</span>
+          <span className="variable">age</span>
+          <span className="text-inherit">++ &lt; </span>
+          <span className="variable">life</span>
+          <span className="text-inherit">.</span>
+          <span className="function">length</span>
+          <span className="text-inherit">) &#123;</span>
+          <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <span className="text-inherit">++</span>
+          <span className="variable">knowledge</span>
+          <span className="text-inherit">;</span>
+          <br />
+          &nbsp;&nbsp;
+          <span className="text-inherit">&#125;</span>
+          <br />
+          &nbsp;&nbsp;
+          <span className="keyword">return</span>{" "}
+          <span className="variable">knowledge</span>
+          <span className="text-inherit">;</span>
+          <br />
+          <span className="text-inherit">&#125;</span>
+        </code>
+      </pre>
+    </section>
+  );
+}
+</file>
+
+</files>
