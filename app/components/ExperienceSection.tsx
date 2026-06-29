@@ -111,8 +111,8 @@ export default function ExperienceSection() {
             trigger: card,
             start: "top 88%",
             end: "bottom 15%",
-            // FIXED: Continuous interactive loop back and forth on scroll down & up
-            toggleActions: "play reverse play reverse",
+            // RESTORED: Reverts animation only when scrolling completely past the top entry point
+            toggleActions: "play none none reverse",
           },
         });
 

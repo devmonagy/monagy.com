@@ -16,7 +16,7 @@ export default function ProjectsSection() {
 
   useGSAP(
     () => {
-      // 1. Card Animation Sequence - Updated toggleActions for two-way playback
+      // 1. Card Animation Sequence - Restored to scroll-down only with entry-point reversal
       const cards = gsap.utils.toArray(".project-card-vibe");
 
       cards.forEach((card: any) => {
@@ -34,8 +34,8 @@ export default function ProjectsSection() {
             trigger: card,
             start: "top 88%",
             end: "bottom 15%",
-            // play on enter, reverse on leave, restart/play on enter back, reverse on leave back
-            toggleActions: "play reverse play reverse",
+            // RESTORED: Plays on scroll down, reverses out only when scrolled completely back up past trigger
+            toggleActions: "play none none reverse",
           },
         });
 
@@ -81,7 +81,7 @@ export default function ProjectsSection() {
           );
       });
 
-      // 2. High-End Terminal Token "Compilation" Reveal - Updated toggleActions for two-way playback
+      // 2. High-End Terminal Token "Compilation" Reveal - Restored to scroll-down only with entry-point reversal
       const tokens = gsap.utils.toArray(".code-token");
       gsap.set(tokens, { opacity: 0, y: 8 });
 
@@ -95,7 +95,8 @@ export default function ProjectsSection() {
           trigger: ".terminal-window",
           start: "top 90%",
           end: "bottom 10%",
-          toggleActions: "play reverse play reverse",
+          // RESTORED: Plays on scroll down, reverses out only when scrolled completely back up past trigger
+          toggleActions: "play none none reverse",
         },
       });
     },
@@ -290,7 +291,7 @@ export default function ProjectsSection() {
                 Portfolio
               </p>
               <h3 className="project-fade-up text-lg font-semibold mb-2 group-hover:text-[var(--highlight)] transition-colors duration-300">
-                Version 1 of Personal Protfolio
+                Version 1 of Personal Portfolio
               </h3>
               <p className="project-fade-up text-sm text-[var(--text-contrast)] mb-3">
                 A personal portfolio website using HTML, CSS, and JavaScript,
@@ -325,7 +326,8 @@ export default function ProjectsSection() {
           <div className="w-3 h-3 rounded-full bg-red-500/70" />
           <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
           <div className="w-3 h-3 rounded-full bg-green-500/70" />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400 ml-2 font-sans select-none">
+          {/* FIXED: text-zinc-600 provides robust AAA contrast for light mode, switches elegantly to text-zinc-400 in dark mode */}
+          <span className="text-xs text-zinc-600 dark:text-zinc-400 ml-2 font-sans select-none">
             evolve.ts
           </span>
         </div>
@@ -338,43 +340,43 @@ export default function ProjectsSection() {
             </span>{" "}
             <span className="code-token inline-block function text-blue-600 dark:text-blue-400">
               evolve
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               (
-            </span>
+            </span>{" "}
             <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
               knowledge
-            </span>
+            </span>{" "}
             <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
               :
             </span>{" "}
             <span className="code-token inline-block keyword text-teal-600 dark:text-teal-400">
               number
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               ,
             </span>{" "}
             <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
               age
-            </span>
+            </span>{" "}
             <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
               :
             </span>{" "}
             <span className="code-token inline-block keyword text-teal-600 dark:text-teal-400">
               number
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               ,
             </span>{" "}
             <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
               life
-            </span>
+            </span>{" "}
             <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
               :
             </span>{" "}
             <span className="code-token inline-block keyword text-teal-600 dark:text-teal-400">
               any[]
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               )
             </span>{" "}
@@ -386,7 +388,7 @@ export default function ProjectsSection() {
             </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               &#123;
-            </span>
+            </span>{" "}
             <br />
             &nbsp;&nbsp;
             <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
@@ -394,10 +396,10 @@ export default function ProjectsSection() {
             </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               (
-            </span>
+            </span>{" "}
             <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
               age
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               ++
             </span>{" "}
@@ -406,35 +408,35 @@ export default function ProjectsSection() {
             </span>{" "}
             <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
               life
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               .
-            </span>
+            </span>{" "}
             <span className="code-token inline-block function text-blue-600 dark:text-blue-400">
               length
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               )
             </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               &#123;
-            </span>
+            </span>{" "}
             <br />
             &nbsp;&nbsp;&nbsp;&nbsp;
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               ++
-            </span>
+            </span>{" "}
             <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
               knowledge
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               ;
-            </span>
+            </span>{" "}
             <br />
             &nbsp;&nbsp;
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               &#125;
-            </span>
+            </span>{" "}
             <br />
             &nbsp;&nbsp;
             <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
@@ -442,10 +444,10 @@ export default function ProjectsSection() {
             </span>{" "}
             <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
               knowledge
-            </span>
+            </span>{" "}
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               ;
-            </span>
+            </span>{" "}
             <br />
             <span className="code-token inline-block text-zinc-700 dark:text-inherit">
               &#125;
