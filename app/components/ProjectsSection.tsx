@@ -11,84 +11,75 @@ export default function ProjectsSection() {
           href="https://blogwebapp.monagy.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="relative block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer"
+          className="relative block bg-[var(--card-bg)] p-4 sm:p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_10px_var(--highlight)] transition-all cursor-pointer overflow-hidden group"
         >
-          {/* Top-Right "In Progress" Badge */}
-          <div className="absolute top-4 right-4 bg-[var(--highlight)]/10 text-[var(--highlight)] text-xs font-medium px-2.5 py-1 rounded-full border border-[var(--highlight)]/20 shadow-[0_0_5px_rgba(59,130,246,0.1)]">
+          {/* The Solid, Mobile-First Badge */}
+          {/* Positioned at top-0 right-0, with solid background color and text */}
+          <div className="absolute top-0 right-0 z-10 bg-[var(--highlight)] text-[var(--card-bg)] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg shadow-md sm:text-xs">
             In Development
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="w-full sm:w-24 h-24 sm:h-20 rounded-lg overflow-hidden border border-white/10 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+            {/* Optimized Thumbnail Container */}
+            <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative">
               <img
                 src="/assets/blogwebapp-screen.webp"
-                alt="Blogwebapp"
-                className="w-full h-full object-cover"
+                alt="Blog web app screenshot"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
+              {/* Visual fix for previous overlap: ensured this image container isn't behind the main badge */}
             </div>
-            <div className="flex-1 pr-16 sm:pr-20">
-              {" "}
-              {/* Added right padding to prevent text overlap with the badge on small screens */}
-              <p className="text-sm text-[var(--highlight)] mb-1">
+
+            <div className="flex-1 space-y-2">
+              {/* Category Label (Small Blue Text) */}
+              <p className="text-sm text-[var(--highlight)] pt-1">
                 Full-Stack Project
               </p>
-              <h3 className="text-lg font-semibold mb-2">
-                Blog Engine · MERN + TypeScript
+
+              {/* Dynamic Title with line clamp for mobile */}
+              <h3 className="text-xl font-bold leading-snug sm:text-lg sm:font-semibold">
+                <span className="line-clamp-1">
+                  Blog Engine · MERN + TypeScript
+                </span>
               </h3>
-              <p className="text-sm text-[var(--text-contrast)] mb-3">
+
+              {/* Truncated Description for clean look on mobile */}
+              <p className="text-sm text-[var(--text-contrast)] leading-relaxed line-clamp-3 sm:line-clamp-none mb-3">
                 A full-stack blog engine inspired by platforms like Medium,
                 built with the MERN stack, TypeScript, Tailwind CSS, and modern
                 tooling. Includes authentication, post management, and a
                 responsive, modern UI.
               </p>
-              <div className="flex flex-wrap gap-2 text-xs">
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+
+              {/* Simplified Tech Stack with better wrapping for small screens */}
+              <div className="flex flex-wrap gap-2 text-[10px] sm:text-xs pt-2">
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
                   MongoDB
                 </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
                   Express
                 </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
                   React
                 </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
                   Node.js
                 </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
                   TypeScript
                 </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                <span className="bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
                   Tailwind CSS
                 </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
-                  Render
-                </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
-                  Vercel
-                </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                {/* Hiding lower-priority tags on smallest screens for clarity */}
+                <span className="hidden xs:block bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
                   JWT
                 </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
+                <span className="hidden xs:block bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
                   REST API
                 </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
-                  React Hooks
-                </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
-                  State Management
-                </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
-                  CRUD Operations
-                </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
-                  Dynamic Routing
-                </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
-                  Git
-                </span>
-                <span className="bg-[var(--badge-bg)] px-3 py-1 rounded-md">
-                  GitHub
+                <span className="hidden sm:block bg-[var(--badge-bg)] px-2.5 py-1 rounded-md border border-white/10">
+                  Vercel
                 </span>
               </div>
             </div>
