@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2020", // 🔥 better for modern Next.js
+    "target": "ES2020",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": false, // 🔥 optional; set to true if you use .js files
+    "allowJs": false,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler", // ✔ correct for Next.js 14–16
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
@@ -19,11 +19,12 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"] // ✔ allows root imports
+      "@/*": ["./*"]
     }
   },
   "include": [
     "next-env.d.ts",
+    "react-app-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
