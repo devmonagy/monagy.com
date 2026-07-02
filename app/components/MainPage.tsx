@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Navbar from "./Navbar";
 import AboutSection from "./AboutSection";
 import ExperienceSection from "./ExperienceSection";
 import ProjectsSection from "./ProjectsSection";
@@ -65,13 +66,16 @@ export default function MainPage() {
     const onScroll = () => {
       const scrollPos = window.scrollY + 120;
 
-      // active link highlighting
+      // Active link highlighting matrix
       sections.forEach((sec) => {
         if (
           scrollPos >= sec.offsetTop &&
           scrollPos < sec.offsetTop + sec.offsetHeight
         ) {
+          // Reset all navigation elements safely
           links.forEach((a) => a.classList.remove("active"));
+
+          // Inject active status cleanly to current segment view target
           const activeLink = document.querySelector<HTMLAnchorElement>(
             `nav a[href="#${sec.id}"]`,
           );
@@ -141,96 +145,10 @@ export default function MainPage() {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300">
-      {/* NAVBAR */}
-      <div
-        id="navbarWrapper"
-        className="sticky top-0 z-50 w-full backdrop-blur-md bg-[var(--bg)]/70 border-b transition-all duration-300"
-        style={{ borderColor: "var(--border-color)" }}
-      >
-        {/* Adjusted inner nav container width to match the main layout context */}
-        <div className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4">
-          <nav>
-            <ul className="flex gap-6 sm:gap-8 text-sm font-mono tracking-wider">
-              <li>
-                <a
-                  href="#about"
-                  className="relative active pb-1 border-b-2 border-transparent hover:text-[var(--highlight)] transition-all"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#experience"
-                  className="relative pb-1 border-b-2 border-transparent hover:text-[var(--highlight)] transition-all"
-                >
-                  Experience
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#projects"
-                  className="relative pb-1 border-b-2 border-transparent hover:text-[var(--highlight)] transition-all"
-                >
-                  Projects
-                </a>
-              </li>
-            </ul>
-          </nav>
+      {/* REFACTORED HIGH-FIDELITY NAVBAR HEADER */}
+      <Navbar theme={theme} toggleTheme={toggleTheme} />
 
-          {/* THEME TOGGLE */}
-          <button
-            id="themeToggle"
-            type="button"
-            onClick={toggleTheme}
-            className="theme-toggle w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/10 rounded-full cursor-pointer relative hover:border-[var(--highlight)]/40 transition-colors"
-            aria-label="Toggle theme"
-          >
-            {/* Moon icon */}
-            <svg
-              id="iconMoon"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              className={`w-5 h-5 fill-current absolute transition-all duration-300 ${
-                theme === "dark"
-                  ? "opacity-100 scale-100"
-                  : "opacity-0 scale-50 rotate-90"
-              }`}
-            >
-              <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
-            </svg>
-            {/* Sun icon */}
-            <svg
-              id="iconSun"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              className={`w-5 h-5 fill-current absolute transition-all duration-300 ${
-                theme === "light"
-                  ? "opacity-100 scale-100"
-                  : "opacity-0 scale-50 -rotate-90"
-              }`}
-            >
-              <circle cx="12" cy="12" r="5" />
-              <g stroke="currentColor" strokeWidth="2">
-                <line x1="12" y1="1" x2="12" y2="4" />
-                <line x1="12" y1="20" x2="12" y2="23" />
-                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34" />
-                <line x1="17.66" y1="17.66" x2="19.78" y2="19.78" />
-                <line x1="1" y1="12" x2="4" y2="12" />
-                <line x1="20" y1="12" x2="23" y2="12" />
-                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66" />
-                <line x1="17.66" y1="6.34" x2="19.78" y2="4.22" />
-              </g>
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* 
-        MAIN CONTENT:
-        Removed the old static hero element. Changed container from max-w-3xl to max-w-7xl 
-        to maximize screen real estate, matching award-winning grid presentation behaviors.
-      */}
+      {/* CORE ALIGNED TRACKING CONTAINER CONTEXT */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-16">
         <AboutSection />
         <ExperienceSection />
