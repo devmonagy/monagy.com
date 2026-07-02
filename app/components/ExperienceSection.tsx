@@ -1,63 +1,73 @@
 // app/components/ExperienceSection.tsx
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-// Register ScrollTrigger safely for client environments
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
 type Experience = {
+  id: string;
+  tabTitle: string;
+  role: string;
+  company: string;
+  url: string;
   range: string;
-  title: string;
   summary: string;
   skills: string[];
   details: string[];
 };
 
-const experiences: Experience[] = [
+const EXPERIENCES_DATA: Experience[] = [
   {
+    id: "adapt-software",
+    tabTitle: "ADAPT (Dev)",
+    role: "Software Developer",
+    company: "ADAPT Community Network",
+    url: "https://adaptcommunitynetwork.org/",
     range: "2025 — Present",
-    title: "Software Developer · ADAPT Community Network",
     summary:
       "Design and maintain internal web applications using modular, reusable components, structured workflows, and secure integrations across SQL Server, Microsoft Fabric, and Azure services. Support stakeholders and continuously improve system performance and reliability.",
     skills: [
       "React",
       "TypeScript",
-      "JavaScript (ES6+)",
-      "Component-Based Architecture",
-      "Reusable Components",
-      "UI Performance Optimization",
-      "React Hooks",
+      "JavaScript",
+      "Architecture",
+      "Azure",
+      "Optimization",
+      "Hooks",
       "State Management",
     ],
     details: [
       "Develop internal web applications using React, improving performance by ~25%.",
       "Build reusable React components and hooks, accelerating internal workflow development by ~30%.",
-      "Integrate REST APIs and Azure services to enable secure internal data exchange by ~35%",
+      "Integrate REST APIs and Azure services to enable secure internal data exchange by ~35%.",
       "Optimize front-end state management and backend queries, reducing manual processing time by ~40%.",
       "Lead Agile sprints to deliver component-based features, improving team delivery predictability by ~20%.",
     ],
   },
   {
+    id: "adapt-web",
+    tabTitle: "ADAPT (Web)",
+    role: "Web Developer",
+    company: "ADAPT Community Network",
+    url: "https://adaptcommunitynetwork.org/",
     range: "2021 — 2025",
-    title: "Web Developer · ADAPT Community Network",
     summary:
       "Develop and maintain accessible, user-focused WordPress sites using HTML, CSS, JavaScript, and PHP to support organizational goals.",
     skills: [
-      "HTML",
-      "CSS",
+      "HTML5",
+      "CSS3",
       "JavaScript",
       "WordPress",
       "PHP",
-      "API Integration",
-      "Responsive Design",
+      "REST APIs",
       "SEO",
-      "Accessibility",
+      "WCAG Accessibility",
     ],
     details: [
       "Built responsive SEO-optimized web applications using JavaScript, PHP, WordPress, and REST APIs, improving page load speeds by ~20–30%.",
@@ -67,17 +77,22 @@ const experiences: Experience[] = [
     ],
   },
   {
+    id: "webdefinitely",
+    tabTitle: "webDefinitely",
+    role: "Founder & Freelance Developer",
+    company: "webDefinitely",
+    url: "#",
     range: "2018 — Present",
-    title: "Founder & Freelance Web Developer · webDefinitely",
     summary:
       "Partnered with local clients to build custom websites and brand identities, managing everything from domain setup to SEO to deliver polished, user-friendly digital experiences.",
     skills: [
-      "Web Development",
-      "Full Stack Development",
+      "Full Stack",
+      "React",
+      "Node.js",
       "SEO",
-      "Client Collaboration",
-      "Responsive Design",
-      "Accessibility",
+      "Client Strategy",
+      "Deployments",
+      "DNS Hosting",
     ],
     details: [
       "Delivered full‑stack solutions with JS/React/Node/PHP, improving delivery speed by ~25%.",
@@ -89,128 +104,209 @@ const experiences: Experience[] = [
 ];
 
 export default function ExperienceSection() {
+  const [activeIdx, setActiveIdx] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const activeTabRef = useRef<HTMLButtonElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
 
+  // Entrance scroll animation for the whole section
   useGSAP(
     () => {
-      const cards = gsap.utils.toArray(".experience-card-vibe");
+      gsap.from(".exp-header-anim", {
+        opacity: 0,
+        x: -20,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+        },
+      });
 
-      cards.forEach((card: any) => {
-        const metaText = card.querySelectorAll(".exp-meta-reveal");
-        const listItems = card.querySelectorAll(".exp-list-item");
-        const skillBadges = card.querySelectorAll(".exp-skill-badge");
-
-        // Force explicit initial values and disable potential layout flashes
-        gsap.set(card, { opacity: 0, y: 40 });
-        gsap.set(metaText, { opacity: 0, y: 15 });
-        gsap.set(listItems, { opacity: 0, x: -10 });
-        gsap.set(skillBadges, { opacity: 0, scale: 0.85, y: 5 });
-
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: card,
-            start: "top 90%", // Trigger slightly earlier for a cleaner visual flow on entrance
-            end: "bottom 15%",
-            toggleActions: "play none none reverse",
-            invalidateOnRefresh: true, // Dynamically calculates layouts if screen resizes
-          },
-        });
-
-        // "power4.out" gives that premium kinetic deceleration curve
-        tl.to(card, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power4.out",
-        })
-          .to(
-            metaText,
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.5,
-              stagger: 0.05,
-              ease: "power3.out",
-            },
-            "-=0.55",
-          )
-          .to(
-            listItems,
-            {
-              opacity: 1,
-              x: 0,
-              duration: 0.45,
-              stagger: 0.04,
-              ease: "power2.out",
-            },
-            "-=0.45",
-          )
-          .to(
-            skillBadges,
-            {
-              opacity: 1,
-              scale: 1,
-              y: 0,
-              duration: 0.4,
-              stagger: 0.015,
-              ease: "back.out(1.2)", // Subtler back ease for a high-end feel
-            },
-            "-=0.35",
-          );
+      gsap.from(".exp-layout-wrapper", {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 80%",
+        },
       });
     },
     { scope: containerRef },
   );
 
+  // Kinetic slide text reveal when switching tabs
+  useEffect(() => {
+    if (!contentRef.current) return;
+
+    const elements = contentRef.current.querySelectorAll(".tab-panel-anim");
+    gsap.killTweensOf(elements);
+    gsap.set(elements, { opacity: 0, y: 10 });
+
+    gsap.to(elements, {
+      opacity: 1,
+      y: 0,
+      stagger: 0.03,
+      duration: 0.4,
+      ease: "power2.out",
+    });
+  }, [activeIdx]);
+
+  // Update slider bar accent position smoothly
+  useEffect(() => {
+    const activeTab = activeTabRef.current;
+    const slider = sliderRef.current;
+    if (!activeTab || !slider) return;
+
+    const isMobile = window.innerWidth < 768;
+
+    if (isMobile) {
+      gsap.to(slider, {
+        left: activeTab.offsetLeft,
+        width: activeTab.offsetWidth,
+        bottom: 0,
+        top: "auto",
+        height: 2,
+        duration: 0.3,
+        ease: "power2.inOut",
+      });
+    } else {
+      gsap.to(slider, {
+        top: activeTab.offsetTop,
+        height: activeTab.offsetHeight,
+        left: 0,
+        width: 2,
+        duration: 0.3,
+        ease: "power2.inOut",
+      });
+    }
+  }, [activeIdx]);
+
+  // Interactive mouse tracking spotlight background effect
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    card.style.setProperty("--mouse-x", `${x}px`);
+    card.style.setProperty("--mouse-y", `${y}px`);
+  };
+
   return (
-    <section id="experience" ref={containerRef} className="mt-16 scroll-mt-20">
-      <h2 className="text-3xl font-bold mb-6">Experience</h2>
-      <div className="space-y-6">
-        {experiences.map((exp) => (
-          <article
-            key={exp.title}
-            className="experience-card-vibe bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] cursor-pointer group relative overflow-hidden transition-[border-color,box-shadow] duration-300 ease-out"
-          >
-            {/* Range / Date Label */}
-            <p className="exp-meta-reveal text-sm text-zinc-400 mb-1 font-mono">
-              {exp.range}
-            </p>
+    <section
+      id="experience"
+      ref={containerRef}
+      className="py-12 sm:py-20 md:py-28 scroll-mt-20"
+    >
+      {/* Headings */}
+      <div className="exp-header-anim flex items-center gap-3 sm:gap-4 mb-8 sm:mb-12 md:mb-16">
+        <h2 className="text-2xl font-bold tracking-tight text-[var(--text-contrast)] sm:text-3xl md:text-4xl transition-colors duration-300">
+          <span className="text-[var(--highlight)] font-mono text-lg sm:text-xl mr-2 font-normal">
+            02.
+          </span>
+          Where I’ve Worked
+        </h2>
+        <div className="h-[1px] bg-[var(--border-color)] flex-1 hidden sm:block transition-colors duration-300" />
+      </div>
 
-            {/* Title Block */}
-            <p className="exp-meta-reveal text-lg font-semibold mb-2 group-hover:text-[var(--highlight)] transition-colors duration-300">
-              {exp.title}
-            </p>
+      {/* Main Structural Wrapper */}
+      <div className="exp-layout-wrapper grid grid-cols-12 gap-y-6 md:gap-x-8 items-start">
+        {/* Left Side: Navigation Strip */}
+        <div className="col-span-12 md:col-span-3 flex md:flex-col overflow-x-auto md:overflow-x-visible relative border-b md:border-b-0 md:border-l border-[var(--border-color)] transition-colors duration-300 scrollbar-none">
+          {/* Kinetic Active Target Track Slider */}
+          <div
+            ref={sliderRef}
+            className="absolute bg-[var(--highlight)] shadow-[0_0_12px_var(--highlight)] z-20"
+          />
 
-            {/* Summary */}
-            <p className="exp-meta-reveal text-sm text-[var(--text-contrast)] leading-relaxed mb-4">
-              {exp.summary}
-            </p>
+          {EXPERIENCES_DATA.map((exp, idx) => {
+            const isActive = idx === activeIdx;
+            return (
+              <button
+                key={exp.id}
+                ref={isActive ? activeTabRef : null}
+                onClick={() => setActiveIdx(idx)}
+                className={`whitespace-nowrap px-4 py-3 sm:px-5 sm:py-3.5 text-left font-mono text-[11px] sm:text-xs tracking-wider uppercase transition-all duration-300 outline-none select-none flex-1 md:flex-initial ${
+                  isActive
+                    ? "text-[var(--highlight)] bg-[var(--hover-glow)] font-semibold"
+                    : "text-[var(--text)] opacity-60 hover:opacity-100 hover:bg-[var(--hover-glow)]"
+                }`}
+              >
+                {exp.tabTitle}
+              </button>
+            );
+          })}
+        </div>
 
-            {/* Bullets Detail List */}
-            <ul className="list-disc pl-5 space-y-2 text-sm mb-5 text-[var(--text-contrast)]">
-              {exp.details.map((d) => (
-                <li
-                  key={d}
-                  className="exp-list-item marker:text-[var(--highlight)]"
-                >
-                  {d}
-                </li>
-              ))}
-            </ul>
+        {/* Right Side: Interactive Spotlight Card Panel */}
+        <div
+          ref={contentRef}
+          onMouseMove={handleMouseMove}
+          className="col-span-12 md:col-span-9 relative overflow-hidden bg-[var(--card-bg)] text-[var(--text)] p-5 sm:p-6 md:p-8 rounded-xl border border-[var(--border-color)] transition-all duration-300 select-none shadow-[0_10px_30px_rgba(0,0,0,0.04),0_1px_8px_rgba(0,0,0,0.02)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.5)] hover:border-[var(--highlight)]/40 hover:text-[var(--text-contrast)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] dark:hover:shadow-[0_30px_70px_rgba(0,0,0,0.6)] before:content-[''] before:absolute before:inset-0 before:pointer-events-none before:bg-[radial-gradient(400px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),rgba(var(--highlight-rgb,94,234,212),0.12),transparent_80%)]"
+        >
+          {(() => {
+            const activeExp = EXPERIENCES_DATA[activeIdx];
+            return (
+              <div className="space-y-4 sm:space-y-6 relative z-10">
+                {/* Header Info */}
+                <div>
+                  <h3 className="tab-panel-anim text-lg sm:text-xl font-bold text-[var(--text-contrast)] leading-snug transition-colors duration-300">
+                    <span>{activeExp.role}</span>{" "}
+                    <span className="text-[var(--highlight)]">
+                      @{" "}
+                      <a
+                        href={activeExp.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="relative inline-block after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-[var(--highlight)] after:transition-all after:duration-300 hover:after:w-full"
+                      >
+                        {activeExp.company}
+                      </a>
+                    </span>
+                  </h3>
+                  <p className="tab-panel-anim text-[11px] sm:text-xs font-mono text-[var(--text)] opacity-70 mt-1 transition-colors duration-300">
+                    {activeExp.range}
+                  </p>
+                </div>
 
-            {/* Tech Badges Grid */}
-            <div className="flex flex-wrap gap-2 text-sm pt-2 border-t border-white/5">
-              {exp.skills.map((s) => (
-                <span
-                  key={s}
-                  className="exp-skill-badge bg-[var(--badge-bg)] px-3 py-1 rounded-md border border-white/5 hover:border-[var(--highlight)]/30 transition-colors duration-300"
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          </article>
-        ))}
+                {/* Sub-Summary */}
+                <p className="tab-panel-anim text-xs sm:text-sm text-[var(--text)] opacity-85 leading-relaxed max-w-2xl transition-colors duration-300">
+                  {activeExp.summary}
+                </p>
+
+                {/* Alternating Triangle Pointer Detail Rows */}
+                <ul className="space-y-3 text-xs sm:text-sm text-[var(--text)] transition-colors duration-300">
+                  {activeExp.details.map((detail, i) => (
+                    <li
+                      key={i}
+                      className="tab-panel-anim flex items-start gap-2.5 sm:gap-3 leading-relaxed"
+                    >
+                      <span className="text-[var(--highlight)] font-mono text-xs mt-0.5 select-none flex-shrink-0">
+                        ‣
+                      </span>
+                      <span className="opacity-90">{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Categorized Technical Skill Tags Footer */}
+                <div className="tab-panel-anim pt-4 border-t border-[var(--border-color)] flex flex-wrap gap-1.5 sm:gap-2 transition-colors duration-300">
+                  {activeExp.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="bg-[var(--badge-bg)] text-[var(--text)] opacity-90 font-mono text-[10px] sm:text-[11px] px-2.5 py-1 rounded-md border border-[var(--border-color)] hover:border-[var(--highlight)] hover:text-[var(--highlight)] hover:opacity-100 transition-all duration-200"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
+        </div>
       </div>
     </section>
   );

@@ -40,10 +40,10 @@ export default function MainPage() {
     if (typeof window === "undefined") return;
 
     const links = Array.from(
-      document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']")
+      document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']"),
     );
     const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("main section[id]")
+      document.querySelectorAll<HTMLElement>("main section[id]"),
     );
     const wrapper = document.getElementById("navbarWrapper");
 
@@ -59,7 +59,6 @@ export default function MainPage() {
     links.forEach((link) => {
       const listener = (e: MouseEvent) => handleLinkClick(e, link);
       link.addEventListener("click", listener);
-      // store listener on the element for cleanup
       (link as any)._navListener = listener;
     });
 
@@ -74,7 +73,7 @@ export default function MainPage() {
         ) {
           links.forEach((a) => a.classList.remove("active"));
           const activeLink = document.querySelector<HTMLAnchorElement>(
-            `nav a[href="#${sec.id}"]`
+            `nav a[href="#${sec.id}"]`,
           );
           activeLink?.classList.add("active");
         }
@@ -96,21 +95,21 @@ export default function MainPage() {
     window.addEventListener("scroll", onScroll);
     onScroll(); // run once
 
-    // Fix mobile "stuck hover" on project cards (like in original JS)
+    // Fix mobile "stuck hover" on project cards
     if (window.innerWidth <= 768) {
       const projectCards = document.querySelectorAll<HTMLElement>(
-        "#projects .hover\\:border-\\[var\\(--highlight\\)\\]"
+        "#projects .hover\\:border-\\[var\\(--highlight\\)\\]",
       );
       projectCards.forEach((card) => {
         const touchHandler = () => {
           card.classList.remove(
             "hover:border-[var(--highlight)]",
-            "hover:shadow-[0_0_10px_var(--highlight)]"
+            "hover:shadow-[0_0_10px_var(--highlight)]",
           );
           void card.offsetWidth; // reflow
           card.classList.add(
             "hover:border-[var(--highlight)]",
-            "hover:shadow-[0_0_10px_var(--highlight)]"
+            "hover:shadow-[0_0_10px_var(--highlight)]",
           );
         };
         card.addEventListener("touchstart", touchHandler);
@@ -128,7 +127,6 @@ export default function MainPage() {
           link.removeEventListener("click", listener);
         }
       });
-      // no need to cleanup projectCard touch handlers aggressively, but could here if desired
     };
   }, []);
 
@@ -142,16 +140,17 @@ export default function MainPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
-      {/* NAVBAR – top scrollable nav, like original */}
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300">
+      {/* NAVBAR */}
       <div
         id="navbarWrapper"
-        className="sticky top-0 z-50 w-full backdrop-blur-sm bg-[var(--bg)]/70 border-b transition-all"
+        className="sticky top-0 z-50 w-full backdrop-blur-md bg-[var(--bg)]/70 border-b transition-all duration-300"
         style={{ borderColor: "var(--border-color)" }}
       >
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3">
+        {/* Adjusted inner nav container width to match the main layout context */}
+        <div className="flex items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4">
           <nav>
-            <ul className="flex gap-6 sm:gap-8 text-sm">
+            <ul className="flex gap-6 sm:gap-8 text-sm font-mono tracking-wider">
               <li>
                 <a
                   href="#about"
@@ -179,13 +178,12 @@ export default function MainPage() {
             </ul>
           </nav>
 
-          {/* THEME TOGGLE – same id so JS + CSS work; uses CSS variables */}
+          {/* THEME TOGGLE */}
           <button
             id="themeToggle"
             type="button"
             onClick={toggleTheme}
-            className="theme-toggle w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer relative"
-            style={{ borderColor: "var(--border-color)" }}
+            className="theme-toggle w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/10 rounded-full cursor-pointer relative hover:border-[var(--highlight)]/40 transition-colors"
             aria-label="Toggle theme"
           >
             {/* Moon icon */}
@@ -193,10 +191,10 @@ export default function MainPage() {
               id="iconMoon"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              className={`w-5 h-5 fill-current absolute transition-all ${
+              className={`w-5 h-5 fill-current absolute transition-all duration-300 ${
                 theme === "dark"
                   ? "opacity-100 scale-100"
-                  : "opacity-0 scale-50"
+                  : "opacity-0 scale-50 rotate-90"
               }`}
             >
               <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
@@ -206,10 +204,10 @@ export default function MainPage() {
               id="iconSun"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
-              className={`w-5 h-5 fill-current absolute transition-all ${
+              className={`w-5 h-5 fill-current absolute transition-all duration-300 ${
                 theme === "light"
                   ? "opacity-100 scale-100"
-                  : "opacity-0 scale-50"
+                  : "opacity-0 scale-50 -rotate-90"
               }`}
             >
               <circle cx="12" cy="12" r="5" />
@@ -228,16 +226,12 @@ export default function MainPage() {
         </div>
       </div>
 
-      {/* HERO under navbar */}
-      <div className="max-w-3xl mx-auto px-4 py-10 text-left">
-        <h1 className="text-4xl font-bold mb-2">Mohamed Nagy</h1>
-        <p className="text-xl text-[var(--highlight)] mb-3">
-          Crafting pixel-perfect, user-centric web experiences 🚀
-        </p>
-      </div>
-
-      {/* MAIN CONTENT */}
-      <main className="max-w-3xl mx-auto px-4 pb-16">
+      {/* 
+        MAIN CONTENT:
+        Removed the old static hero element. Changed container from max-w-3xl to max-w-7xl 
+        to maximize screen real estate, matching award-winning grid presentation behaviors.
+      */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-16">
         <AboutSection />
         <ExperienceSection />
         <ProjectsSection />
@@ -248,14 +242,14 @@ export default function MainPage() {
       <button
         id="scrollToTop"
         onClick={handleScrollTopClick}
-        className={`fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer transition-all ${
+        className={`fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer transition-all duration-300 shadow-md hover:border-[var(--highlight)] hover:text-[var(--highlight)] ${
           showScrollTop
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+            ? "opacity-100 pointer-events-auto translate-y-0"
+            : "opacity-0 pointer-events-none translate-y-4"
         }`}
         aria-label="Scroll to top"
       >
-        <span className="text-xl">↑</span>
+        <span className="text-xl font-mono">↑</span>
       </button>
     </div>
   );
