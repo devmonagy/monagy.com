@@ -44,11 +44,13 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
-  transition: background 0.4s ease, color 0.4s ease;
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
 }
 
 /* ==============================
@@ -125,7 +127,9 @@ nav ul::-webkit-scrollbar {
   text-decoration: none;
   color: var(--text);
   opacity: 0.85;
-  transition: opacity 0.25s ease, color 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    color 0.25s ease;
 }
 
 .nav-link:hover,
@@ -145,7 +149,9 @@ nav a,
   position: relative;
   opacity: 0.85;
   display: inline-block; /* <-- CRITICAL FIX */
-  transition: opacity 0.25s ease, color 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    color 0.25s ease;
 }
 
 nav a:hover,
@@ -163,11 +169,9 @@ nav a::after,
   position: absolute;
   left: 0;
   bottom: 0;
-
   width: 100%;
   height: 2px;
   background: var(--highlight);
-
   opacity: 0;
   transform: scaleX(1);
   transition: opacity 0.25s ease;
@@ -212,7 +216,9 @@ nav a.active::after,
   height: 22px;
   position: absolute;
   fill: var(--text);
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
 }
 
 #iconSun {
@@ -259,6 +265,7 @@ header {
 }
 
 h1 {
+  font-family: "Syne", sans-serif;
   font-size: 3rem;
 }
 h1 span {
@@ -266,6 +273,7 @@ h1 span {
 }
 
 h2 {
+  font-family: "Syne", sans-serif;
   margin-top: 0.4rem;
   opacity: 0.85;
 }
@@ -275,6 +283,7 @@ section {
 }
 
 h3 {
+  font-family: "Syne", sans-serif;
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }

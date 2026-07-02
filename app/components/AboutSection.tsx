@@ -251,8 +251,8 @@ export default function AboutSection() {
             {/* Outer Subtle Grid Overlay Pattern */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--border-color)_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.15] pointer-events-none" />
 
-            {/* Layer 1: Light Damped Background Moving Text Lines */}
-            <div className="layer-light absolute inset-0 flex flex-col justify-between py-12 opacity-[0.03] dark:opacity-[0.04] text-[var(--text-contrast)] font-extrabold tracking-tighter text-7xl uppercase pointer-events-none will-change-transform transform-gpu">
+            {/* Layer 1: Background Moving Text Lines explicitly styled to Plus Jakarta Sans */}
+            <div className="layer-light absolute inset-0 flex flex-col justify-between py-12 opacity-[0.03] dark:opacity-[0.04] text-[var(--text-contrast)] font-extrabold tracking-tighter text-7xl uppercase pointer-events-none will-change-transform transform-gpu font-['Plus_Jakarta_Sans',sans-serif]">
               <div className="marquee-left-loop whitespace-nowrap w-[200%]">
                 DEVELOPER DEVELOPER DEVELOPER DEVELOPER
               </div>
@@ -268,10 +268,10 @@ export default function AboutSection() {
             <div className="layer-heavy absolute inset-0 flex flex-col justify-center items-center p-6 space-y-4 will-change-transform transform-gpu">
               {/* Top Text Track Banner */}
               <div className="marquee-left w-full text-left border-b border-[var(--border-color)] pb-3 overflow-visible whitespace-nowrap">
-                <span className="font-mono text-xs text-[var(--highlight)] tracking-widest block mb-1 font-bold">
+                <span className="font-mono text-[10px] sm:text-xs text-[var(--highlight)] tracking-widest block mb-1 font-bold">
                   STATUS // CODE
                 </span>
-                <span className="font-sans font-black text-3xl sm:text-4xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none">
+                <span className="font-black text-2xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none font-['Syne',sans-serif]">
                   FULLSTACK_DEV
                 </span>
               </div>
@@ -285,7 +285,7 @@ export default function AboutSection() {
                   <span className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-40 block mb-1 text-[var(--text)]">
                     ESTABLISHED SYSTEM
                   </span>
-                  <span className="font-sans font-black text-5xl lg:text-5xl tracking-tighter text-[var(--text-contrast)] block leading-none select-none">
+                  <span className="font-black text-4xl lg:text-4xl tracking-tighter text-[var(--text-contrast)] block leading-none select-none font-['Syne',sans-serif]">
                     MoNAGY.com
                   </span>
                   <span className="font-mono text-[11px] text-[var(--highlight)] tracking-widest block mt-2 font-bold bg-[var(--hover-glow)] px-3 py-1 rounded-full border border-[var(--border-color)]">
@@ -296,7 +296,7 @@ export default function AboutSection() {
 
               {/* Bottom Text Track Banner */}
               <div className="marquee-right w-full text-right border-t border-[var(--border-color)] pt-3 overflow-visible whitespace-nowrap">
-                <span className="font-sans font-black text-3xl sm:text-4xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none block">
+                <span className="font-black text-2xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none block font-['Syne',sans-serif]">
                   CREATIVE_LOGIC
                 </span>
                 <span className="font-mono text-[10px] text-[var(--text)] opacity-50 tracking-wider block mt-1">
