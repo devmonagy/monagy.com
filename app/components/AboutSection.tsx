@@ -305,7 +305,7 @@ export default function AboutSection() {
               </div>
             </div>
 
-            {/* Edge Aesthetic Framing Corner Borders */}
+            {/* Edge Aesthetic Framing Corner Borderss */}
             <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-[var(--border-color)] opacity-60" />
             <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-[var(--border-color)] opacity-60" />
             <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-[var(--border-color)] opacity-60" />
