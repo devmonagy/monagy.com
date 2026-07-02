@@ -40,6 +40,7 @@ export default function MainPage() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    // Target ALL anchor links across both mobile and desktop nav blocks
     const links = Array.from(
       document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']"),
     );
@@ -72,14 +73,14 @@ export default function MainPage() {
           scrollPos >= sec.offsetTop &&
           scrollPos < sec.offsetTop + sec.offsetHeight
         ) {
-          // Reset all navigation elements safely
+          // Clear active classes across ALL layout variants
           links.forEach((a) => a.classList.remove("active"));
 
-          // Inject active status cleanly to current segment view target
-          const activeLink = document.querySelector<HTMLAnchorElement>(
+          // Query and highlight matching links in both top header and bottom dock
+          const activeLinks = document.querySelectorAll<HTMLAnchorElement>(
             `nav a[href="#${sec.id}"]`,
           );
-          activeLink?.classList.add("active");
+          activeLinks.forEach((link) => link.classList.add("active"));
         }
       });
 

@@ -128,10 +128,9 @@ nav a,
 .nav-link {
   text-decoration: none !important;
   color: var(--text);
-  padding-bottom: 8px;
   position: relative;
   opacity: 0.85;
-  display: inline-block; /* <-- CRITICAL FIX */
+  display: inline-block;
   transition:
     opacity 0.25s ease,
     color 0.25s ease;
@@ -145,7 +144,7 @@ nav a.active,
   color: var(--highlight) !important;
 }
 
-/* Underline Engine: Hidden by default via scaleX(0) */
+/* Precision Left-to-Right Animated Underline Rail */
 nav a::after,
 .nav-link::after {
   content: "";
@@ -160,20 +159,12 @@ nav a::after,
   transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Animate smoothly outwards to 100% ONLY on hover or active status */
+/* Fire transformation only when active container logic matches */
 nav a:hover::after,
 .nav-link:hover::after,
 nav a.active::after,
 .nav-link.active::after {
   transform: scaleX(1);
-}
-
-/* MOBILE INTERACTION OVERRIDES */
-@media (hover: none) {
-  nav a.active::after,
-  .nav-link.active::after {
-    transform: scaleX(1);
-  }
 }
 
 /* ==============================
