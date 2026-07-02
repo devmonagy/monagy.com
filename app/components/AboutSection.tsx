@@ -285,7 +285,7 @@ export default function AboutSection() {
                   <span className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-40 block mb-1 text-[var(--text)]">
                     ESTABLISHED SYSTEM
                   </span>
-                  <span className="font-black text-4xl lg:text-4xl tracking-tighter text-[var(--text-contrast)] block leading-none select-none font-['Syne',sans-serif]">
+                  <span className="font-black text-3xl lg:text-4xl tracking-tighter text-[var(--text-contrast)] block leading-none select-none font-['Syne',sans-serif]">
                     MoNAGY.com
                   </span>
                   <span className="font-mono text-[11px] text-[var(--highlight)] tracking-widest block mt-2 font-bold bg-[var(--hover-glow)] px-3 py-1 rounded-full border border-[var(--border-color)]">
