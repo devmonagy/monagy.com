@@ -1,3 +1,4 @@
+// app/components/SiteShell.tsx
 "use client";
 
 import { useEffect } from "react";
@@ -10,10 +11,10 @@ export default function SiteShell() {
   useEffect(() => {
     // ====== Smooth scroll + active nav links ======
     const links = Array.from(
-      document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']")
+      document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']"),
     );
     const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("main section[id]")
+      document.querySelectorAll<HTMLElement>("main section[id]"),
     );
     const wrapper = document.getElementById("navbarWrapper");
     const scrollBtn = document.getElementById("scrollToTop");
@@ -40,7 +41,7 @@ export default function SiteShell() {
         if (pos >= sec.offsetTop && pos < sec.offsetTop + sec.offsetHeight) {
           links.forEach((a) => a.classList.remove("active"));
           const activeLink = document.querySelector<HTMLAnchorElement>(
-            `nav a[href="#${sec.id}"]`
+            `nav a[href="#${sec.id}"]`,
           );
           activeLink?.classList.add("active");
         }
@@ -80,7 +81,7 @@ export default function SiteShell() {
         document.body.classList.toggle("light");
         localStorage.setItem(
           "theme",
-          document.body.classList.contains("light") ? "light" : "dark"
+          document.body.classList.contains("light") ? "light" : "dark",
         );
       };
 
@@ -101,7 +102,7 @@ export default function SiteShell() {
 
   return (
     <div className="min-h-screen flex bg-[var(--bg)] text-[var(--text)]">
-      {/* Scroll to top button (same id & classes as original) */}
+      {/* Scroll to top button */}
       <button
         id="scrollToTop"
         className="fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer opacity-0 pointer-events-none transition-all"
@@ -114,8 +115,6 @@ export default function SiteShell() {
       </button>
 
       <main className="flex-1 max-w-3xl mx-auto px-4 py-10 md:py-16">
-        {/* Hero (title + tagline) is inside Sidebar on desktop, but your current layout also has heading under navbar.
-            We'll keep About/Experience/Projects/Footer as separate sections. */}
         <AboutSection />
         <ExperienceSection />
         <ProjectsSection />

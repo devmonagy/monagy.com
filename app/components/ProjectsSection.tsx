@@ -5,8 +5,8 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import EvolveTerminal from "./EvolveTerminal";
 
-// Register ScrollTrigger safely for client environments
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -16,7 +16,6 @@ export default function ProjectsSection() {
 
   useGSAP(
     () => {
-      // 1. Card Animation Sequence - Restored to scroll-down only with entry-point reversal
       const cards = gsap.utils.toArray(".project-card-vibe");
 
       cards.forEach((card: any) => {
@@ -24,25 +23,25 @@ export default function ProjectsSection() {
         const textElements = card.querySelectorAll(".project-fade-up");
         const badges = card.querySelectorAll(".project-badge-anim");
 
-        gsap.set(card, { opacity: 0, y: 35 });
-        gsap.set(thumbnail, { scale: 1.25, opacity: 0 });
+        gsap.set(card, { opacity: 0, y: 40 });
+        gsap.set(thumbnail, { scale: 1.15, opacity: 0 });
         gsap.set(textElements, { opacity: 0, y: 15, x: -10 });
-        gsap.set(badges, { opacity: 0, scale: 0.8, y: 5 });
+        gsap.set(badges, { opacity: 0, scale: 0.85, y: 5 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: card,
-            start: "top 88%",
+            start: "top 90%",
             end: "bottom 15%",
-            // RESTORED: Plays on scroll down, reverses out only when scrolled completely back up past trigger
             toggleActions: "play none none reverse",
+            invalidateOnRefresh: true,
           },
         });
 
         tl.to(card, {
           opacity: 1,
           y: 0,
-          duration: 0.85,
+          duration: 0.8,
           ease: "power4.out",
         })
           .to(
@@ -50,10 +49,10 @@ export default function ProjectsSection() {
             {
               opacity: 1,
               scale: 1,
-              duration: 1.1,
+              duration: 0.9,
               ease: "power3.out",
             },
-            "-=0.6",
+            "-=0.55",
           )
           .to(
             textElements,
@@ -61,11 +60,11 @@ export default function ProjectsSection() {
               opacity: 1,
               y: 0,
               x: 0,
-              duration: 0.6,
-              stagger: 0.06,
+              duration: 0.5,
+              stagger: 0.05,
               ease: "power3.out",
             },
-            "-=0.7",
+            "-=0.65",
           )
           .to(
             badges,
@@ -73,31 +72,12 @@ export default function ProjectsSection() {
               opacity: 1,
               scale: 1,
               y: 0,
-              stagger: 0.02,
+              stagger: 0.015,
               duration: 0.4,
-              ease: "back.out(1.5)",
+              ease: "back.out(1.2)",
             },
             "-=0.4",
           );
-      });
-
-      // 2. High-End Terminal Token "Compilation" Reveal - Restored to scroll-down only with entry-point reversal
-      const tokens = gsap.utils.toArray(".code-token");
-      gsap.set(tokens, { opacity: 0, y: 8 });
-
-      gsap.to(tokens, {
-        opacity: 1,
-        y: 0,
-        duration: 0.4,
-        stagger: 0.015,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".terminal-window",
-          start: "top 90%",
-          end: "bottom 10%",
-          // RESTORED: Plays on scroll down, reverses out only when scrolled completely back up past trigger
-          toggleActions: "play none none reverse",
-        },
       });
     },
     { scope: containerRef },
@@ -113,7 +93,7 @@ export default function ProjectsSection() {
           href="https://blogwebapp.monagy.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="project-card-vibe relative block bg-[var(--card-bg)] p-4 sm:p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] transition-all cursor-pointer overflow-hidden group"
+          className="project-card-vibe relative block bg-[var(--card-bg)] p-4 sm:p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] cursor-pointer overflow-hidden group transition-[border-color,box-shadow] duration-300 ease-out"
         >
           <div className="absolute top-0 right-0 z-10 bg-[var(--highlight)] text-[var(--card-bg)] text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-bl-lg shadow-md sm:text-xs">
             In Development
@@ -124,7 +104,7 @@ export default function ProjectsSection() {
               <img
                 src="/assets/blogwebapp-screen.webp"
                 alt="Blog web app screenshot"
-                className="project-thumb-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="project-thumb-img w-full h-full object-cover"
               />
             </div>
 
@@ -181,14 +161,14 @@ export default function ProjectsSection() {
           href="https://apatax.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="project-card-vibe block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] transition-all cursor-pointer group"
+          className="project-card-vibe block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] cursor-pointer group transition-[border-color,box-shadow] duration-300 ease-out"
         >
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative bg-black/20">
               <img
                 src="/assets/APATax.webp"
                 alt="APATax"
-                className="project-thumb-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="project-thumb-img w-full h-full object-cover"
               />
             </div>
             <div className="flex-1">
@@ -231,14 +211,14 @@ export default function ProjectsSection() {
           href="https://fusionrxdubai.com/"
           target="_blank"
           rel="noopener noreferrer"
-          className="project-card-vibe block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] transition-all cursor-pointer group"
+          className="project-card-vibe block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] cursor-pointer group transition-[border-color,box-shadow] duration-300 ease-out"
         >
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative bg-black/20">
               <img
                 src="/assets/FusionRXDubai.webp"
                 alt="Fusion Apothecary Dubai"
-                className="project-thumb-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="project-thumb-img w-full h-full object-cover"
               />
             </div>
             <div className="flex-1">
@@ -276,14 +256,14 @@ export default function ProjectsSection() {
           href="https://v1.monagy.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="project-card-vibe block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] transition-all cursor-pointer group"
+          className="project-card-vibe block bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] cursor-pointer group transition-[border-color,box-shadow] duration-300 ease-out"
         >
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="w-full h-40 sm:w-24 sm:h-24 sm:mt-1 rounded-lg overflow-hidden border border-white/10 flex-shrink-0 relative bg-black/20">
               <img
                 src="/assets/MoLightv1.webp"
                 alt="Version 1 of MoNAGY.com"
-                className="project-thumb-img w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="project-thumb-img w-full h-full object-cover"
               />
             </div>
             <div className="flex-1">
@@ -319,142 +299,7 @@ export default function ProjectsSection() {
         </a>
       </div>
 
-      {/* Styled Interactive Terminal Window */}
-      <div className="terminal-window bg-white dark:bg-[var(--card-bg)] text-zinc-800 dark:text-[var(--text)] text-sm rounded-xl overflow-hidden border border-zinc-200 dark:border-white/10 text-left font-mono w-full max-w-3xl mt-16 transition-all duration-300 hover:border-[var(--highlight)]/40 hover:shadow-[0_0_20px_var(--hover-glow)] group/terminal">
-        {/* Top Header Bar */}
-        <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-900 px-4 py-3 border-b border-zinc-200 dark:border-white/5">
-          <div className="w-3 h-3 rounded-full bg-red-500/70" />
-          <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-          <div className="w-3 h-3 rounded-full bg-green-500/70" />
-          {/* FIXED: text-zinc-600 provides robust AAA contrast for light mode, switches elegantly to text-zinc-400 in dark mode */}
-          <span className="text-xs text-zinc-600 dark:text-zinc-400 ml-2 font-sans select-none">
-            evolve.ts
-          </span>
-        </div>
-
-        {/* Code Frame */}
-        <pre className="p-5 overflow-x-auto selection:bg-[var(--highlight)] selection:text-black">
-          <code>
-            <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
-              function
-            </span>{" "}
-            <span className="code-token inline-block function text-blue-600 dark:text-blue-400">
-              evolve
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              (
-            </span>{" "}
-            <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
-              knowledge
-            </span>{" "}
-            <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
-              :
-            </span>{" "}
-            <span className="code-token inline-block keyword text-teal-600 dark:text-teal-400">
-              number
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              ,
-            </span>{" "}
-            <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
-              age
-            </span>{" "}
-            <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
-              :
-            </span>{" "}
-            <span className="code-token inline-block keyword text-teal-600 dark:text-teal-400">
-              number
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              ,
-            </span>{" "}
-            <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
-              life
-            </span>{" "}
-            <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
-              :
-            </span>{" "}
-            <span className="code-token inline-block keyword text-teal-600 dark:text-teal-400">
-              any[]
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              )
-            </span>{" "}
-            <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
-              :
-            </span>{" "}
-            <span className="code-token inline-block keyword text-teal-600 dark:text-teal-400">
-              number
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              &#123;
-            </span>{" "}
-            <br />
-            &nbsp;&nbsp;
-            <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
-              while
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              (
-            </span>{" "}
-            <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
-              age
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              ++
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              &lt;
-            </span>{" "}
-            <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
-              life
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              .
-            </span>{" "}
-            <span className="code-token inline-block function text-blue-600 dark:text-blue-400">
-              length
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              )
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              &#123;
-            </span>{" "}
-            <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              ++
-            </span>{" "}
-            <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
-              knowledge
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              ;
-            </span>{" "}
-            <br />
-            &nbsp;&nbsp;
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              &#125;
-            </span>{" "}
-            <br />
-            &nbsp;&nbsp;
-            <span className="code-token inline-block control text-purple-600 dark:text-purple-400">
-              return
-            </span>{" "}
-            <span className="code-token inline-block variable text-orange-600 dark:text-orange-300">
-              knowledge
-            </span>{" "}
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              ;
-            </span>{" "}
-            <br />
-            <span className="code-token inline-block text-zinc-700 dark:text-inherit">
-              &#125;
-            </span>
-          </code>
-        </pre>
-      </div>
+      <EvolveTerminal />
     </section>
   );
 }

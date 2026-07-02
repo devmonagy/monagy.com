@@ -100,26 +100,27 @@ export default function ExperienceSection() {
         const listItems = card.querySelectorAll(".exp-list-item");
         const skillBadges = card.querySelectorAll(".exp-skill-badge");
 
-        // Masked and scaled state configuration
-        gsap.set(card, { opacity: 0, y: 35 });
-        gsap.set(metaText, { opacity: 0, y: 20 });
-        gsap.set(listItems, { opacity: 0, x: -15 });
-        gsap.set(skillBadges, { opacity: 0, scale: 0.8, y: 5 });
+        // Force explicit initial values and disable potential layout flashes
+        gsap.set(card, { opacity: 0, y: 40 });
+        gsap.set(metaText, { opacity: 0, y: 15 });
+        gsap.set(listItems, { opacity: 0, x: -10 });
+        gsap.set(skillBadges, { opacity: 0, scale: 0.85, y: 5 });
 
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: card,
-            start: "top 88%",
+            start: "top 90%", // Trigger slightly earlier for a cleaner visual flow on entrance
             end: "bottom 15%",
-            // RESTORED: Reverts animation only when scrolling completely past the top entry point
             toggleActions: "play none none reverse",
+            invalidateOnRefresh: true, // Dynamically calculates layouts if screen resizes
           },
         });
 
+        // "power4.out" gives that premium kinetic deceleration curve
         tl.to(card, {
           opacity: 1,
           y: 0,
-          duration: 0.85,
+          duration: 0.8,
           ease: "power4.out",
         })
           .to(
@@ -127,22 +128,22 @@ export default function ExperienceSection() {
             {
               opacity: 1,
               y: 0,
-              duration: 0.6,
-              stagger: 0.08,
+              duration: 0.5,
+              stagger: 0.05,
               ease: "power3.out",
             },
-            "-=0.5",
+            "-=0.55",
           )
           .to(
             listItems,
             {
               opacity: 1,
               x: 0,
-              duration: 0.5,
-              stagger: 0.05,
+              duration: 0.45,
+              stagger: 0.04,
               ease: "power2.out",
             },
-            "-=0.4",
+            "-=0.45",
           )
           .to(
             skillBadges,
@@ -151,10 +152,10 @@ export default function ExperienceSection() {
               scale: 1,
               y: 0,
               duration: 0.4,
-              stagger: 0.02,
-              ease: "back.out(1.5)",
+              stagger: 0.015,
+              ease: "back.out(1.2)", // Subtler back ease for a high-end feel
             },
-            "-=0.3",
+            "-=0.35",
           );
       });
     },
@@ -168,7 +169,7 @@ export default function ExperienceSection() {
         {experiences.map((exp) => (
           <article
             key={exp.title}
-            className="experience-card-vibe bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] transition-all cursor-pointer group relative overflow-hidden"
+            className="experience-card-vibe bg-[var(--card-bg)] p-6 rounded-xl border border-white/10 hover:border-[var(--highlight)] hover:shadow-[0_0_15px_var(--hover-glow)] cursor-pointer group relative overflow-hidden transition-[border-color,box-shadow] duration-300 ease-out"
           >
             {/* Range / Date Label */}
             <p className="exp-meta-reveal text-sm text-zinc-400 mb-1 font-mono">
