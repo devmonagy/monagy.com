@@ -1,73 +1,174 @@
 // app/components/FooterSection.tsx
+"use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 export default function FooterSection() {
+  const footerScopeRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      // Subtle reveal for structural lines and massive typography block on viewport entrance
+      gsap.fromTo(
+        ".footer-reveal",
+        { y: 40, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1.2,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: footerScopeRef.current,
+            start: "top 90%",
+          },
+        },
+      );
+    },
+    { scope: footerScopeRef },
+  );
+
   return (
     <footer
-      className="mt-16 text-sm text-[var(--text-contrast)] border-t"
-      style={{ borderColor: "var(--border-color)" }}
+      ref={footerScopeRef}
+      className="relative mt-28 border-t border-[var(--border-color)] bg-[var(--bg)] pt-16 pb-12 overflow-hidden transition-colors duration-300"
     >
-      {/* NOW FULL-WIDTH CONTENT */}
-      <div className="w-full px-0 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        {/* LEFT TEXT */}
-        <div className="text-center sm:text-left">
-          <p>© {new Date().getFullYear()} MoNAGY.com</p>
-          <p className="mt-1">
-            React • TS • Tailwind • GSAP • Next.js • Vercel
-          </p>
+      {/* Background Depth Ambient Blur */}
+      <div className="absolute bottom-0 right-[-5%] w-[400px] h-[400px] bg-[var(--highlight)] opacity-[0.03] rounded-full blur-[120px] pointer-events-none -z-10" />
+
+      <div className="w-full flex flex-col gap-16">
+        {/* Top Segment: Editorial Links & Meta Information */}
+        <div className="grid grid-cols-12 gap-y-12 md:gap-x-8 items-start">
+          {/* Column 1: Core Navigation Intent */}
+          <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-col gap-4 footer-reveal">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--highlight)] font-semibold">
+              // Navigation Matrix
+            </span>
+            <ul className="flex flex-col gap-2 font-['Syne',sans-serif] text-xl font-bold text-[var(--text-contrast)]">
+              <li>
+                <a
+                  href="#about"
+                  className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
+                >
+                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
+                    01/
+                  </span>{" "}
+                  About
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#projects"
+                  className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
+                >
+                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
+                    02/
+                  </span>{" "}
+                  Projects
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Column 2: System Specifications / Architecture Tokens */}
+          <div className="col-span-12 sm:col-span-6 md:col-span-4 flex flex-col gap-4 footer-reveal">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text)] opacity-60">
+              // System Engine Specs
+            </span>
+            <div className="flex flex-wrap gap-2 max-w-xs font-mono text-[11px] text-[var(--text)]">
+              {[
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Tailwind CSS",
+                "GSAP",
+                "Vercel",
+              ].map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-1 rounded bg-[var(--card-bg)] border border-[var(--border-color)] shadow-[0_1px_3px_rgba(0,0,0,0.01)] transition-colors"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Column 3: Professional Networks / Actions */}
+          <div className="col-span-12 md:col-span-4 flex flex-col gap-4 md:items-end footer-reveal">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text)] opacity-60 md:text-right">
+              // External Sync
+            </span>
+            <div className="flex flex-col gap-3 font-mono text-xs w-full md:max-w-[200px]">
+              <a
+                href="https://github.com/devmonagy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex justify-between items-center py-2 border-b border-[var(--border-color)] hover:border-[var(--highlight)] text-[var(--text-contrast)] transition-colors group"
+              >
+                <span>GITHUB</span>
+                <span className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                  →
+                </span>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/devmonagy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex justify-between items-center py-2 border-b border-[var(--border-color)] hover:border-[var(--highlight)] text-[var(--text-contrast)] transition-colors group"
+              >
+                <span>LINKEDIN</span>
+                <span className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                  →
+                </span>
+              </a>
+              <a
+                href="https://codepen.io/devmonagy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex justify-between items-center py-2 border-b border-[var(--border-color)] hover:border-[var(--highlight)] text-[var(--text-contrast)] transition-colors group"
+              >
+                <span>CODEPEN</span>
+                <span className="opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                  →
+                </span>
+              </a>
+            </div>
+          </div>
         </div>
 
-        {/* RIGHT ICONS */}
-        <div className="flex gap-5 justify-center sm:justify-end">
-          {/* GitHub */}
-          <a
-            href="https://github.com/devmonagy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[var(--highlight)] transition-transform hover:scale-110"
-            title="GitHub"
+        {/* Center Canvas: Giant Structural Brand Banner (Zero-Wrap SVG Geometry) */}
+        <div className="w-full select-none pointer-events-none border-t border-[var(--border-color)] pt-8 overflow-hidden footer-reveal">
+          <svg
+            viewBox="0 0 800 180"
+            className="w-full h-auto text-[var(--text-contrast)] opacity-[0.03] body.light:opacity-[0.04]"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            <svg
-              className="w-6 h-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
+            <text
+              x="50%"
+              y="70%"
+              dominantBaseline="middle"
+              textAnchor="middle"
+              className="font-['Syne',sans-serif] font-black tracking-tighter"
+              style={{ fontSize: "170px", fill: "currentColor" }}
             >
-              <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.9-1.5-3.9-1.5-.6-1.3-1.4-1.6-1.4-1.6-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.3 1.8 1.3 1.1 1.8 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.6-.3-5.3-1.3-5.3-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.2 11.2 0 0 1 5.4 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1 .8 2v3c0 .3.2.7.8.6C20.7 21.4 23.5 17 23.5 12 23.5 5.7 18.3.5 12 .5z" />
-            </svg>
-          </a>
+              M_N
+            </text>
+          </svg>
+        </div>
 
-          {/* LinkedIn */}
-          <a
-            href="https://www.linkedin.com/in/devmonagy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[var(--highlight)] transition-transform hover:scale-110"
-            title="LinkedIn"
-          >
-            <svg
-              className="w-6 h-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path d="M4.98 3a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4 8h2v12H4zM9 8h2v1.5h.03c.28-.5.98-1.02 2.02-1.02 2.17 0 2.57 1.42 2.57 3.27V20h-2v-6c0-1.43-.03-3.26-2-3.26S9.3 12.3 9.3 14V20H9z" />
-            </svg>
-          </a>
-
-          {/* CodePen */}
-          <a
-            href="https://codepen.io/devmonagy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[var(--highlight)] transition-transform hover:scale-110"
-            title="CodePen"
-          >
-            <svg
-              className="w-6 h-6"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path d="M21.438 8.518l-9-6a1.003 1.003 0 0 0-1.113 0l-9 6A1.001 1.001 0 0 0 2 9.384v5.232a1 1 0 0 0 .438.866l9 6a1.003 1.003 0 0 0 1.124 0l9-6A1.001 1.001 0 0 0 22 14.616V9.384a1 1 0 0 0-.562-.866zM12 4.131 18.876 8.5 15.266 10.9 12 8.732 8.734 10.9 5.124 8.5 12 4.131zM4 10.616l2.934 2L4 14.616v-4zm8 9.253-6.876-4.369L8.734 13.1 12 15.268l3.266-2.168 3.61 1.4L12 19.869zm8-5.253-2.934-2L20 9.384v4z" />
-            </svg>
-          </a>
+        {/* Bottom Segment: Copyright & System Baseline Status */}
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between border-t border-[var(--border-color)] pt-8 font-mono text-[10px] tracking-wider text-[var(--text)] opacity-70 footer-reveal">
+          <div className="text-center sm:text-left">
+            © {new Date().getFullYear()} MoNAGY.com // ALL RIGHTS RESERVED
+          </div>
+          <div className="flex items-center justify-center gap-4">
+            <span>LOC: NYC // EST</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--highlight)] opacity-60 animate-pulse" />
+            <span>CORE_ENGINE_V2.026</span>
+          </div>
         </div>
       </div>
     </footer>

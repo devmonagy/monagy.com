@@ -175,7 +175,7 @@ export default function AboutSection() {
           {/* Master Structural Typography Headers */}
           <div className="overflow-hidden mb-6 sm:mb-8">
             <h1 className="reveal-line text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[var(--text-contrast)] leading-[1.05] transition-colors duration-300">
-              Mohamed Nagy.
+              Mohamed Nagy.{" "}
               <span className="font-medium text-2xl sm:text-3xl md:text-4xl block mt-3 opacity-70 tracking-tight">
                 Engineering high-fidelity visual architectures.
               </span>
@@ -191,7 +191,7 @@ export default function AboutSection() {
               is centered around crafting performant digital systems using{" "}
               <span className="text-[var(--text-contrast)] font-semibold underline decoration-[var(--highlight)]/40 decoration-2 underline-offset-4">
                 React, Next.js, and TypeScript
-              </span>
+              </span>{" "}
               , bound to clean execution architectures.
             </p>
             <p>
@@ -212,105 +212,82 @@ export default function AboutSection() {
                   key={tech.name}
                   className="tech-pill flex items-center gap-2 px-3.5 py-3 rounded-lg bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-[var(--highlight)] hover:bg-[var(--hover-glow)] text-[var(--text)] hover:text-[var(--text-contrast)] transition-all duration-300 group cursor-default shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--highlight)] opacity-60 group-hover:opacity-100 group-hover:scale-125 transition-all duration-300" />
-                  <span className="tracking-wide">{tech.name}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--highlight)] opacity-40 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" />
+                  <span>{tech.name}</span>
                 </li>
               ))}
             </ul>
           </div>
-
-          {/* Action CTAs */}
-          <div className="fade-in-body mt-10 sm:mt-12 flex flex-wrap items-center gap-6">
-            <a
-              href="/assets/Resume-MohamedNAGY.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center justify-center px-6 py-3 text-xs sm:text-sm font-mono tracking-widest uppercase font-semibold text-white bg-[var(--highlight)] rounded-lg transition-all duration-300 hover:bg-transparent hover:text-[var(--highlight)] border border-transparent hover:border-[var(--highlight)] overflow-hidden shadow-md shadow-[var(--highlight)]/10 hover:shadow-[0_0_25px_var(--hover-glow)] transform hover:-translate-y-0.5 transform-gpu"
-            >
-              <span>Download Résumé</span>
-            </a>
-
-            <a
-              href="#projects"
-              className="inline-flex items-center gap-1 text-xs sm:text-sm font-mono tracking-wider font-semibold text-[var(--text)] opacity-75 hover:opacity-100 hover:text-[var(--highlight)] py-2 transition-all duration-200 group relative"
-            >
-              <span>View Showcases</span>
-              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[var(--highlight)] transition-all duration-300 group-hover:w-full" />
-            </a>
-          </div>
         </div>
 
-        {/* Right Side: Interactive Kinetic Typography Canvas Matrix */}
-        <div
-          ref={matrixContainerRef}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          className="col-span-12 md:col-span-5 flex items-center justify-center relative mt-6 md:mt-0 perspective-1000 select-none cursor-default"
-        >
-          <div className="kinetic-canvas-wrapper relative w-full max-w-[420px] aspect-[4/5] rounded-2xl bg-[var(--card-bg)] border border-[var(--border-color)] overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.03)] dark:shadow-[0_30px_70px_rgba(0,0,0,0.4)] transform-gpu transition-all duration-500 before:content-[''] before:absolute before:inset-0 before:pointer-events-none before:bg-[radial-gradient(350px_circle_at_var(--mouse-x,50%)_var(--mouse-y,50%),rgba(var(--highlight-rgb,94,234,212),0.08),transparent_85%)]">
-            {/* Outer Subtle Grid Overlay Pattern */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--border-color)_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.15] pointer-events-none" />
+        {/* Right Side: Interactive Kinetic Graphic Framework Panel */}
+        <div className="col-span-12 md:col-span-5 flex justify-center items-center relative perspective-1000">
+          <div
+            ref={matrixContainerRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="kinetic-canvas-wrapper relative w-full max-w-[380px] aspect-[4/5] bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 overflow-hidden select-none cursor-crosshair group flex flex-col justify-between transition-colors duration-300 shadow-[0_30px_60px_rgba(0,0,0,0.2)]"
+            style={
+              {
+                "--mouse-x": "50%",
+                "--mouse-y": "50%",
+                transformStyle: "preserve-3d",
+              } as React.CSSProperties
+            }
+          >
+            {/* Interactive radial track spotlight overlay effect linked to --radial-glow */}
+            <div
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+              style={{
+                background: `radial-gradient(600px at var(--mouse-x) var(--mouse-y), var(--radial-glow), transparent 40.7%)`,
+              }}
+            />
 
-            {/* Layer 1: Background Moving Text Lines explicitly styled to Plus Jakarta Sans */}
-            <div className="layer-light absolute inset-0 flex flex-col justify-between py-12 opacity-[0.03] dark:opacity-[0.04] text-[var(--text-contrast)] font-extrabold tracking-tighter text-7xl uppercase pointer-events-none will-change-transform transform-gpu font-['Plus_Jakarta_Sans',sans-serif]">
-              <div className="marquee-left-loop whitespace-nowrap w-[200%]">
-                DEVELOPER DEVELOPER DEVELOPER DEVELOPER
-              </div>
-              <div className="marquee-right-loop whitespace-nowrap w-[200%] -translate-x-1/2">
-                ENGINEER ENGINEER ENGINEER ENGINEER
-              </div>
-              <div className="marquee-left-loop whitespace-nowrap w-[200%]">
-                ARCHITECT ARCHITECT ARCHITECT ARCHITECT
-              </div>
+            {/* Micro Top Status Tracker Line */}
+            <div className="flex justify-between items-center w-full border-b border-[var(--border-color)] pb-3 opacity-80 font-mono text-[10px] tracking-wider text-[var(--text)]">
+              <span className="layer-light">SYS_STATUS: ACTIVE</span>
+              <span className="layer-light">LOC: NYC // EST</span>
             </div>
 
-            {/* Layer 2: Heavy Geometric Typography Core Frame */}
-            <div className="layer-heavy absolute inset-0 flex flex-col justify-center items-center p-6 space-y-4 will-change-transform transform-gpu">
-              {/* Top Text Track Banner */}
-              <div className="marquee-left w-full text-left border-b border-[var(--border-color)] pb-3 overflow-visible whitespace-nowrap">
-                <span className="font-mono text-[10px] sm:text-xs text-[var(--highlight)] tracking-widest block mb-1 font-bold">
-                  STATUS // CODE
-                </span>
-                <span className="font-black text-2xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none font-['Syne',sans-serif]">
-                  FULLSTACK_DEV
-                </span>
-              </div>
-
-              {/* Central Abstract Framework Geometry Grid */}
-              <div className="w-full flex-1 flex items-center justify-center relative py-4">
-                <div className="absolute w-24 h-24 border border-dashed border-[var(--highlight)]/20 rounded-full animate-[spin_40s_linear_infinite]" />
-                <div className="absolute w-36 h-36 border border-dashed border-[var(--border-color)] rounded-full animate-[spin_60s_linear_infinite_reverse]" />
-
-                <div className="text-center z-10">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] opacity-40 block mb-1 text-[var(--text)]">
-                    ESTABLISHED SYSTEM
+            {/* Center Heavy Graphical Layout Content Canvas */}
+            <div className="relative flex flex-col items-center justify-center my-auto py-4 pointer-events-none">
+              {/* Giant Kinetic Abstract Typography Track Loop Layer Background */}
+              <div className="absolute inset-0 flex flex-col justify-center space-y-4 opacity-[0.015] body.light:opacity-[0.025] select-none scale-105">
+                <div className="marquee-left-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-5xl tracking-tighter">
+                  <span>
+                    MN MN MN MN MN MN MN MN MN MN MN MN MN MN MN MN MN MN
                   </span>
-                  <span className="font-black text-3xl lg:text-4xl tracking-tighter text-[var(--text-contrast)] block leading-none select-none font-['Syne',sans-serif]">
-                    MoNAGY.com
-                  </span>
-                  <span className="font-mono text-[11px] text-[var(--highlight)] tracking-widest block mt-2 font-bold bg-[var(--hover-glow)] px-3 py-1 rounded-full border border-[var(--border-color)]">
-                    NYC · 40.7654° N
-                  </span>
+                </div>
+                <div className="marquee-right-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-5xl tracking-tighter">
+                  <span>NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY</span>
                 </div>
               </div>
 
-              {/* Bottom Text Track Banner */}
-              <div className="marquee-right w-full text-right border-t border-[var(--border-color)] pt-3 overflow-visible whitespace-nowrap">
-                <span className="font-black text-2xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none block font-['Syne',sans-serif]">
-                  CREATIVE_LOGIC
-                </span>
-                <span className="font-mono text-[10px] text-[var(--text)] opacity-50 tracking-wider block mt-1">
-                  CORE_ENGINE_V2.026 // © ALL RIGHTS RESERVED
-                </span>
+              {/* Foreground Visual Depth Objects */}
+              <h2 className="layer-heavy font-['Syne',sans-serif] text-6xl sm:text-7xl font-black text-[var(--text-contrast)] tracking-tighter leading-none select-none transition-colors duration-300">
+                M_N
+              </h2>
+              <div className="layer-light mt-4 flex items-center gap-2 bg-[var(--badge-bg)] text-[var(--highlight)] text-[10px] font-mono tracking-[0.2em] uppercase px-3 py-1.5 rounded-full border border-[var(--border-color)] shadow-sm">
+                NYC · 40.7654° N
               </div>
             </div>
 
-            {/* Edge Aesthetic Framing Corner Borderss */}
-            <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-[var(--border-color)] opacity-60" />
-            <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-[var(--border-color)] opacity-60" />
-            <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-[var(--border-color)] opacity-60" />
-            <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-[var(--border-color)] opacity-60" />
+            {/* Bottom Text Track Banner */}
+            <div className="marquee-right w-full text-right border-t border-[var(--border-color)] pt-3 overflow-visible whitespace-nowrap">
+              <span className="font-black text-2xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none block font-['Syne',sans-serif]">
+                CREATIVE_LOGIC
+              </span>
+              <span className="font-mono text-[10px] text-[var(--text)] opacity-50 tracking-wider block mt-1">
+                CORE_ENGINE_V2.026 // © ALL RIGHTS RESERVED
+              </span>
+            </div>
           </div>
+
+          {/* Edge Aesthetic Framing Corner Borders */}
+          <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-[var(--border-color)] opacity-60" />
+          <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-[var(--border-color)] opacity-60" />
+          <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-[var(--border-color)] opacity-60" />
+          <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-[var(--border-color)] opacity-60" />
         </div>
       </div>
     </section>

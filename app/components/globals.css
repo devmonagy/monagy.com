@@ -7,7 +7,8 @@
   =========================================
 */
 
-:root {
+:root,
+html:not(.light) {
   /* Cinematic midnight deep background layout */
   --bg: #030303;
   --text: #a1a1aa;
@@ -18,10 +19,23 @@
   --border-color: rgba(255, 255, 255, 0.04);
   --text-contrast: #f4f4f5;
 
+  /* --- STRUCTURE HARMONY ENGINE VARIABLES --- */
+  --grid-color: rgba(255, 255, 255, 0.03);
+  --dotted-frame: rgba(255, 255, 255, 0.14);
+  --tile-shadow-base: rgba(0, 0, 0, 0.6);
+  --tile-shadow-hover: rgba(0, 0, 0, 0.85);
+
   /* Luxury Typographic Micro Scales */
   --font-display: "Syne", "Inter", sans-serif;
+
+  /* Geometric Canvas Structural Calibrations */
+  --dotted-frame-opacity: 0.6;
+  --dotted-frame-hover-opacity: 1;
 }
 
+/* Unified root modifier hook matching the application wrapper engine */
+.light,
+html.light,
 body.light {
   /* Gallery Studio Light Palette */
   --bg: #f9f9fb;
@@ -29,9 +43,26 @@ body.light {
   --highlight: #0055ff; /* Hyper-saturated Blue Accent */
   --card-bg: #ffffff;
   --badge-bg: #f3f4f6;
-  --hover-glow: rgba(0, 85, 255, 0.03);
+  --hover-glow: rgba(0, 85, 255, 0.06);
   --border-color: rgba(0, 0, 0, 0.06);
   --text-contrast: #111827;
+
+  /* --- IDENTICAL LAYOUT STRUCTURE FOR LIGHT MODE --- */
+  --grid-color: rgba(0, 0, 0, 0.035);
+  --dotted-frame: rgba(0, 85, 255, 0.25); /* Tinted with Studio Blue */
+
+  /* REFACTORED LIGHT DEPTH ENGAGEMENT SHADOWS */
+  --tile-shadow-base: rgba(0, 0, 0, 0.03);
+  --tile-shadow-hover: rgba(
+    0,
+    85,
+    255,
+    0.08
+  ); /* Sophisticated kinetic blue drop glow */
+
+  /* Light Canvas Modifiers to ensure optimal visibility balance */
+  --dotted-frame-opacity: 0.5;
+  --dotted-frame-hover-opacity: 0.95;
 }
 
 * {
@@ -59,38 +90,125 @@ body {
 
   /* Ambient Production Grid Overlay Matrix */
   background-image:
-    linear-gradient(var(--border-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
   background-size: 100px 100px;
   background-position: center top;
+}
+
+/* Fixes the missing animated dotted image frame outline across theme shifts */
+div.project-frame-animate,
+.project-frame-animate {
+  border-color: var(--dotted-frame) !important;
+  border-style: dashed !important;
+}
+
+/* ==========================================================================
+   PROJECT SECTION GEOMETRIC ENGINE (OVAL SHAPE ENGINE REFACTOR)
+   ========================================================================== */
+.project-bg-geo {
+  display: none; /* Safely isolated on touch vectors to prevent structural clipping layout issues */
+}
+
+@media (min-width: 768px) {
+  .project-bg-geo {
+    display: block !important;
+    position: absolute;
+    width: 48%;
+    height: 115%;
+
+    /* Fluid, non-linear architectural oval structure canvas layout wrapper */
+    border-radius: 50% 40% 60% 45% / 40% 60% 40% 60% !important;
+    border: 2px dashed var(--dotted-frame) !important;
+    opacity: var(--dotted-frame-opacity) !important;
+    background-color: transparent !important; /* Wipes clean flat rectangular dark fill artifacts */
+
+    pointer-events: none;
+    z-index: -10;
+    transform-origin: center center;
+    will-change: transform, opacity, border-color;
+    transition:
+      border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+      opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+      box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  /* Structural Position Assignments */
+  .geo-layout-left {
+    left: -2.5rem;
+    top: -5%;
+  }
+
+  .geo-layout-right {
+    right: -2.5rem;
+    top: -5%;
+  }
+
+  /* Kinetic Hover Micro-Interaction Bindings */
+  .group:hover .project-bg-geo {
+    border-style: dashed !important;
+    border-color: var(--highlight) !important;
+    opacity: var(--dotted-frame-hover-opacity) !important;
+    box-shadow: 0 0 50px var(--hover-glow);
+  }
+}
+
+/* ==========================================================================
+   AWWWARDS INTERACTIVE ELEMENT ARCHITECTURE
+   ========================================================================== */
+.awwwards-project-row {
+  isolation: isolate;
+}
+
+.project-desc-box {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.project-mask {
+  will-change: clip-path;
+  transform: translateZ(0);
+}
+
+.project-parallax-img {
+  will-change: transform;
+  transform-gpu: translate3d(0, 0, 0);
 }
 
 /* =========================================
   HIGH-FIDELITY CODE EMBED DISPLAY SYNTAX
   =========================================
 */
+.light pre code span.keyword,
 body.light pre code span.keyword {
   color: #cf222e;
 }
+.light pre code span.function,
 body.light pre code span.function {
   color: #953800;
 }
+.light pre code span.variable,
 body.light pre code span.variable {
   color: #0550ae;
 }
+.light pre code span.control,
 body.light pre code span.control {
   color: #a011b2;
 }
 
+html:not(.light) pre code span.keyword,
 body:not(.light) pre code span.keyword {
   color: #ff7b72;
 }
+html:not(.light) pre code span.function,
 body:not(.light) pre code span.function {
   color: #d2a8ff;
 }
+html:not(.light) pre code span.variable,
 body:not(.light) pre code span.variable {
   color: #79c0ff;
 }
+html:not(.light) pre code span.control,
 body:not(.light) pre code span.control {
   color: #ff7b72;
 }
@@ -116,6 +234,7 @@ body:not(.light) pre code span.control {
   border-bottom: 1px solid var(--border-color);
 }
 
+.light .navbar-wrapper.scrolled,
 body.light .navbar-wrapper.scrolled {
   background-color: rgba(249, 249, 251, 0.8);
 }
@@ -187,23 +306,30 @@ h1 span {
   border: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 32px var(--tile-shadow-base);
   transition:
     border-color 0.4s ease,
     box-shadow 0.4s ease,
+    background-color 0.4s ease,
     transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+/* Harmonized Hover engine across both states */
 .tile:hover {
-  border-color: rgba(0, 255, 204, 0.3);
   transform: translateY(-4px) scale(1.005);
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.5),
-    0 0 30px var(--hover-glow);
+    0 24px 48px var(--tile-shadow-hover),
+    0 0 40px var(--hover-glow);
 }
 
+.light .tile:hover,
 body.light .tile:hover {
-  border-color: rgba(0, 85, 255, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
+  border-color: var(--highlight);
+}
+
+html:not(.light) .tile:hover,
+body:not(.light) .tile:hover {
+  border-color: rgba(0, 255, 204, 0.3);
 }
 
 /* Subtle tech flag design rules */

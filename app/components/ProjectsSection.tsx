@@ -346,7 +346,17 @@ export default function ProjectsSection() {
                 {/* Description Card */}
                 <div
                   onMouseMove={handleMouseMove}
-                  className="project-desc-box relative overflow-hidden w-full bg-[var(--card-bg)] text-[var(--text)] p-4 sm:p-6 md:p-8 rounded-xl border border-[var(--border-color)] transition-all duration-300 group-hover:-translate-y-1 text-left select-none will-change-transform transform-gpu shadow-[0_4px_12px_rgba(0,0,0,0.03),0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-[0_25px_60px_rgba(0,0,0,0.5)] hover:border-[var(--highlight)]/40 hover:text-[var(--text-contrast)] hover:shadow-[0_12px_24px_rgba(0,0,0,0.06)] dark:hover:shadow-[0_30px_70px_rgba(0,0,0,0.6)] before:content-[''] before:absolute before:inset-0 before:pointer-events-none before:bg-[radial-gradient(400px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),rgba(var(--highlight-rgb,94,234,212),0.12),transparent_80%)]"
+                  className="project-desc-box relative overflow-hidden w-full bg-[var(--card-bg)] text-[var(--text)] p-4 sm:p-6 md:p-8 rounded-xl border border-[var(--border-color)] transition-all duration-300 group-hover:-translate-y-1 text-left select-none will-change-transform transform-gpu hover:border-[var(--highlight)]/40 hover:text-[var(--text-contrast)] before:content-[''] before:absolute before:inset-0 before:pointer-events-none before:bg-[radial-gradient(400px_circle_at_var(--mouse-x,0px)_var(--mouse-y,0px),var(--radial-glow),transparent_80%)]"
+                  style={{
+                    boxShadow: "var(--desc-shadow-base)",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow =
+                      "var(--desc-shadow-hover)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = "var(--desc-shadow-base)";
+                  }}
                 >
                   <p className="leading-relaxed relative z-10 text-xs sm:text-sm opacity-90">
                     {project.description}

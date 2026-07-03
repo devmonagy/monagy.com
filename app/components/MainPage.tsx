@@ -7,8 +7,10 @@ import AboutSection from "./AboutSection";
 import ExperienceSection from "./ExperienceSection";
 import ProjectsSection from "./ProjectsSection";
 import FooterSection from "./FooterSection";
+import Preloader from "./Preloader";
 
 export default function MainPage() {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
@@ -16,22 +18,36 @@ export default function MainPage() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const stored = localStorage.getItem("theme");
+    const root = document.documentElement;
+    const body = document.body;
+
     if (stored === "light") {
       setTheme("light");
-      document.body.classList.add("light");
+      root.classList.add("light");
+      root.classList.remove("dark");
+      body.classList.add("light");
     } else {
       setTheme("dark");
-      document.body.classList.remove("light");
+      root.classList.add("dark");
+      root.classList.remove("light");
+      body.classList.remove("light");
     }
   }, []);
 
-  // Keep body class + localStorage in sync with theme state
+  // Synchronize documentElement root + body class tokens with active context state
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const root = document.documentElement;
+    const body = document.body;
+
     if (theme === "light") {
-      document.body.classList.add("light");
+      root.classList.add("light");
+      root.classList.remove("dark");
+      body.classList.add("light");
     } else {
-      document.body.classList.remove("light");
+      root.classList.add("dark");
+      root.classList.remove("light");
+      body.classList.remove("light");
     }
     localStorage.setItem("theme", theme);
   }, [theme]);
@@ -39,8 +55,8 @@ export default function MainPage() {
   // Navbar active link, scrolled state, and scroll-to-top visibility
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (!isLoaded) return;
 
-    // Target ALL anchor links across both mobile and desktop nav blocks
     const links = Array.from(
       document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']"),
     );
@@ -67,16 +83,12 @@ export default function MainPage() {
     const onScroll = () => {
       const scrollPos = window.scrollY + 120;
 
-      // Active link highlighting matrix
       sections.forEach((sec) => {
         if (
           scrollPos >= sec.offsetTop &&
           scrollPos < sec.offsetTop + sec.offsetHeight
         ) {
-          // Clear active classes across ALL layout variants
           links.forEach((a) => a.classList.remove("active"));
-
-          // Query and highlight matching links in both top header and bottom dock
           const activeLinks = document.querySelectorAll<HTMLAnchorElement>(
             `nav a[href="#${sec.id}"]`,
           );
@@ -84,7 +96,6 @@ export default function MainPage() {
         }
       });
 
-      // navbar "scrolled" style
       if (wrapper) {
         if (window.scrollY > 20) {
           wrapper.classList.add("scrolled");
@@ -93,31 +104,29 @@ export default function MainPage() {
         }
       }
 
-      // scroll-to-top button
       setShowScrollTop(window.scrollY > 300);
     };
 
     window.addEventListener("scroll", onScroll);
-    onScroll(); // run once
+    onScroll();
 
-    // Fix mobile "stuck hover" on project cards
+    // Safe, reliable project card hover fix for mobile touch layouts
     if (window.innerWidth <= 768) {
-      const projectCards = document.querySelectorAll<HTMLElement>(
-        "#projects .hover\\:border-\\[var\\(--highlight\\)\\]",
-      );
+      const projectCards =
+        document.querySelectorAll<HTMLElement>("#projects .tile");
       projectCards.forEach((card) => {
         const touchHandler = () => {
           card.classList.remove(
             "hover:border-[var(--highlight)]",
             "hover:shadow-[0_0_10px_var(--highlight)]",
           );
-          void card.offsetWidth; // reflow
+          void card.offsetWidth; // Force Reflow
           card.classList.add(
             "hover:border-[var(--highlight)]",
             "hover:shadow-[0_0_10px_var(--highlight)]",
           );
         };
-        card.addEventListener("touchstart", touchHandler);
+        card.addEventListener("touchstart", touchHandler, { passive: true });
         (card as any)._touchHandler = touchHandler;
       });
     }
@@ -125,15 +134,13 @@ export default function MainPage() {
     return () => {
       window.removeEventListener("scroll", onScroll);
       links.forEach((link) => {
-        const listener = (link as any)._navListener as
-          | ((e: MouseEvent) => void)
-          | undefined;
+        const listener = (link as any)._navListener;
         if (listener) {
           link.removeEventListener("click", listener);
         }
       });
     };
-  }, []);
+  }, [isLoaded]);
 
   const handleScrollTopClick = () => {
     if (typeof window === "undefined") return;
@@ -146,30 +153,38 @@ export default function MainPage() {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300">
-      {/* REFACTORED HIGH-FIDELITY NAVBAR HEADER */}
-      <Navbar theme={theme} toggleTheme={toggleTheme} />
+      {/* CINEMATIC FULL SCREEN LOADING ENGINE PLATFORM */}
+      {!isLoaded && <Preloader onComplete={() => setIsLoaded(true)} />}
 
-      {/* CORE ALIGNED TRACKING CONTAINER CONTEXT */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-16">
-        <AboutSection />
-        <ExperienceSection />
-        <ProjectsSection />
-        <FooterSection />
-      </main>
+      {/* CORE WEB APPLICATION CONTAINER CORE REVEAL */}
+      {isLoaded && (
+        <div className="opacity-0 animate-[fadeInContent_1s_cubic-bezier(0.25,1,0.5,1)_forwards]">
+          {/* REFACTORED HIGH-FIDELITY NAVBAR HEADER */}
+          <Navbar theme={theme} toggleTheme={toggleTheme} />
 
-      {/* Scroll to top button */}
-      <button
-        id="scrollToTop"
-        onClick={handleScrollTopClick}
-        className={`fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer transition-all duration-300 shadow-md hover:border-[var(--highlight)] hover:text-[var(--highlight)] ${
-          showScrollTop
-            ? "opacity-100 pointer-events-auto translate-y-0"
-            : "opacity-0 pointer-events-none translate-y-4"
-        }`}
-        aria-label="Scroll to top"
-      >
-        <span className="text-xl font-mono">↑</span>
-      </button>
+          {/* CORE ALIGNED TRACKING CONTAINER CONTEXT */}
+          <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-16">
+            <AboutSection />
+            <ExperienceSection />
+            <ProjectsSection />
+            <FooterSection />
+          </main>
+
+          {/* Scroll to top button */}
+          <button
+            id="scrollToTop"
+            onClick={handleScrollTopClick}
+            className={`fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer transition-all duration-300 shadow-md hover:border-[var(--highlight)] hover:text-[var(--highlight)] ${
+              showScrollTop
+                ? "opacity-100 pointer-events-auto translate-y-0"
+                : "opacity-0 pointer-events-none translate-y-4"
+            }`}
+            aria-label="Scroll to top"
+          >
+            <span className="text-xl font-mono">↑</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }
