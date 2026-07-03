@@ -8,6 +8,12 @@ import ExperienceSection from "./ExperienceSection";
 import ProjectsSection from "./ProjectsSection";
 import FooterSection from "./FooterSection";
 import Preloader from "./Preloader";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function MainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -52,7 +58,7 @@ export default function MainPage() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Navbar active link, scrolled state, and scroll-to-top visibility
+  // Navbar active link, scrolled state, and scroll-to-top visibility animations
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!isLoaded) return;
@@ -60,10 +66,8 @@ export default function MainPage() {
     const links = Array.from(
       document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']"),
     );
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>("main section[id]"),
-    );
     const wrapper = document.getElementById("navbarWrapper");
+    const scrollTopBtn = document.getElementById("scrollToTop");
 
     const handleLinkClick = (e: MouseEvent, link: HTMLAnchorElement) => {
       e.preventDefault();
@@ -80,35 +84,55 @@ export default function MainPage() {
       (link as any)._navListener = listener;
     });
 
-    const onScroll = () => {
-      const scrollPos = window.scrollY + 120;
+    // Unified ScrollTrigger to manage structural tracking and show-on-scroll-up patterns
+    let showAnim: gsap.core.Tween | null = null;
+    if (scrollTopBtn) {
+      showAnim = gsap
+        .fromTo(
+          scrollTopBtn,
+          { y: 100, opacity: 0 },
+          { y: 0, opacity: 1, paused: true, duration: 0.4, ease: "power3.out" },
+        )
+        .progress(0);
+    }
 
-      sections.forEach((sec) => {
-        if (
-          scrollPos >= sec.offsetTop &&
-          scrollPos < sec.offsetTop + sec.offsetHeight
-        ) {
-          links.forEach((a) => a.classList.remove("active"));
-          const activeLinks = document.querySelectorAll<HTMLAnchorElement>(
-            `nav a[href="#${sec.id}"]`,
-          );
-          activeLinks.forEach((link) => link.classList.add("active"));
-        }
-      });
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      // Toggle overall visibility tracking context threshold
+      const isPastThreshold = currentScrollY > 300;
+      setShowScrollTop(isPastThreshold);
 
       if (wrapper) {
-        if (window.scrollY > 20) {
+        if (currentScrollY > 20) {
           wrapper.classList.add("scrolled");
         } else {
           wrapper.classList.remove("scrolled");
         }
       }
-
-      setShowScrollTop(window.scrollY > 300);
     };
 
     window.addEventListener("scroll", onScroll);
     onScroll();
+
+    // GSAP ScrollTrigger handler to capture directionality
+    const scrollTriggerInstance = ScrollTrigger.create({
+      start: "top top",
+      end: "max",
+      onUpdate: (self) => {
+        if (!showAnim || window.scrollY <= 300) {
+          if (showAnim) showAnim.reverse();
+          return;
+        }
+
+        // direction === 1 means scrolling down, -1 means scrolling up
+        if (self.direction === 1) {
+          showAnim.reverse();
+        } else {
+          showAnim.play();
+        }
+      },
+    });
 
     // Safe, reliable project card hover fix for mobile touch layouts
     if (window.innerWidth <= 768) {
@@ -133,6 +157,7 @@ export default function MainPage() {
 
     return () => {
       window.removeEventListener("scroll", onScroll);
+      scrollTriggerInstance.kill();
       links.forEach((link) => {
         const listener = (link as any)._navListener;
         if (listener) {
@@ -152,7 +177,7 @@ export default function MainPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300 relative">
       {/* CINEMATIC FULL SCREEN LOADING ENGINE PLATFORM */}
       {!isLoaded && <Preloader onComplete={() => setIsLoaded(true)} />}
 
@@ -170,19 +195,33 @@ export default function MainPage() {
             <FooterSection />
           </main>
 
-          {/* Scroll to top button */}
-          <button
-            id="scrollToTop"
-            onClick={handleScrollTopClick}
-            className={`fixed bottom-6 right-6 w-10 h-10 flex items-center justify-center bg-[var(--card-bg)] border border-white/20 rounded-full cursor-pointer transition-all duration-300 shadow-md hover:border-[var(--highlight)] hover:text-[var(--highlight)] ${
-              showScrollTop
-                ? "opacity-100 pointer-events-auto translate-y-0"
-                : "opacity-0 pointer-events-none translate-y-4"
-            }`}
-            aria-label="Scroll to top"
-          >
-            <span className="text-xl font-mono">↑</span>
-          </button>
+          {/* 
+            FIXED SCROLL-TO-TOP LAYOUT ANCHOR CONTAINER
+            Pins the tracking layer cleanly down to match your max-w-7xl structural boundaries 
+          */}
+          <div className="fixed bottom-6 inset-x-0 pointer-events-none z-[9999]">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-end">
+              <button
+                id="scrollToTop"
+                onClick={handleScrollTopClick}
+                className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer shadow-lg hover:border-[var(--highlight)]/50 transition-all duration-300 shrink-0 pointer-events-auto will-change-transform"
+                aria-label="Scroll to top of container"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="w-4 h-4 text-[var(--text-contrast)]"
+                >
+                  <polyline points="18 15 12 9 6 15" />
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

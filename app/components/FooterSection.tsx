@@ -60,6 +60,17 @@ export default function FooterSection() {
               </li>
               <li>
                 <a
+                  href="#experience"
+                  className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
+                >
+                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
+                    02/
+                  </span>{" "}
+                  Experience
+                </a>
+              </li>
+              <li>
+                <a
                   href="#projects"
                   className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
                 >
