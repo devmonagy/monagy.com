@@ -353,3 +353,25 @@ body:not(.light) .tile:hover {
     transform: translateY(0);
   }
 }
+
+/* Ambient conic-glow ring rotation for the kinetic identity card —
+   transform-only, runs on the compositor for the life of the page */
+@keyframes rotateGlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* HUD scan-line sweep for the kinetic identity card — transform-only,
+   always-on so touch devices without hover still get ambient motion */
+@keyframes scanSweep {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(500%);
+  }
+}
