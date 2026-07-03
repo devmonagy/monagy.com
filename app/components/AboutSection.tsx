@@ -34,7 +34,7 @@ export default function AboutSection() {
         { yPercent: 110, opacity: 0 },
         { yPercent: 0, opacity: 1, duration: 1.4, stagger: 0.08, delay: 0.1 },
       )
-        // Main Body Text Fade
+        // Main Body Text Fade (Includes the new Résumé action wrapper seamlessly)
         .fromTo(
           ".fade-in-body",
           { opacity: 0, y: 30 },
@@ -218,11 +218,31 @@ export default function AboutSection() {
               ))}
             </ul>
           </div>
+
+          {/* High-Fidelity Interactive Resume Downloader Pipeline */}
+          <div className="fade-in-body mt-8 max-w-xl">
+            <a
+              href="/assets/Resume-MohamedNAGY.pdf"
+              download="Resume-MohamedNAGY.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-between gap-6 px-6 py-4 rounded-xl bg-[var(--card-bg)] border border-[var(--border-color)] hover:border-[var(--highlight)] text-[var(--text-contrast)] transition-all duration-300 group shadow-[0_4px_12px_rgba(0,0,0,0.03)] font-mono text-xs tracking-wider"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-2 h-2 rounded-full bg-[var(--highlight)] animate-pulse" />
+                <span>FETCH_SYSTEM_RESUME // PDF</span>
+              </div>
+              <span className="transform translate-x-0 group-hover:translate-x-1 group-hover:text-[var(--highlight)] transition-transform duration-300 text-sm font-bold">
+                ↓
+              </span>
+            </a>
+          </div>
         </div>
 
         {/* Right Side: Interactive Kinetic Graphic Framework Panel */}
         <div className="col-span-12 md:col-span-5 flex justify-center items-center relative perspective-1000">
           <div
+            template-id="kinetic-canvas"
             ref={matrixContainerRef}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
