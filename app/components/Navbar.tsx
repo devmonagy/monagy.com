@@ -28,31 +28,63 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
 
   useGSAP(
     () => {
-      if (!mounted || !mobileDockRef.current) return;
+      if (!mounted) return;
 
-      const showAnim = gsap
-        .from(mobileDockRef.current, {
-          y: 100,
-          opacity: 0,
-          paused: true,
-          duration: 0.4,
-          ease: "power3.out",
-        })
-        .progress(1);
+      // 1. Mobile Hide / Show on Scroll Direction
+      if (mobileDockRef.current) {
+        const showAnim = gsap
+          .from(mobileDockRef.current, {
+            y: 100,
+            opacity: 0,
+            paused: true,
+            duration: 0.4,
+            ease: "power3.out",
+          })
+          .progress(1);
 
-      ScrollTrigger.create({
-        start: "top top",
-        end: "max",
-        onUpdate: (self) => {
-          if (self.direction === 1) {
-            showAnim.reverse();
-          } else {
-            showAnim.play();
-          }
-        },
+        ScrollTrigger.create({
+          start: "top top",
+          end: "max",
+          onUpdate: (self) => {
+            if (self.direction === 1) {
+              showAnim.reverse();
+            } else {
+              showAnim.play();
+            }
+          },
+        });
+      }
+
+      // 2. Multi-Theme Intersection Highlight Tracking Matrix
+      const sections = ["about", "experience", "projects"];
+
+      sections.forEach((id) => {
+        ScrollTrigger.create({
+          trigger: `#${id}`,
+          start: "top 40%",
+          end: "bottom 40%",
+          onToggle: (self) => {
+            if (self.isActive) {
+              // Target elements across both desktop and mobile layouts safely
+              gsap.to(`a[href="#${id}"]`, {
+                color: "var(--highlight)",
+                borderBottomColor: "var(--highlight)",
+                duration: 0.3,
+                overwrite: "auto",
+              });
+            } else {
+              gsap.to(`a[href="#${id}"]`, {
+                color: "var(--text)",
+                borderBottomColor: "transparent",
+                duration: 0.3,
+                overwrite: "auto",
+              });
+            }
+          },
+        });
       });
     },
-    { scope: mobileDockRef, dependencies: [mounted] },
+    { dependencies: [mounted] },
   );
 
   // Render the core desktop layout structure inline
@@ -85,7 +117,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             <li>
               <a
                 href="#about"
-                className="nav-link transition-colors duration-200 pb-2 block"
+                className="nav-link text-[var(--text)] transition-colors duration-200 pb-2 block border-b-2 border-transparent"
               >
                 <span className="text-[var(--highlight)] font-mono text-[10px] mr-1.5 opacity-60">
                   01.
@@ -96,7 +128,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             <li>
               <a
                 href="#experience"
-                className="nav-link transition-colors duration-200 pb-2 block"
+                className="nav-link text-[var(--text)] transition-colors duration-200 pb-2 block border-b-2 border-transparent"
               >
                 <span className="text-[var(--highlight)] font-mono text-[10px] mr-1.5 opacity-60">
                   02.
@@ -107,7 +139,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             <li>
               <a
                 href="#projects"
-                className="nav-link transition-colors duration-200 pb-2 block"
+                className="nav-link text-[var(--text)] transition-colors duration-200 pb-2 block border-b-2 border-transparent"
               >
                 <span className="text-[var(--highlight)] font-mono text-[10px] mr-1.5 opacity-60">
                   03.
@@ -192,7 +224,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               <li>
                 <a
                   href="#about"
-                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent hover:border-[var(--highlight)] transition-colors"
+                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
                 >
                   About
                 </a>
@@ -200,7 +232,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               <li>
                 <a
                   href="#experience"
-                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent hover:border-[var(--highlight)] transition-colors"
+                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
                 >
                   Experience
                 </a>
@@ -208,7 +240,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               <li>
                 <a
                   href="#projects"
-                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent hover:border-[var(--highlight)] transition-colors"
+                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
                 >
                   Projects
                 </a>
