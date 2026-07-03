@@ -79,7 +79,7 @@ export default function ProjectsSection() {
 
   useGSAP(
     () => {
-      const rows = gsap.utils.toArray(".awwwards-project-row");
+      const rows = gsap.utils.toArray(".a-project-row");
 
       rows.forEach((row: any) => {
         const mask = row.querySelector(".project-mask");
@@ -288,7 +288,7 @@ export default function ProjectsSection() {
             <div
               key={project.id}
               data-index={idx}
-              className="awwwards-project-row relative grid grid-cols-12 items-center group"
+              className="a-project-row relative grid grid-cols-12 items-center group"
             >
               <div
                 className={`project-bg-geo absolute hidden md:block border-2 border-dashed border-[var(--highlight)]/30 rounded-2xl pointer-events-none w-[45%] h-[110%] -z-10 transition-colors duration-500 group-hover:border-[var(--highlight)]/60 ${

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* =========================================
-  PREMIUM AWWWARDS-INSPIRED ENGINE THEME 
+  PREMIUM AWARDS-INSPIRED ENGINE THEME 
   =========================================
 */
 
@@ -154,9 +154,9 @@ div.project-frame-animate,
 }
 
 /* ==========================================================================
-   AWWWARDS INTERACTIVE ELEMENT ARCHITECTURE
+   AWARDS INTERACTIVE ELEMENT ARCHITECTURE
    ========================================================================== */
-.awwwards-project-row {
+.a-project-row {
   isolation: isolate;
 }
 
