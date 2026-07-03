@@ -8,16 +8,9 @@ import ExperienceSection from "./ExperienceSection";
 import ProjectsSection from "./ProjectsSection";
 import FooterSection from "./FooterSection";
 import Preloader from "./Preloader";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export default function MainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [showScrollTop, setShowScrollTop] = useState(false);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
 
   // Load theme from localStorage on first render
@@ -58,7 +51,7 @@ export default function MainPage() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // Navbar active link, scrolled state, and scroll-to-top visibility animations
+  // Navbar link smoothing & mobile touch interactions
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (!isLoaded) return;
@@ -67,7 +60,6 @@ export default function MainPage() {
       document.querySelectorAll<HTMLAnchorElement>("nav a[href^='#']"),
     );
     const wrapper = document.getElementById("navbarWrapper");
-    const scrollTopBtn = document.getElementById("scrollToTop");
 
     const handleLinkClick = (e: MouseEvent, link: HTMLAnchorElement) => {
       e.preventDefault();
@@ -84,27 +76,9 @@ export default function MainPage() {
       (link as any)._navListener = listener;
     });
 
-    // Unified ScrollTrigger to manage structural tracking and show-on-scroll-up patterns
-    let showAnim: gsap.core.Tween | null = null;
-    if (scrollTopBtn) {
-      showAnim = gsap
-        .fromTo(
-          scrollTopBtn,
-          { y: 100, opacity: 0 },
-          { y: 0, opacity: 1, paused: true, duration: 0.4, ease: "power3.out" },
-        )
-        .progress(0);
-    }
-
     const onScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      // Toggle overall visibility tracking context threshold
-      const isPastThreshold = currentScrollY > 300;
-      setShowScrollTop(isPastThreshold);
-
       if (wrapper) {
-        if (currentScrollY > 20) {
+        if (window.scrollY > 20) {
           wrapper.classList.add("scrolled");
         } else {
           wrapper.classList.remove("scrolled");
@@ -112,27 +86,8 @@ export default function MainPage() {
       }
     };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-
-    // GSAP ScrollTrigger handler to capture directionality
-    const scrollTriggerInstance = ScrollTrigger.create({
-      start: "top top",
-      end: "max",
-      onUpdate: (self) => {
-        if (!showAnim || window.scrollY <= 300) {
-          if (showAnim) showAnim.reverse();
-          return;
-        }
-
-        // direction === 1 means scrolling down, -1 means scrolling up
-        if (self.direction === 1) {
-          showAnim.reverse();
-        } else {
-          showAnim.play();
-        }
-      },
-    });
 
     // Safe, reliable project card hover fix for mobile touch layouts
     if (window.innerWidth <= 768) {
@@ -157,7 +112,6 @@ export default function MainPage() {
 
     return () => {
       window.removeEventListener("scroll", onScroll);
-      scrollTriggerInstance.kill();
       links.forEach((link) => {
         const listener = (link as any)._navListener;
         if (listener) {
@@ -197,14 +151,14 @@ export default function MainPage() {
 
           {/* 
             FIXED SCROLL-TO-TOP LAYOUT ANCHOR CONTAINER
-            Pins the tracking layer cleanly down to match your max-w-7xl structural boundaries 
+            Locks the position matching the maximum container width layout boundary of your navbar items exactly.
           */}
           <div className="fixed bottom-6 inset-x-0 pointer-events-none z-[9999]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-end">
               <button
                 id="scrollToTop"
                 onClick={handleScrollTopClick}
-                className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer shadow-lg hover:border-[var(--highlight)]/50 transition-all duration-300 shrink-0 pointer-events-auto will-change-transform"
+                className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer shadow-lg hover:border-[var(--highlight)]/50 transition-all duration-300 shrink-0 pointer-events-auto"
                 aria-label="Scroll to top of container"
               >
                 <svg
