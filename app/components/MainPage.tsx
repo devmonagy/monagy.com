@@ -10,6 +10,7 @@ import ContactSection from "./ContactSection";
 import EvolveTerminal from "./EvolveTerminal";
 import FooterSection from "./FooterSection";
 import Preloader from "./Preloader";
+import CustomCursor from "./CustomCursor";
 
 export default function MainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -134,6 +135,8 @@ export default function MainPage() {
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300 relative">
+      <CustomCursor />
+
       {/* CINEMATIC FULL SCREEN LOADING ENGINE PLATFORM */}
       {!isLoaded && <Preloader onComplete={() => setIsLoaded(true)} />}
 
@@ -155,11 +158,14 @@ export default function MainPage() {
             <FooterSection />
           </main>
 
-          {/* 
+          {/*
             FIXED SCROLL-TO-TOP LAYOUT ANCHOR CONTAINER
             Locks the position matching the maximum container width layout boundary of your navbar items exactly.
+            On mobile only, bottom-24 lifts it clear above the floating nav
+            dock (which sits at bottom-6) instead of sitting behind it; md+
+            reverts to bottom-6 since the dock doesn't exist there.
           */}
-          <div className="fixed bottom-6 inset-x-0 pointer-events-none z-[9999]">
+          <div className="fixed bottom-24 md:bottom-6 inset-x-0 pointer-events-none z-[10000]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-end">
               <button
                 id="scrollToTop"

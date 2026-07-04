@@ -247,12 +247,12 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           ref={mobileDockRef}
           className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] w-[92vw] max-w-[360px] will-change-transform"
         >
-          <nav className="bg-[var(--card-bg)]/85 border border-[var(--border-color)] rounded-full backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.3)] px-6 py-3.5">
-            <ul className="flex items-center justify-between font-['Plus_Jakarta_Sans',sans-serif] text-[11px] font-bold uppercase tracking-[0.14em]">
+          <nav className="bg-[var(--card-bg)]/85 border border-[var(--border-color)] rounded-full backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.3)] px-3 py-3 overflow-hidden">
+            <ul className="flex items-center justify-between font-['Plus_Jakarta_Sans',sans-serif] text-[10px] font-bold uppercase tracking-[0.03em] whitespace-nowrap">
               <li>
                 <a
                   href="#about"
-                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
+                  className="nav-link text-[var(--text)] px-1 pb-1 block border-b-2 border-transparent transition-colors"
                 >
                   About
                 </a>
@@ -260,7 +260,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               <li>
                 <a
                   href="#experience"
-                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
+                  className="nav-link text-[var(--text)] px-1 pb-1 block border-b-2 border-transparent transition-colors"
                 >
                   Experience
                 </a>
@@ -268,7 +268,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               <li>
                 <a
                   href="#projects"
-                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
+                  className="nav-link text-[var(--text)] px-1 pb-1 block border-b-2 border-transparent transition-colors"
                 >
                   Projects
                 </a>
@@ -276,7 +276,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               <li>
                 <a
                   href="#contact"
-                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
+                  className="nav-link text-[var(--text)] px-1 pb-1 block border-b-2 border-transparent transition-colors"
                 >
                   Contact
                 </a>
