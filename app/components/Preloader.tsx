@@ -85,6 +85,16 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       repeat: -1,
     });
 
+    // Mobile-only SYS_INIT band — a slow, cinematic drift (much calmer than
+    // the informational tickers above/below) since this is pure ambient
+    // texture, not something meant to be read
+    const sysInitDrift = gsap.to(".sysinit-marquee-loop", {
+      xPercent: -50,
+      ease: "none",
+      duration: 16,
+      repeat: -1,
+    });
+
     // 3. Staggered Spatial Compression & Core Collapse Sequence
     tl.to(".loader-text-main", {
       letterSpacing: "0.5em",
@@ -136,6 +146,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       marqueeLeft.kill();
       marqueeRight.kill();
       badgeBreath.kill();
+      sysInitDrift.kill();
     };
   }, [onComplete]);
 
@@ -161,11 +172,20 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
       {/* CENTER INTENSITY HUB */}
       <div className="relative flex flex-col items-center max-w-xl px-6 text-center my-auto">
-        {/* Massive Geometric Matrix Background Variable — hidden on mobile
-            only, where its rendered width sits close enough to the brand
-            badge's that the badge ends up covering a large chunk of the word */}
+        {/* Massive Geometric Matrix Background Variable — static on desktop.
+            On mobile, its rendered width sits close enough to the brand
+            badge's that it was covering a large chunk of the word, so it
+            becomes a continuously scrolling band instead: only a transient
+            sliver ever passes behind the badge rather than a static chunk
+            sitting permanently occluded */}
         <div className="kinetic-element hidden md:block absolute text-[14vw] font-black font-['Syne',sans-serif] text-[var(--highlight)]/5 opacity-[0.03] select-none pointer-events-none tracking-tighter -z-10 transform -translate-y-6">
           SYS_INIT
+        </div>
+        <div className="kinetic-element md:hidden absolute inset-x-0 flex overflow-hidden opacity-[0.05] select-none pointer-events-none -z-10">
+          <div className="sysinit-marquee-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-[16vw] tracking-tighter text-[var(--highlight)]">
+            <span className="px-6">SYS_INIT • SYS_INIT • SYS_INIT •</span>
+            <span className="px-6">SYS_INIT • SYS_INIT • SYS_INIT •</span>
+          </div>
         </div>
 
         {/* M_N Brand Badge — same mark as the favicon/navbar/social images,
