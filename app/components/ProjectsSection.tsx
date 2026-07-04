@@ -5,7 +5,6 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import EvolveTerminal from "./EvolveTerminal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -410,11 +409,6 @@ export default function ProjectsSection() {
             </div>
           );
         })}
-      </div>
-
-      {/* Terminal Block */}
-      <div className="pt-8 sm:pt-16 md:pt-24 flex justify-center w-full">
-        <EvolveTerminal />
       </div>
     </section>
   );

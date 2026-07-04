@@ -6,6 +6,8 @@ import Navbar from "./Navbar";
 import AboutSection from "./AboutSection";
 import ExperienceSection from "./ExperienceSection";
 import ProjectsSection from "./ProjectsSection";
+import ContactSection from "./ContactSection";
+import EvolveTerminal from "./EvolveTerminal";
 import FooterSection from "./FooterSection";
 import Preloader from "./Preloader";
 
@@ -146,6 +148,10 @@ export default function MainPage() {
             <AboutSection />
             <ExperienceSection />
             <ProjectsSection />
+            <ContactSection />
+            <div className="pt-8 sm:pt-16 md:pt-24 flex justify-center w-full">
+              <EvolveTerminal />
+            </div>
             <FooterSection />
           </main>
 
