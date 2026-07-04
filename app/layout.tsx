@@ -2,10 +2,27 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 
+const SITE_TITLE = "Mohamed Nagy | Front-End Developer";
+const SITE_DESCRIPTION =
+  "Mohamed Nagy – Front-End Developer passionate about building clean, responsive, user-focused applications with modern technologies like React, Tailwind, and TypeScript.";
+
 export const metadata: Metadata = {
-  title: "Mohamed Nagy | Front-End Developer",
-  description:
-    "Mohamed Nagy – Front-End Developer passionate about building clean, responsive, user-focused applications with modern technologies like React, Tailwind, and TypeScript.",
+  // Required for the auto-generated opengraph-image/twitter-image routes to
+  // resolve to absolute URLs — update if the production domain differs.
+  metadataBase: new URL("https://monagy.com"),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    siteName: "Mohamed Nagy",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({
