@@ -395,7 +395,7 @@ body:not(.light) .tile:hover {
   }
 }
 
-/* Ambient conic-glow ring rotation for the kinetic identity card —
+/* Ambient conic-glow ring rotation for the navbar's M_N logo mark —
    transform-only, runs on the compositor for the life of the page */
 @keyframes rotateGlow {
   from {
@@ -403,6 +403,22 @@ body:not(.light) .tile:hover {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Holographic border sweep for the About section's kinetic identity card —
+   background-position only (no layout/paint cost), the card's own distinct
+   signature so it no longer shares the navbar logo's rotating ring */
+@keyframes holoSweep {
+  from {
+    background-position:
+      0 0,
+      0% 0%;
+  }
+  to {
+    background-position:
+      0 0,
+      100% 100%;
   }
 }
 

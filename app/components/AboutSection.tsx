@@ -358,30 +358,41 @@ export default function AboutSection() {
         {/* Right Side: Interactive Kinetic Graphic Framework Panel */}
         <div className="col-span-12 md:col-span-5 flex justify-center items-center relative [perspective:1200px]">
           <div className="group relative w-full max-w-[420px] aspect-[4/5]">
-            {/* Ambient rotating glow ring — pure CSS animation (transform: rotate only),
-                costs nothing but compositing, adapts to theme via --highlight */}
-            <div
-              className="absolute -inset-px rounded-[28px] opacity-40 group-hover:opacity-90 blur-md transition-opacity duration-500 pointer-events-none -z-10 animate-[rotateGlow_9s_linear_infinite]"
-              style={{
-                background: `conic-gradient(from 0deg, transparent 0%, var(--highlight) 12%, transparent 32%)`,
-              }}
-            />
-
             <div
               template-id="kinetic-canvas"
               ref={matrixContainerRef}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
               onTouchStart={handleTouchStart}
-              className="kinetic-canvas-wrapper relative w-full h-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-6 sm:p-8 overflow-hidden select-none cursor-crosshair flex flex-col justify-between transition-colors duration-300 shadow-[0_30px_60px_rgba(0,0,0,0.2)]"
+              className="kinetic-canvas-wrapper relative w-full h-full rounded-2xl p-6 sm:p-8 overflow-hidden select-none cursor-crosshair flex flex-col justify-between transition-colors duration-300 shadow-[0_30px_60px_rgba(0,0,0,0.2)]"
               style={
                 {
                   "--mouse-x": "50%",
                   "--mouse-y": "50%",
                   transformStyle: "preserve-3d",
+                  border: "1px solid transparent",
+                  // Holographic gradient border sweep — a premium ID-card
+                  // signature distinct from the navbar's rotating glow ring,
+                  // driven by animating background-position (compositor-only)
+                  backgroundImage: `linear-gradient(var(--card-bg), var(--card-bg)), linear-gradient(120deg, transparent 30%, var(--highlight) 50%, transparent 70%)`,
+                  backgroundOrigin: "border-box",
+                  backgroundClip: "padding-box, border-box",
+                  backgroundSize: "100% 100%, 250% 250%",
+                  animation: "holoSweep 7s linear infinite",
                 } as React.CSSProperties
               }
             >
+              {/* Fine background grid texture — echoes the page's own ambient
+                  grid at card scale, reinforcing the "system console" feel */}
+              <div
+                className="absolute inset-0 opacity-[0.05] pointer-events-none"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px)",
+                  backgroundSize: "24px 24px",
+                }}
+              />
+
               {/* Interactive radial track spotlight overlay effect linked to --radial-glow */}
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -448,11 +459,12 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Edge Aesthetic Framing Corner Borders */}
-          <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-[var(--border-color)] opacity-60" />
-          <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-[var(--border-color)] opacity-60" />
-          <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-[var(--border-color)] opacity-60" />
-          <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-[var(--border-color)] opacity-60" />
+          {/* Edge Aesthetic Framing Corner Borders — brighten with the card on
+              hover so the frame reads as one cohesive activated system */}
+          <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-[var(--border-color)] opacity-60 group-hover:border-[var(--highlight)] group-hover:opacity-100 transition-all duration-300" />
+          <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-[var(--border-color)] opacity-60 group-hover:border-[var(--highlight)] group-hover:opacity-100 transition-all duration-300" />
+          <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-[var(--border-color)] opacity-60 group-hover:border-[var(--highlight)] group-hover:opacity-100 transition-all duration-300" />
+          <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-[var(--border-color)] opacity-60 group-hover:border-[var(--highlight)] group-hover:opacity-100 transition-all duration-300" />
         </div>
       </div>
     </section>

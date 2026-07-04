@@ -56,7 +56,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
       }
 
       // 2. Multi-Theme Intersection Highlight Tracking Matrix
-      const sections = ["about", "experience", "projects"];
+      const sections = ["about", "experience", "projects", "contact"];
 
       sections.forEach((id) => {
         ScrollTrigger.create({
@@ -87,6 +87,11 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
     { dependencies: [mounted] },
   );
 
+  const handleLogoClick = () => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   // Render the core desktop layout structure inline
   const mainNavbarContent = (
     <header
@@ -94,22 +99,34 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
       className="sticky top-0 z-50 w-full transition-all duration-500 backdrop-blur-md bg-[var(--bg)]/60 border-b border-[var(--border-color)]/60"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-16 md:h-24 flex items-center justify-between relative">
-        {/* LEFT LOGO SYSTEM */}
-        <div className="flex items-center gap-3 z-10">
-          <div className="relative flex items-center justify-center w-7 h-7 rounded-md bg-[var(--highlight)]/10 border border-[var(--highlight)]/30 shrink-0">
-            <span className="font-mono text-xs font-black text-[var(--highlight)]">
-              M
-            </span>
+        {/* LEFT LOGO SYSTEM — same M_N brand mark as the favicon/social image
+            system, so the identity is consistent everywhere it appears */}
+        <button
+          type="button"
+          onClick={handleLogoClick}
+          aria-label="Scroll to top"
+          className="group/logo relative flex items-center gap-3 z-10 cursor-pointer select-none"
+        >
+          <div className="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0">
+            {/* Ambient rotating glow ring — same signature effect used on the
+                About section's kinetic card, GPU-only (transform: rotate) */}
+            <div
+              className="absolute -inset-1 rounded-xl opacity-50 group-hover/logo:opacity-100 blur-[3px] transition-opacity duration-500 pointer-events-none animate-[rotateGlow_6s_linear_infinite]"
+              style={{
+                background: `conic-gradient(from 0deg, transparent 0%, var(--highlight) 20%, transparent 40%)`,
+              }}
+            />
+            <div className="relative w-full h-full flex items-center justify-center rounded-xl bg-[var(--card-bg)] border border-[var(--highlight)]/40 group-hover/logo:border-[var(--highlight)] transition-all duration-300 group-active/logo:scale-95">
+              <span className="font-['Syne',sans-serif] font-black text-sm sm:text-base tracking-tighter text-[var(--text-contrast)] leading-none">
+                M<span className="text-[var(--highlight)]">_</span>N
+              </span>
+            </div>
           </div>
-          <div className="flex flex-col select-none">
-            <span className="font-['Syne',sans-serif] font-extrabold text-xs sm:text-sm tracking-tight text-[var(--text-contrast)] leading-none">
-              NAGY
-            </span>
-            <span className="font-mono text-[8px] sm:text-[9px] uppercase tracking-[0.25em] text-[var(--highlight)] mt-1 font-bold">
-              SYS // V2.026
-            </span>
-          </div>
-        </div>
+
+          <span className="font-mono text-[8px] sm:text-[9px] uppercase tracking-[0.25em] text-[var(--highlight)] font-bold group-hover/logo:text-[var(--text-contrast)] transition-colors duration-300">
+            SYS // V2.026
+          </span>
+        </button>
 
         {/* DESKTOP ONLY NAVIGATION */}
         <nav className="hidden md:flex items-center">
@@ -145,6 +162,17 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                   03.
                 </span>
                 Projects
+              </a>
+            </li>
+            <li>
+              <a
+                href="#contact"
+                className="nav-link text-[var(--text)] transition-colors duration-200 pb-2 block border-b-2 border-transparent"
+              >
+                <span className="text-[var(--highlight)] font-mono text-[10px] mr-1.5 opacity-60">
+                  04.
+                </span>
+                Contact
               </a>
             </li>
           </ul>
@@ -243,6 +271,14 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
                   className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
                 >
                   Projects
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  className="nav-link text-[var(--text)] px-2 pb-1 block border-b-2 border-transparent transition-colors"
+                >
+                  Contact
                 </a>
               </li>
             </ul>

@@ -75,9 +75,20 @@ export default function FooterSection() {
                   className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
                 >
                   <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
-                    02/
+                    03/
                   </span>{" "}
                   Projects
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
+                >
+                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
+                    04/
+                  </span>{" "}
+                  Contact
                 </a>
               </li>
             </ul>
