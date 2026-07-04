@@ -432,3 +432,23 @@ body:not(.light) .tile:hover {
     transform: translateY(500%);
   }
 }
+
+/* ==========================================================================
+   CUSTOM SYSTEM CURSOR — replaces the native pointer with a themed reticle.
+   Only ever activated on devices with a real mouse (see CustomCursor.tsx's
+   pointer:fine check), so touch devices keep their native behavior untouched.
+   ========================================================================== */
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.cursor-ring-active {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  background: var(--radial-glow);
+}
+
+.cursor-dot-active {
+  opacity: 0;
+}

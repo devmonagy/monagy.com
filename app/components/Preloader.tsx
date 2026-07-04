@@ -62,16 +62,26 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     );
 
     // Continuous marquee looping logic while running
-    gsap.to(".marquee-fast-l", {
+    const marqueeLeft = gsap.to(".marquee-fast-l", {
       xPercent: -30,
       ease: "none",
       duration: 6,
       repeat: -1,
     });
-    gsap.to(".marquee-fast-r", {
+    const marqueeRight = gsap.to(".marquee-fast-r", {
       xPercent: 30,
       ease: "none",
       duration: 6,
+      repeat: -1,
+    });
+
+    // Subtle breathing scale on the brand badge — reads as "alive/processing"
+    // while assets load, transform-only so it costs nothing but compositing
+    const badgeBreath = gsap.to(".loader-badge", {
+      scale: 1.05,
+      duration: 1.4,
+      ease: "sine.inOut",
+      yoyo: true,
       repeat: -1,
     });
 
@@ -123,6 +133,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
     return () => {
       tl.kill();
+      marqueeLeft.kill();
+      marqueeRight.kill();
+      badgeBreath.kill();
     };
   }, [onComplete]);
 
@@ -153,9 +166,27 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           SYS_INIT
         </div>
 
+        {/* M_N Brand Badge — same mark as the favicon/navbar/social images,
+            so the very first thing a visitor sees is a consistent identity.
+            Gentle breathing scale (via GSAP, see loader-badge target below)
+            gives it a "processing/alive" feel while assets load */}
+        <div className="kinetic-element loader-badge relative w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mb-6">
+          <div
+            className="absolute -inset-2 rounded-3xl opacity-60 blur-md pointer-events-none animate-[rotateGlow_6s_linear_infinite]"
+            style={{
+              background: `conic-gradient(from 0deg, transparent 0%, var(--highlight) 15%, transparent 35%)`,
+            }}
+          />
+          <div className="relative w-full h-full flex items-center justify-center rounded-3xl bg-[var(--card-bg)] border-2 border-[var(--highlight)]/50">
+            <span className="font-['Syne',sans-serif] font-black text-2xl sm:text-3xl md:text-4xl tracking-tighter text-[var(--text-contrast)]">
+              M<span className="text-[var(--highlight)]">_</span>N
+            </span>
+          </div>
+        </div>
+
         {/* Core Main Branding String */}
         <div className="overflow-hidden mb-2">
-          <h2 className="loader-text-main kinetic-element font-['Syne',sans-serif] text-3xl sm:text-4xl md:text-5xl font-black tracking-[0.2em] text-[var(--text-contrast)] uppercase leading-none transition-all">
+          <h2 className="loader-text-main kinetic-element font-['Syne',sans-serif] text-2xl sm:text-3xl md:text-4xl font-black tracking-[0.2em] text-[var(--text-contrast)] uppercase leading-none transition-all">
             NAGY<span className="text-[var(--highlight)]">.</span>SYS
           </h2>
         </div>
