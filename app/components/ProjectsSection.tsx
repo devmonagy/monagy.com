@@ -229,7 +229,10 @@ export default function ProjectsSection() {
             trigger: row,
             start: "top bottom",
             end: "bottom top",
-            scrub: true,
+            // A numeric scrub adds its own smoothing lag (in seconds) on top
+            // of the raw scroll value, instead of snapping 1:1 to every
+            // scroll tick — reads as fluid parallax instead of a jitter
+            scrub: 0.6,
           },
         });
 
@@ -245,7 +248,7 @@ export default function ProjectsSection() {
             trigger: row,
             start: "top bottom",
             end: "bottom top",
-            scrub: true,
+            scrub: 0.6,
           },
         });
       });

@@ -106,11 +106,15 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         "-=0.3",
       );
 
-    // 4. Jaw-Dropping Kinetic Angular Diagonal Shutter Tear
+    // 4. Jaw-Dropping Kinetic Shutter Tear — collapsing the full-screen rect
+    // straight up to a flat top edge is geometrically identical to a scaleY(0)
+    // anchored at the top, so this stays on the compositor instead of forcing
+    // a full-viewport repaint every frame like the old clip-path version did
     tl.to(
       containerRef.current,
       {
-        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+        scaleY: 0,
+        transformOrigin: "top",
         duration: 1.4,
         ease: "expo.inOut",
       },
@@ -126,7 +130,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     <div
       ref={containerRef}
       className="fixed inset-0 z-[99999] flex flex-col items-center justify-between bg-[var(--bg)] py-12 select-none overflow-hidden"
-      style={{ clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)" }}
     >
       {/* Structural Minimal Grid Framework Accents */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border-color)_1px,transparent_1px),linear-gradient(to_bottom,var(--border-color)_1px,transparent_1px)] bg-[size:50px_50px] pointer-events-none opacity-20" />
