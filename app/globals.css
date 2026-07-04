@@ -39,7 +39,8 @@
   --radial-glow: rgba(0, 255, 204, 0.12);
 
   /* Luxury Typographic Micro Scales */
-  --font-display: "Syne", "Inter", sans-serif;
+  --font-display: "Syne", "Space Grotesk", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
 }
 
 html.light,
@@ -127,7 +128,7 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
@@ -451,4 +452,45 @@ html.custom-cursor-active * {
 
 .cursor-dot-active {
   opacity: 0;
+}
+
+/* ==========================================================================
+   EVOLVE TERMINAL — line-number gutter via CSS counters, so each number is
+   generated inside its own line box and can never drift out of alignment
+   with a manually-matched separate gutter column.
+   ========================================================================== */
+.terminal-code-lines {
+  counter-reset: line;
+}
+
+.terminal-code-line {
+  counter-increment: line;
+  position: relative;
+  padding-left: 2.25rem;
+}
+
+.terminal-code-line::before {
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  width: 1.75rem;
+  text-align: right;
+  color: var(--text);
+  opacity: 0.3;
+  user-select: none;
+}
+
+.terminal-cursor {
+  animation: terminalBlink 1s step-end infinite;
+}
+
+@keyframes terminalBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
 }
