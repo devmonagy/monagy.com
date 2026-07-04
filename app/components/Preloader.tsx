@@ -161,8 +161,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
       {/* CENTER INTENSITY HUB */}
       <div className="relative flex flex-col items-center max-w-xl px-6 text-center my-auto">
-        {/* Massive Geometric Matrix Background Variable */}
-        <div className="kinetic-element absolute text-[14vw] font-black font-['Syne',sans-serif] text-[var(--highlight)]/5 opacity-[0.03] select-none pointer-events-none tracking-tighter -z-10 transform -translate-y-6">
+        {/* Massive Geometric Matrix Background Variable — hidden on mobile
+            only, where its rendered width sits close enough to the brand
+            badge's that the badge ends up covering a large chunk of the word */}
+        <div className="kinetic-element hidden md:block absolute text-[14vw] font-black font-['Syne',sans-serif] text-[var(--highlight)]/5 opacity-[0.03] select-none pointer-events-none tracking-tighter -z-10 transform -translate-y-6">
           SYS_INIT
         </div>
 
