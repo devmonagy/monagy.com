@@ -1,20 +1,29 @@
 // app/components/CustomCursor.tsx
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
 const INTERACTIVE_SELECTOR =
   "a, button, [role='button'], input, textarea, select";
 
 export default function CustomCursor() {
+  const [enabled, setEnabled] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
 
+  // Custom cursors are a mouse-only concept — touch devices have no
+  // persistent pointer. Gating the render itself (not just the positioning
+  // logic) means the dot/ring never mount at all on touch devices, instead
+  // of briefly sitting visible at their untransformed top-left CSS position.
   useEffect(() => {
-    // Custom cursors are a mouse-only concept — touch devices have no
-    // persistent pointer, so leave them completely untouched
-    if (!window.matchMedia("(pointer: fine)").matches) return;
+    if (window.matchMedia("(pointer: fine)").matches) {
+      setEnabled(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
 
     const dot = dotRef.current;
     const ring = ringRef.current;
@@ -50,7 +59,9 @@ export default function CustomCursor() {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("pointerover", handlePointerOver);
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <>
