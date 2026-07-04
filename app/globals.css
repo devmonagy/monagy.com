@@ -494,3 +494,80 @@ html.custom-cursor-active * {
     opacity: 0;
   }
 }
+
+/* ==========================================================================
+   APP BACKGROUND — persistent SYS_ENGINE atmosphere (see AppBackground.tsx)
+   ========================================================================== */
+
+/* Vertical digital-rain loop for the background's falling code columns —
+   translateY(-50%) over doubled content is the same seamless-loop trick as
+   the existing horizontal marquees, just running top-to-bottom */
+@keyframes railFall {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* Slow diagnostic light sweep crossing the full viewport top-to-bottom */
+@keyframes scanBeam {
+  from {
+    transform: translateY(-40vh);
+  }
+  to {
+    transform: translateY(140vh);
+  }
+}
+
+/* Horizontal shimmer sweep for the mobile/tablet ambient accent line —
+   translateX(-50%) over doubled background-size content, same seamless-loop
+   trick as railFall/the marquees, just for screens with no side gutter to
+   run the full margin-column treatment in */
+@keyframes shimmerX {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Film-grain flicker — jitters a turbulence texture's own position every
+   step so it reads as restless grain instead of a static noise image */
+@keyframes grainFlicker {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  10% {
+    transform: translate(-2%, -4%);
+  }
+  20% {
+    transform: translate(3%, 2%);
+  }
+  30% {
+    transform: translate(-4%, 3%);
+  }
+  40% {
+    transform: translate(2%, -3%);
+  }
+  50% {
+    transform: translate(-3%, -2%);
+  }
+  60% {
+    transform: translate(4%, 4%);
+  }
+  70% {
+    transform: translate(-2%, 3%);
+  }
+  80% {
+    transform: translate(3%, -4%);
+  }
+  90% {
+    transform: translate(-4%, -2%);
+  }
+  100% {
+    transform: translate(0%, 0%);
+  }
+}

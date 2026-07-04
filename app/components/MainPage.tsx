@@ -11,6 +11,7 @@ import EvolveTerminal from "./EvolveTerminal";
 import FooterSection from "./FooterSection";
 import Preloader from "./Preloader";
 import CustomCursor from "./CustomCursor";
+import AppBackground from "./AppBackground";
 
 export default function MainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -154,7 +155,8 @@ export default function MainPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300 relative">
+    <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300 relative isolate">
+      <AppBackground />
       <CustomCursor />
 
       {/* CINEMATIC FULL SCREEN LOADING ENGINE PLATFORM */}
