@@ -54,6 +54,26 @@ export default function MainPage() {
     localStorage.setItem("theme", theme);
   }, [theme]);
 
+  // Swap the browser tab favicon to match the active theme, live, with no
+  // page refresh. Mutating the existing <link>'s href isn't reliable across
+  // browsers (Safari in particular can ignore it) — removing it and adding a
+  // fresh <link> element forces every browser to pick up the change.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const href = `${theme === "light" ? "/icon-light" : "/icon"}?v=${Date.now()}`;
+
+    document
+      .querySelectorAll<HTMLLinkElement>("link[rel='icon']")
+      .forEach((link) => link.remove());
+
+    const iconLink = document.createElement("link");
+    iconLink.rel = "icon";
+    iconLink.type = "image/png";
+    iconLink.href = href;
+    document.head.appendChild(iconLink);
+  }, [theme]);
+
   // Navbar link smoothing & mobile touch interactions
   useEffect(() => {
     if (typeof window === "undefined") return;
