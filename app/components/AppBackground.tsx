@@ -13,6 +13,9 @@ import { useGSAP } from "@gsap/react";
 // opacity — guaranteeing it can never bleed across the body copy. Column
 // width scales with the actual available gutter via calc(), so it fills
 // more of the space on ultra-wide monitors instead of a fixed thin strip.
+// Desktop-only by design (`hidden xl:block` on the outer wrapper) — there's
+// no side gutter on mobile/tablet to run this in, so it renders nothing
+// there at all rather than a scaled-down version.
 // See [[feedback_stacking_context_bg]]: -z-10 here only paints correctly
 // because MainPage.tsx's root wrapper has `isolate`.
 //
@@ -92,13 +95,13 @@ export default function AppBackground() {
   const rainRight = [buildRainColumn(3), buildRainColumn(4), buildRainColumn(6)];
 
   return (
-    <div ref={scopeRef} aria-hidden="true">
+    <div ref={scopeRef} aria-hidden="true" className="hidden xl:block">
       <div className="fixed inset-0 -z-10 pointer-events-none select-none">
         {/* LEFT MARGIN COLUMN — width scales with the real gutter via
             calc(), overflow-hidden physically clips everything at that
             boundary so it can never reach the centered content column */}
         <div
-          className="hidden xl:block absolute left-0 top-0 bottom-0 overflow-hidden"
+          className="absolute left-0 top-0 bottom-0 overflow-hidden"
           style={{ width: MARGIN_COLUMN_WIDTH }}
         >
           {/* Smooth gradient wash — no blurred circles, just a soft fade off
@@ -175,7 +178,7 @@ export default function AppBackground() {
 
         {/* RIGHT MARGIN COLUMN — mirrored */}
         <div
-          className="hidden xl:block absolute right-0 top-0 bottom-0 overflow-hidden"
+          className="absolute right-0 top-0 bottom-0 overflow-hidden"
           style={{ width: MARGIN_COLUMN_WIDTH }}
         >
           <div className="margin-wash absolute inset-0 opacity-[0.22] bg-gradient-to-l from-[var(--highlight)] via-[var(--highlight)]/30 to-transparent" />
@@ -242,29 +245,14 @@ export default function AppBackground() {
           </div>
         </div>
 
-        {/* MOBILE / TABLET AMBIENT ACCENT — below xl (1280px) there's no real
-            side gutter left for the margin-column treatment at all, so this
-            gives phones and tablets their own lightweight "something is
-            alive" touch instead of nothing: a thin shimmering line above the
-            floating mobile nav dock (which sits at bottom-6), cheap enough
-            (one small transform-only loop) to run happily on any device. */}
-        <div className="xl:hidden absolute bottom-2 left-6 right-6 h-px overflow-hidden rounded-full opacity-40">
-          <div
-            className="w-[200%] h-full motion-reduce:animate-none animate-[shimmerX_5s_linear_infinite]"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(90deg, transparent 0%, transparent 8%, var(--highlight) 12%, transparent 16%, transparent 50%)",
-            }}
-          />
-        </div>
-
         {/* PERSISTENT CHASSIS CORNER BRACKETS — same bracket language as the
-            preloader/kinetic card, faintly framing the live viewport at all
-            times, all breakpoints — cheap and never touches content */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 w-5 h-5 sm:w-6 sm:h-6 border-t-2 border-l-2 border-[var(--highlight)] opacity-30" />
-        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 w-5 h-5 sm:w-6 sm:h-6 border-t-2 border-r-2 border-[var(--highlight)] opacity-30" />
-        <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 w-5 h-5 sm:w-6 sm:h-6 border-b-2 border-l-2 border-[var(--highlight)] opacity-30" />
-        <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 w-5 h-5 sm:w-6 sm:h-6 border-b-2 border-r-2 border-[var(--highlight)] opacity-30" />
+            preloader/kinetic card. Desktop-only along with the rest of this
+            component (see the `hidden xl:block` on the outer wrapper above),
+            so mobile/tablet get none of this background treatment at all. */}
+        <div className="absolute top-6 left-6 w-6 h-6 border-t-2 border-l-2 border-[var(--highlight)] opacity-30" />
+        <div className="absolute top-6 right-6 w-6 h-6 border-t-2 border-r-2 border-[var(--highlight)] opacity-30" />
+        <div className="absolute bottom-6 left-6 w-6 h-6 border-b-2 border-l-2 border-[var(--highlight)] opacity-30" />
+        <div className="absolute bottom-6 right-6 w-6 h-6 border-b-2 border-r-2 border-[var(--highlight)] opacity-30" />
       </div>
 
       {/* FILM GRAIN — a top-level overlay (not tucked behind content, see

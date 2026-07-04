@@ -521,19 +521,6 @@ html.custom-cursor-active * {
   }
 }
 
-/* Horizontal shimmer sweep for the mobile/tablet ambient accent line —
-   translateX(-50%) over doubled background-size content, same seamless-loop
-   trick as railFall/the marquees, just for screens with no side gutter to
-   run the full margin-column treatment in */
-@keyframes shimmerX {
-  from {
-    transform: translateX(0%);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
 /* Film-grain flicker — jitters a turbulence texture's own position every
    step so it reads as restless grain instead of a static noise image */
 @keyframes grainFlicker {
