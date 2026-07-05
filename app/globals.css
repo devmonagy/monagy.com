@@ -498,8 +498,11 @@ html.custom-cursor-active * {
 }
 
 .cursor-ring-active {
-  width: 3.5rem !important;
-  height: 3.5rem !important;
+  /* --cursor-scale is set inline by CustomCursor.tsx (1920px-canvas lock) —
+     without it, this hover-enlarged state would snap to a fixed, unscaled
+     size the moment you hover a link/button, undoing the lock. */
+  width: calc(3.5rem * var(--cursor-scale, 1)) !important;
+  height: calc(3.5rem * var(--cursor-scale, 1)) !important;
   background: var(--radial-glow);
 }
 

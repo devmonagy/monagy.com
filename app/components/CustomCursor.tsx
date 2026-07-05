@@ -4,14 +4,28 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
+import { useDesktopScale } from "../lib/desktopScale";
 
 const INTERACTIVE_SELECTOR =
   "a, button, [role='button'], input, textarea, select";
+
+// 1920px-canvas-locked base sizes (unscaled), matching the old fixed
+// Tailwind values (w-1.5/h-1.5 dot, w-9/h-9 ring, w-1.5/h-1.5 tick marks) —
+// multiplied by useDesktopScale() below so the cursor's real screen size
+// stays visually constant across browser zoom instead of shrinking/growing
+// with it, same as everything else DesktopCanvas locks. useDesktopScale()
+// already resolves to 1 outside desktop range, so this is a no-op on
+// mobile/tablet.
+const BASE_DOT_SIZE = 6;
+const BASE_RING_SIZE = 36;
+const BASE_TICK_LENGTH = 6;
+const BASE_TICK_THICKNESS = 1;
 
 export default function CustomCursor() {
   const [enabled, setEnabled] = useState(false);
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const scale = useDesktopScale();
 
   // Custom cursors are a mouse-only concept — touch devices have no
   // persistent pointer. Gating the render itself (not just the positioning
@@ -72,21 +86,48 @@ export default function CustomCursor() {
   // isolated root — no matter how high — can ever paint above it. Portaling
   // here too puts the cursor in that same outer tier, with a z-index high
   // enough to stay above everything else that also lives there.
+  const tickLength = BASE_TICK_LENGTH * scale;
+  const tickThickness = BASE_TICK_THICKNESS * scale;
+  const tickOffset = -tickLength;
+
   return createPortal(
     <>
       <div
         ref={dotRef}
-        className="cursor-dot fixed top-0 left-0 z-[100000] pointer-events-none w-1.5 h-1.5 rounded-full bg-[var(--highlight)]"
+        className="cursor-dot fixed top-0 left-0 z-[100000] pointer-events-none rounded-full bg-[var(--highlight)]"
+        style={{ width: BASE_DOT_SIZE * scale, height: BASE_DOT_SIZE * scale }}
       />
       <div
         ref={ringRef}
-        className="cursor-ring fixed top-0 left-0 z-[99999] pointer-events-none w-9 h-9 rounded-full border border-[var(--highlight)] transition-[width,height,background-color] duration-300"
+        className="cursor-ring fixed top-0 left-0 z-[99999] pointer-events-none rounded-full border border-[var(--highlight)] transition-[width,height,background-color] duration-300"
+        style={
+          {
+            width: BASE_RING_SIZE * scale,
+            height: BASE_RING_SIZE * scale,
+            // Read by .cursor-ring-active in globals.css, so the hover-enlarged
+            // state (a fixed 3.5rem there) scales the same way instead of
+            // snapping to an unscaled size the moment you hover a link/button.
+            "--cursor-scale": scale,
+          } as React.CSSProperties
+        }
       >
         {/* HUD reticle tick marks */}
-        <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-px h-1.5 bg-[var(--highlight)]" />
-        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-px h-1.5 bg-[var(--highlight)]" />
-        <span className="absolute -left-1.5 top-1/2 -translate-y-1/2 h-px w-1.5 bg-[var(--highlight)]" />
-        <span className="absolute -right-1.5 top-1/2 -translate-y-1/2 h-px w-1.5 bg-[var(--highlight)]" />
+        <span
+          className="absolute left-1/2 -translate-x-1/2 bg-[var(--highlight)]"
+          style={{ top: tickOffset, width: tickThickness, height: tickLength }}
+        />
+        <span
+          className="absolute left-1/2 -translate-x-1/2 bg-[var(--highlight)]"
+          style={{ bottom: tickOffset, width: tickThickness, height: tickLength }}
+        />
+        <span
+          className="absolute top-1/2 -translate-y-1/2 bg-[var(--highlight)]"
+          style={{ left: tickOffset, height: tickThickness, width: tickLength }}
+        />
+        <span
+          className="absolute top-1/2 -translate-y-1/2 bg-[var(--highlight)]"
+          style={{ right: tickOffset, height: tickThickness, width: tickLength }}
+        />
       </div>
     </>,
     document.body,

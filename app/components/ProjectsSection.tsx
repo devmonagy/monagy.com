@@ -312,7 +312,7 @@ export default function ProjectsSection() {
                   href={project.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="project-mask block w-full h-full relative cursor-pointer group/img-link after:content-[''] after:absolute after:inset-0 after:bg-black/10 dark:after:bg-zinc-950/40 after:mix-blend-multiply after:transition-colors after:duration-300 hover:after:bg-transparent"
+                  className="project-mask block w-full h-full relative cursor-pointer group/img-link"
                 >
                   {project.status && (
                     <div className="absolute top-4 left-4 z-30 bg-[var(--highlight)] text-[var(--bg)] text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded shadow-md">
@@ -322,8 +322,57 @@ export default function ProjectsSection() {
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="project-parallax-img w-full h-full object-cover object-center scale-110 opacity-70 dark:opacity-60 group-hover/img-link:opacity-100 group-hover/img-link:scale-115 transition-all duration-700 ease-out grayscale group-hover:grayscale-0"
+                    className="project-parallax-img w-full h-full object-cover object-center scale-110 grayscale-[70%] opacity-90 group-hover/img-link:grayscale-0 group-hover/img-link:opacity-100 group-hover/img-link:scale-115 transition-all duration-700 ease-out"
                   />
+
+                  {/* SYS-styled duotone tech tint, replacing the old flat
+                      black/zinc scrim (the "too dark for light mode"
+                      complaint — it read as literal mud rather than a
+                      design choice there). mix-blend-color pulls the
+                      hue+saturation from this highlight-colored layer onto
+                      the grayscale image below while keeping the image's
+                      OWN luminance/contrast — a real duotone, not a dark
+                      filter — so it's automatically teal in dark mode and
+                      blue in light mode via --highlight, no per-theme
+                      overrides needed. Fades out on hover to reveal the
+                      real screenshot at full clarity. */}
+                  <div className="absolute inset-0 pointer-events-none bg-[var(--highlight)] opacity-[0.28] mix-blend-color transition-opacity duration-500 group-hover/img-link:opacity-0" />
+                  <div className="absolute inset-0 pointer-events-none bg-[var(--bg)] opacity-[0.18] mix-blend-multiply transition-opacity duration-500 group-hover/img-link:opacity-0" />
+
+                  {/* CRT-style scanline texture — same "system console"
+                      language as the background grid on AboutSection's
+                      kinetic card */}
+                  <div
+                    className="absolute inset-0 pointer-events-none opacity-[0.12] mix-blend-overlay transition-opacity duration-500 group-hover/img-link:opacity-0"
+                    style={{
+                      backgroundImage:
+                        "repeating-linear-gradient(0deg, var(--highlight) 0px, var(--highlight) 1px, transparent 1px, transparent 4px)",
+                    }}
+                  />
+
+                  {/* Ambient scan-line sweep — reuses the exact keyframe from
+                      AboutSection's kinetic card so both "screens" on the
+                      page read as the same system, always-on for a
+                      alive/scanning feel regardless of hover state */}
+                  <div
+                    className="absolute left-0 w-full h-20 pointer-events-none opacity-[0.1] animate-[scanSweep_6s_linear_infinite]"
+                    style={{
+                      background:
+                        "linear-gradient(to bottom, transparent, var(--highlight), transparent)",
+                    }}
+                  />
+
+                  {/* HUD corner brackets + live tag — reveal on hover,
+                      framing the panel as an "activated" system readout
+                      rather than just lifting a filter */}
+                  <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-[var(--highlight)] opacity-0 group-hover/img-link:opacity-80 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-[var(--highlight)] opacity-0 group-hover/img-link:opacity-80 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-[var(--highlight)] opacity-0 group-hover/img-link:opacity-80 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-[var(--highlight)] opacity-0 group-hover/img-link:opacity-80 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute bottom-6 right-6 flex items-center gap-1.5 font-mono text-[9px] tracking-widest uppercase text-[var(--highlight)] opacity-0 group-hover/img-link:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <span className="w-1 h-1 rounded-full bg-[var(--highlight)] animate-[ping_1.2s_infinite]" />
+                    LIVE_FEED
+                  </div>
                 </a>
               </div>
 
