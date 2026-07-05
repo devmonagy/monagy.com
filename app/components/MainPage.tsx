@@ -159,7 +159,7 @@ export default function MainPage() {
     <button
       id="scrollToTop"
       onClick={handleScrollTopClick}
-      className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer shadow-lg hover:border-[var(--highlight)]/50 transition-all duration-300 shrink-0 pointer-events-auto"
+      className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer shadow-lg hover:border-[var(--highlight)] hover:shadow-[0_0_20px_var(--hover-glow)] transition-all duration-300 shrink-0 pointer-events-auto"
       aria-label="Scroll to top of container"
     >
       <svg

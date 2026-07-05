@@ -323,6 +323,26 @@ h1 {
   }
 }
 
+/* Light-theme-only treatment for the radar rings around the About section's
+   M_N centerpiece. Dark mode (set inline via Tailwind in AboutSection.tsx,
+   using --highlight blue/cyan) stays completely untouched — in light mode
+   these switch to a dark greyish tone off --text instead, which reads
+   better here than the blue accent color did. */
+body.light .about-ring {
+  border-color: color-mix(in srgb, var(--text) 55%, transparent);
+}
+
+/* Light mode only: the 4 crosshair tick marks read as clutter against the
+   brighter ring here (they were fine in dark mode, which stays untouched)
+   — hidden rather than just dimmed, to match dark mode's plain ring look. */
+body.light .about-ring-tick {
+  display: none;
+}
+
+body.light .about-ring-dashed {
+  border-color: color-mix(in srgb, var(--text) 50%, transparent);
+}
+
 h1 span {
   color: var(--highlight);
   text-shadow: 0 0 40px rgba(0, 255, 204, 0.15);
