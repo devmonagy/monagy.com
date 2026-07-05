@@ -307,18 +307,24 @@ export default function AboutSection() {
               the grid column into the column gap next to it (empty space,
               comfortably wider than the ~7% this needs) instead of being
               cropped or wrapping the layout into a scrollbar. */}
-          {/* Explicit text-[var(--text-contrast)] on these two spans, even
-              though the parent h1 already sets it: a global `h1 span {
-              color: var(--highlight) }` rule (originally written for when
-              the subtitle below was the ONLY span inside this h1) would
-              otherwise repaint them teal now that they're spans here too,
-              for the unrelated reveal-line masking split. */}
+          {/* Explicit text-[var(--text-contrast)] + [text-shadow:none] on
+              these two spans, even though the parent h1 already sets the
+              color: a global `h1 span { color: var(--highlight); text-shadow:
+              0 0 40px rgba(0,255,204,0.15) }` rule (originally written for
+              when the subtitle below was the ONLY span inside this h1)
+              otherwise repaints them teal AND glows them now that they're
+              spans here too, for the unrelated reveal-line masking split.
+              The glow is the more visible bug: its wrapper needs
+              overflow-hidden for the reveal-mask effect, which was
+              chopping that soft, wide-spreading shadow off hard at the box
+              edge instead of letting it fade out naturally — reading as a
+              flat rectangular highlight behind the text rather than a glow. */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-normal text-[var(--text-contrast)] leading-[1.05] transition-colors duration-300">
             <span className="overflow-hidden block w-max">
-              <span className="reveal-line block text-[var(--text-contrast)]">Mohamed</span>
+              <span className="reveal-line block text-[var(--text-contrast)] [text-shadow:none]">Mohamed</span>
             </span>
             <span className="overflow-hidden block w-max">
-              <span className="reveal-line block text-[var(--text-contrast)]">Nagy.</span>
+              <span className="reveal-line block text-[var(--text-contrast)] [text-shadow:none]">Nagy.</span>
             </span>
           </h1>
           <div className="overflow-hidden mb-6 sm:mb-8">
