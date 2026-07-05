@@ -255,6 +255,10 @@ export default function ProjectsSection() {
     { scope: containerRef },
   );
 
+  // Exempt from DesktopCanvas's scale correction on purpose: this only feeds
+  // a --mouse-x/--mouse-y CSS custom property (consumed by a radial-gradient
+  // background), which is already correct in real/post-transform pixels —
+  // no GSAP transform reads these deltas, so there's nothing to re-multiply.
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();

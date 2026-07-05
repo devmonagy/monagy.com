@@ -5,6 +5,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { getDesktopScale } from "../lib/desktopScale";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -56,9 +57,16 @@ export default function ContactSection() {
 
     const dx = e.clientX - rect.left - rect.width / 2;
     const dy = e.clientY - rect.top - rect.height / 2;
+
+    // rect/dx/dy are real, post-transform screen pixels. Feeding them
+    // straight into this element's own x/y would get re-multiplied by
+    // DesktopCanvas's ancestor scale on paint, doubling the drift — dividing
+    // by the current scale first cancels that out (see AboutSection.tsx's
+    // handleMouseMove for the same fix on the kinetic card tilt).
+    const scale = getDesktopScale();
     gsap.to(el, {
-      x: dx * 0.15,
-      y: dy * 0.3,
+      x: (dx / scale) * 0.15,
+      y: (dy / scale) * 0.3,
       duration: 0.4,
       ease: "power2.out",
     });

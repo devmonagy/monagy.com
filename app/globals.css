@@ -286,6 +286,43 @@ h1 {
   line-height: 0.95;
 }
 
+/* The 7vw above reacts to the TRUE browser viewport — vw units can't be
+   fooled by an ancestor's fixed width or transform (see DesktopCanvas.tsx).
+   Above the desktop breakpoint, DesktopCanvas already scales the whole
+   canvas uniformly, so this needs to stop scaling a second time on its own:
+   pin it to the clamp's own ceiling (already what renders at >=1257px real
+   width today, so this doesn't change the 1920px look) rather than letting
+   it keep shrinking fluidly between 1024-1257px real width underneath the
+   ancestor scale. Mobile/tablet below the breakpoint keep the fluid clamp
+   untouched.
+   !important is deliberate: h1 elements also carry Tailwind size classes
+   (e.g. AboutSection's `text-4xl sm:text-5xl md:text-6xl`) which otherwise
+   win this specific override — measured directly, not assumed. */
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 5.5rem !important;
+  }
+}
+
+/* Same class of bug as the h1 override above, different property: #about
+   uses Tailwind's `min-h-[90vh]`, and `vh` reacts to the TRUE browser
+   viewport height, which DesktopCanvas's width-only scaling can't fake.
+   Zooming out grows the real viewport height (more CSS px fit in the same
+   physical screen), inflating 90vh past the section's actual content
+   height — and since the section is `flex flex-col justify-center`, that
+   surplus shows up as equal empty gaps above and below the content instead
+   of a taller section. Zooming in shrinks 90vh below the content's natural
+   height instead, so the constraint goes inert and it looks fine — which is
+   why this only ever showed up on zoom-out. Pinning to a fixed px height
+   (90% of the 1920x1080 reference canvas) makes it zoom-invariant like the
+   rest of the locked canvas. Mobile/tablet below the breakpoint keep the
+   real `min-h-[90vh]` untouched. */
+@media (min-width: 1024px) {
+  #about {
+    min-height: 972px;
+  }
+}
+
 h1 span {
   color: var(--highlight);
   text-shadow: 0 0 40px rgba(0, 255, 204, 0.15);
@@ -393,6 +430,22 @@ body:not(.light) .tile:hover {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Opacity-only entrance variant — for wrappers around `position: sticky` or
+   `fixed` elements (Navbar's header). Even a `translateY(0)` end state
+   still leaves a live (non-`none`) transform in place forever under
+   `forwards`, and any transform on an ANCESTOR breaks sticky/fixed
+   descendants (they fall back to behaving like `position: relative` and
+   scroll away with the page). This keeps the same fade beat with zero
+   transform involved. */
+@keyframes fadeInOpacityOnly {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 

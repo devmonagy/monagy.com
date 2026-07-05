@@ -12,6 +12,7 @@ import FooterSection from "./FooterSection";
 import Preloader from "./Preloader";
 import CustomCursor from "./CustomCursor";
 import AppBackground from "./AppBackground";
+import DesktopCanvas from "./DesktopCanvas";
 
 export default function MainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -154,64 +155,92 @@ export default function MainPage() {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
+  const scrollTopButton = (
+    <button
+      id="scrollToTop"
+      onClick={handleScrollTopClick}
+      className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer shadow-lg hover:border-[var(--highlight)]/50 transition-all duration-300 shrink-0 pointer-events-auto"
+      aria-label="Scroll to top of container"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="w-4 h-4 text-[var(--text-contrast)]"
+      >
+        <polyline points="18 15 12 9 6 15" />
+      </svg>
+    </button>
+  );
+
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--text)] transition-colors duration-300 relative isolate">
-      <AppBackground />
       <CustomCursor />
+      <AppBackground />
 
       {/* CINEMATIC FULL SCREEN LOADING ENGINE PLATFORM */}
       {!isLoaded && <Preloader onComplete={() => setIsLoaded(true)} />}
 
-      {/* CORE WEB APPLICATION CONTAINER CORE REVEAL */}
+      {/*
+        Navbar, CustomCursor, Preloader, and AppBackground stay outside
+        DesktopCanvas on purpose — all use `position: fixed` (Navbar
+        included, see Navbar.tsx for why it moved off `sticky`) and need to
+        stay glued to the real viewport as you scroll, but a transformed
+        ancestor (DesktopCanvas's scale wrapper) becomes the containing
+        block for `fixed` descendants (a well-documented casualty of nesting
+        inside any transformed ancestor — confirmed by testing, not just a
+        paper risk). Since the ancestor is a normal (non-fixed) block sized
+        to the full scrollable page, anything fixed inside it scrolls away
+        with the page instead of staying pinned to the screen — exactly
+        backwards for a persistent nav bar or an "always visible"
+        background. Keeping them outside preserves their original, working
+        behavior; they just don't participate in the 1920px-canvas scaling
+        (a video-game-HUD-style tradeoff: viewport chrome stays a consistent
+        size regardless of the locked design's zoom level, only the actual
+        scrollable content scales).
+
+        The scroll-to-top button is the opposite case on purpose: it's
+        rendered INSIDE <main> below, as a normal in-flow element pinned to
+        the bottom of the whole page rather than the viewport — it should
+        only ever be seen once you've actually scrolled to the end of the
+        app, not float alongside you the whole way down. Being inside <main>
+        also means it rides the same 1920px-canvas scaling as everything
+        else there, which is what keeps its right edge lined up with the
+        header's theme toggle above.
+      */}
       {isLoaded && (
-        <div className="opacity-0 animate-[fadeInContent_1s_cubic-bezier(0.25,1,0.5,1)_forwards]">
+        <div className="opacity-0 animate-[fadeInOpacityOnly_1s_cubic-bezier(0.25,1,0.5,1)_forwards]">
           {/* REFACTORED HIGH-FIDELITY NAVBAR HEADER */}
           <Navbar theme={theme} toggleTheme={toggleTheme} />
-
-          {/* CORE ALIGNED TRACKING CONTAINER CONTEXT */}
-          <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-16">
-            <AboutSection />
-            <ExperienceSection />
-            <ProjectsSection />
-            <ContactSection />
-            <div className="pt-8 sm:pt-16 md:pt-24 flex justify-center w-full">
-              <EvolveTerminal />
-            </div>
-            <FooterSection />
-          </main>
-
-          {/*
-            FIXED SCROLL-TO-TOP LAYOUT ANCHOR CONTAINER
-            Locks the position matching the maximum container width layout boundary of your navbar items exactly.
-            On mobile only, bottom-24 lifts it clear above the floating nav
-            dock (which sits at bottom-6) instead of sitting behind it; md+
-            reverts to bottom-6 since the dock doesn't exist there.
-          */}
-          <div className="fixed bottom-24 md:bottom-6 inset-x-0 pointer-events-none z-[10000]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 flex justify-end">
-              <button
-                id="scrollToTop"
-                onClick={handleScrollTopClick}
-                className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer shadow-lg hover:border-[var(--highlight)]/50 transition-all duration-300 shrink-0 pointer-events-auto"
-                aria-label="Scroll to top of container"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="w-4 h-4 text-[var(--text-contrast)]"
-                >
-                  <polyline points="18 15 12 9 6 15" />
-                </svg>
-              </button>
-            </div>
-          </div>
         </div>
       )}
+
+      <DesktopCanvas>
+        {/* CORE WEB APPLICATION CONTAINER CORE REVEAL */}
+        {isLoaded && (
+          <div className="opacity-0 animate-[fadeInContent_1s_cubic-bezier(0.25,1,0.5,1)_forwards]">
+            {/* CORE ALIGNED TRACKING CONTAINER CONTEXT */}
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-16">
+              <AboutSection />
+              <ExperienceSection />
+              <ProjectsSection />
+              <ContactSection />
+              <div className="pt-8 sm:pt-16 md:pt-24 flex justify-center w-full">
+                <EvolveTerminal />
+              </div>
+              <FooterSection />
+              {/* In normal document flow (not fixed) so it stays put at the
+                  bottom of the page instead of floating alongside the
+                  viewport while scrolling — see the block comment above. */}
+              <div className="pt-8 flex justify-end">{scrollTopButton}</div>
+            </main>
+          </div>
+        )}
+      </DesktopCanvas>
     </div>
   );
 }

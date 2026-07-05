@@ -3,12 +3,11 @@
 @tailwind utilities;
 
 /* =========================================
-  PREMIUM AWARDS-INSPIRED ENGINE THEME 
+  PREMIUM AWWWARDS-INSPIRED ENGINE THEME 
   =========================================
 */
 
-:root,
-html:not(.light) {
+:root {
   /* Cinematic midnight deep background layout */
   --bg: #030303;
   --text: #a1a1aa;
@@ -21,20 +20,29 @@ html:not(.light) {
 
   /* --- STRUCTURE HARMONY ENGINE VARIABLES --- */
   --grid-color: rgba(255, 255, 255, 0.03);
-  --dotted-frame: rgba(255, 255, 255, 0.14);
+  --dotted-frame: rgba(
+    0,
+    255,
+    204,
+    0.3
+  ); /* Uses bright accent color in dark mode */
+  --dotted-frame-opacity: 0.25;
+  --dotted-frame-hover-opacity: 0.75;
   --tile-shadow-base: rgba(0, 0, 0, 0.6);
   --tile-shadow-hover: rgba(0, 0, 0, 0.85);
 
-  /* Luxury Typographic Micro Scales */
-  --font-display: "Syne", "Inter", sans-serif;
+  /* --- PROJECT CARD SPECIFIC SHADOW ENGINE --- */
+  --desc-shadow-base: 0 25px 60px rgba(0, 0, 0, 0.5);
+  --desc-shadow-hover: 0 30px 70px rgba(0, 0, 0, 0.6);
 
-  /* Geometric Canvas Structural Calibrations */
-  --dotted-frame-opacity: 0.6;
-  --dotted-frame-hover-opacity: 1;
+  /* Radial mouse cursor glow configuration override */
+  --radial-glow: rgba(0, 255, 204, 0.12);
+
+  /* Luxury Typographic Micro Scales */
+  --font-display: "Syne", "Space Grotesk", sans-serif;
+  --font-body: "Space Grotesk", sans-serif;
 }
 
-/* Unified root modifier hook matching the application wrapper engine */
-.light,
 html.light,
 body.light {
   /* Gallery Studio Light Palette */
@@ -44,25 +52,27 @@ body.light {
   --card-bg: #ffffff;
   --badge-bg: #f3f4f6;
   --hover-glow: rgba(0, 85, 255, 0.06);
-  --border-color: rgba(0, 0, 0, 0.06);
+  --border-color: rgba(0, 0, 0, 0.08);
   --text-contrast: #111827;
 
-  /* --- IDENTICAL LAYOUT STRUCTURE FOR LIGHT MODE --- */
-  --grid-color: rgba(0, 0, 0, 0.035);
-  --dotted-frame: rgba(0, 85, 255, 0.25); /* Tinted with Studio Blue */
+  /* --- INTENSIFIED STRUCTURE FOR LIGHT MODE PARITY --- */
+  --grid-color: rgba(0, 0, 0, 0.04);
 
-  /* REFACTORED LIGHT DEPTH ENGAGEMENT SHADOWS */
-  --tile-shadow-base: rgba(0, 0, 0, 0.03);
-  --tile-shadow-hover: rgba(
-    0,
-    85,
-    255,
-    0.08
-  ); /* Sophisticated kinetic blue drop glow */
+  /* AGGRESSIVE DARK FRAMING TRACKS */
+  --dotted-frame: #0055ff;
+  --dotted-frame-opacity: 0.55;
+  --dotted-frame-hover-opacity: 1;
 
-  /* Light Canvas Modifiers to ensure optimal visibility balance */
-  --dotted-frame-opacity: 0.5;
-  --dotted-frame-hover-opacity: 0.95;
+  /* DEEP AGGRESSIVE BACKGROUND TILES & VOLUME DROP SHADOWS FOR LIGHT PARITY */
+  --tile-shadow-base: rgba(0, 0, 0, 0.05);
+  --tile-shadow-hover: rgba(0, 0, 0, 0.25);
+
+  /* PARITY RESOLUTION FOR DESCRIPTION CARDS IN LIGHT MODE */
+  --desc-shadow-base: 0 25px 60px rgba(0, 0, 0, 0.15);
+  --desc-shadow-hover: 0 30px 70px rgba(0, 0, 0, 0.18);
+
+  /* Ambient light radial hover gradient profile track (Stronger Blue for light mode visibility) */
+  --radial-glow: rgba(93, 145, 248, 0.14);
 }
 
 * {
@@ -75,10 +85,50 @@ body.light {
 html {
   scroll-behavior: smooth;
   background-color: var(--bg);
+
+  /* Firefox scrollbar theming (Chromium/WebKit uses the ::-webkit-scrollbar
+     rules below instead — Firefox has no pseudo-element support here) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--highlight) var(--bg);
+}
+
+/* ========================================================
+  THEME-AWARE SCROLLBAR — WebKit/Blink (Chrome, Edge, Safari,
+  Opera, Brave, Samsung Internet, and effectively all other
+  Chromium/WebKit engines on desktop and mobile)
+  ======================================================== */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--highlight);
+  background-clip: padding-box;
+  border: 3px solid var(--bg);
+  border-radius: 999px;
+  box-shadow: 0 0 8px var(--highlight);
+  transition:
+    box-shadow 0.3s ease,
+    background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  box-shadow:
+    0 0 16px var(--highlight),
+    0 0 4px var(--highlight);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--bg);
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--text);
   line-height: 1.6;
@@ -96,119 +146,63 @@ body {
   background-position: center top;
 }
 
-/* Fixes the missing animated dotted image frame outline across theme shifts */
-div.project-frame-animate,
-.project-frame-animate {
+/* ========================================================
+  OVERRIDE SELECTORS FOR GLOBAL GEOMETRIC DOTTED FRAMES
+  ======================================================== */
+.project-bg-geo,
+div[class*="project-bg-geo"] {
   border-color: var(--dotted-frame) !important;
-  border-style: dashed !important;
+  opacity: var(--dotted-frame-opacity) !important;
+  transition:
+    opacity 0.4s ease,
+    border-color 0.4s ease !important;
 }
 
-/* ==========================================================================
-   PROJECT SECTION GEOMETRIC ENGINE (OVAL SHAPE ENGINE REFACTOR)
-   ========================================================================== */
-.project-bg-geo {
-  display: none; /* Safely isolated on touch vectors to prevent structural clipping layout issues */
+.group:hover .project-bg-geo,
+*:hover > .project-bg-geo {
+  border-color: var(--highlight) !important;
+  opacity: var(--dotted-frame-hover-opacity) !important;
 }
 
-@media (min-width: 768px) {
-  .project-bg-geo {
-    display: block !important;
-    position: absolute;
-    width: 48%;
-    height: 115%;
-
-    /* Fluid, non-linear architectural oval structure canvas layout wrapper */
-    border-radius: 50% 40% 60% 45% / 40% 60% 40% 60% !important;
-    border: 2px dashed var(--dotted-frame) !important;
-    opacity: var(--dotted-frame-opacity) !important;
-    background-color: transparent !important; /* Wipes clean flat rectangular dark fill artifacts */
-
-    pointer-events: none;
-    z-index: -10;
-    transform-origin: center center;
-    will-change: transform, opacity, border-color;
-    transition:
-      border-color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-      opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1),
-      box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-
-  /* Structural Position Assignments */
-  .geo-layout-left {
-    left: -2.5rem;
-    top: -5%;
-  }
-
-  .geo-layout-right {
-    right: -2.5rem;
-    top: -5%;
-  }
-
-  /* Kinetic Hover Micro-Interaction Bindings */
-  .group:hover .project-bg-geo {
-    border-style: dashed !important;
-    border-color: var(--highlight) !important;
-    opacity: var(--dotted-frame-hover-opacity) !important;
-    box-shadow: 0 0 50px var(--hover-glow);
-  }
-}
-
-/* ==========================================================================
-   AWARDS INTERACTIVE ELEMENT ARCHITECTURE
-   ========================================================================== */
-.a-project-row {
-  isolation: isolate;
-}
-
-.project-desc-box {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.project-mask {
-  will-change: clip-path;
-  transform: translateZ(0);
-}
-
-.project-parallax-img {
-  will-change: transform;
-  transform-gpu: translate3d(0, 0, 0);
+/* ========================================================
+  MOUSE GLOW ENGINE OVERRIDE FIX (Light Mode Visibility)
+  ======================================================== */
+/* Forces the card component background-glow to dynamically accept our CSS theme system tokens */
+div[class*="col-span-12"]::before,
+.tile::before {
+  background: radial-gradient(
+    400px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+    var(--radial-glow),
+    transparent 80%
+  ) !important;
 }
 
 /* =========================================
   HIGH-FIDELITY CODE EMBED DISPLAY SYNTAX
   =========================================
 */
-.light pre code span.keyword,
 body.light pre code span.keyword {
   color: #cf222e;
 }
-.light pre code span.function,
 body.light pre code span.function {
   color: #953800;
 }
-.light pre code span.variable,
 body.light pre code span.variable {
   color: #0550ae;
 }
-.light pre code span.control,
 body.light pre code span.control {
   color: #a011b2;
 }
 
-html:not(.light) pre code span.keyword,
 body:not(.light) pre code span.keyword {
   color: #ff7b72;
 }
-html:not(.light) pre code span.function,
 body:not(.light) pre code span.function {
   color: #d2a8ff;
 }
-html:not(.light) pre code span.variable,
 body:not(.light) pre code span.variable {
   color: #79c0ff;
 }
-html:not(.light) pre code span.control,
 body:not(.light) pre code span.control {
   color: #ff7b72;
 }
@@ -234,7 +228,6 @@ body:not(.light) pre code span.control {
   border-bottom: 1px solid var(--border-color);
 }
 
-.light .navbar-wrapper.scrolled,
 body.light .navbar-wrapper.scrolled {
   background-color: rgba(249, 249, 251, 0.8);
 }
@@ -298,7 +291,7 @@ h1 span {
   text-shadow: 0 0 40px rgba(0, 255, 204, 0.15);
 }
 
-/* Interactive Grid Canvas Card */
+/* Interactive Grid Canvas Card Components */
 .tile {
   background: var(--card-bg);
   padding: 2.5rem;
@@ -306,7 +299,7 @@ h1 span {
   border: 1px solid var(--border-color);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 8px 32px var(--tile-shadow-base);
+  box-shadow: 0 8px 32px var(--tile-shadow-base); /* FIXED EXPLICIT TYPO SPACE HERE */
   transition:
     border-color 0.4s ease,
     box-shadow 0.4s ease,
@@ -314,7 +307,15 @@ h1 span {
     transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Harmonized Hover engine across both states */
+/* Keep standard mouse layout matching config styles */
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .tile:hover {
   transform: translateY(-4px) scale(1.005);
   box-shadow:
@@ -322,12 +323,10 @@ h1 span {
     0 0 40px var(--hover-glow);
 }
 
-.light .tile:hover,
 body.light .tile:hover {
   border-color: var(--highlight);
 }
 
-html:not(.light) .tile:hover,
 body:not(.light) .tile:hover {
   border-color: rgba(0, 255, 204, 0.3);
 }
@@ -382,5 +381,180 @@ body:not(.light) .tile:hover {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Core reveal animation matrix configuration */
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ambient conic-glow ring rotation for the navbar's M_N logo mark —
+   transform-only, runs on the compositor for the life of the page */
+@keyframes rotateGlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Holographic border sweep for the About section's kinetic identity card —
+   background-position only (no layout/paint cost), the card's own distinct
+   signature so it no longer shares the navbar logo's rotating ring */
+@keyframes holoSweep {
+  from {
+    background-position:
+      0 0,
+      0% 0%;
+  }
+  to {
+    background-position:
+      0 0,
+      100% 100%;
+  }
+}
+
+/* HUD scan-line sweep for the kinetic identity card — transform-only,
+   always-on so touch devices without hover still get ambient motion */
+@keyframes scanSweep {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(500%);
+  }
+}
+
+/* ==========================================================================
+   CUSTOM SYSTEM CURSOR — replaces the native pointer with a themed reticle.
+   Only ever activated on devices with a real mouse (see CustomCursor.tsx's
+   pointer:fine check), so touch devices keep their native behavior untouched.
+   ========================================================================== */
+html.custom-cursor-active,
+html.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.cursor-ring-active {
+  width: 3.5rem !important;
+  height: 3.5rem !important;
+  background: var(--radial-glow);
+}
+
+.cursor-dot-active {
+  opacity: 0;
+}
+
+/* ==========================================================================
+   EVOLVE TERMINAL — line-number gutter via CSS counters, so each number is
+   generated inside its own line box and can never drift out of alignment
+   with a manually-matched separate gutter column.
+   ========================================================================== */
+.terminal-code-lines {
+  counter-reset: line;
+}
+
+.terminal-code-line {
+  counter-increment: line;
+  position: relative;
+  padding-left: 2.25rem;
+}
+
+.terminal-code-line::before {
+  content: counter(line);
+  position: absolute;
+  left: 0;
+  width: 1.75rem;
+  text-align: right;
+  color: var(--text);
+  opacity: 0.3;
+  user-select: none;
+}
+
+.terminal-cursor {
+  animation: terminalBlink 1s step-end infinite;
+}
+
+@keyframes terminalBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   APP BACKGROUND — persistent SYS_ENGINE atmosphere (see AppBackground.tsx)
+   ========================================================================== */
+
+/* Vertical digital-rain loop for the background's falling code columns —
+   translateY(-50%) over doubled content is the same seamless-loop trick as
+   the existing horizontal marquees, just running top-to-bottom */
+@keyframes railFall {
+  from {
+    transform: translateY(0%);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/* Slow diagnostic light sweep crossing the full viewport top-to-bottom */
+@keyframes scanBeam {
+  from {
+    transform: translateY(-40vh);
+  }
+  to {
+    transform: translateY(140vh);
+  }
+}
+
+/* Film-grain flicker — jitters a turbulence texture's own position every
+   step so it reads as restless grain instead of a static noise image */
+@keyframes grainFlicker {
+  0% {
+    transform: translate(0%, 0%);
+  }
+  10% {
+    transform: translate(-2%, -4%);
+  }
+  20% {
+    transform: translate(3%, 2%);
+  }
+  30% {
+    transform: translate(-4%, 3%);
+  }
+  40% {
+    transform: translate(2%, -3%);
+  }
+  50% {
+    transform: translate(-3%, -2%);
+  }
+  60% {
+    transform: translate(4%, 4%);
+  }
+  70% {
+    transform: translate(-2%, 3%);
+  }
+  80% {
+    transform: translate(3%, -4%);
+  }
+  90% {
+    transform: translate(-4%, -2%);
+  }
+  100% {
+    transform: translate(0%, 0%);
   }
 }

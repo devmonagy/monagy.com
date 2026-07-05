@@ -6,6 +6,11 @@ import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+  DESKTOP_CANVAS_WIDTH,
+  useDesktopScale,
+  useIsDesktopRange,
+} from "../lib/desktopScale";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -16,9 +21,18 @@ interface NavbarProps {
   toggleTheme: () => void;
 }
 
+// Unscaled (1920px-canvas) header height on desktop — matches the inner
+// content's own `md:h-24` (96px; `md` is always active once isDesktopRange
+// is true, since DESKTOP_BREAKPOINT sits above Tailwind's `md`). Kept as a
+// sibling constant rather than measured, since the header's height never
+// varies with content on desktop.
+const NAVBAR_DESKTOP_HEIGHT = 96;
+
 export default function Navbar({ theme, toggleTheme }: NavbarProps) {
   const mobileDockRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
+  const isDesktopRange = useIsDesktopRange();
+  const scale = useDesktopScale();
 
   // Ensure portal target exists on client mount
   useEffect(() => {
@@ -92,13 +106,16 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Render the core desktop layout structure inline
-  const mainNavbarContent = (
-    <header
-      id="navbarWrapper"
-      className="sticky top-0 z-50 w-full transition-all duration-500 backdrop-blur-md bg-[var(--bg)]/60 border-b border-[var(--border-color)]/60"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-16 md:h-24 flex items-center justify-between relative">
+  // The actual nav content, factored out so it can render either unwrapped
+  // (mobile/tablet, untouched) or inside the 1920px-canvas scale layer below
+  // (desktop) without keeping two copies in sync. The glass treatment
+  // (backdrop-blur/bg/border) lives here rather than on the full-width
+  // `<header>` on purpose — it's scoped to the same max-w-7xl column as the
+  // rest of the page's content, so the margins either side stay clear and
+  // AppBackground's matrix rain reads through unobstructed instead of
+  // getting blurred/tinted across the entire viewport width.
+  const navInner = (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 h-16 md:h-24 flex items-center justify-between relative backdrop-blur-md bg-[var(--bg)]/60 border-b border-[var(--border-color)]/60">
         {/* LEFT LOGO SYSTEM — same M_N brand mark as the favicon/social image
             system, so the identity is consistent everywhere it appears */}
         <button
@@ -237,7 +254,76 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           </button>
         </div>
       </div>
+  );
+
+  // `position: fixed` instead of `sticky` — sticky kept silently reverting
+  // to scrolling away with the page even with every known transformed
+  // ancestor removed, which pointed at some other sticky-specific edge case
+  // rather than a clean containing-block bug. `fixed` sidesteps that whole
+  // class of quirk (no flow-position "activation" logic to get wrong) and
+  // is the same positioning already proven reliable elsewhere in this exact
+  // tree (AppBackground, CustomCursor, the scroll-to-top button). Since
+  // `fixed` takes the header out of flow, navbarSpacer below reserves the
+  // same height it used to occupy so content doesn't jump underneath it.
+  //
+  // On desktop, the header's own real height locks to the 1920px canvas
+  // (inline `height` below) while navInner renders at the canvas's native
+  // 1920px width and gets transform-scaled to fit — the same technique
+  // DesktopCanvas uses for <main>, just applied to a `position: fixed`
+  // element instead of a normal in-flow one. That's safe here for the same
+  // reason it was safe under `sticky`: only an ANCESTOR's transform breaks
+  // fixed/sticky positioning, never a descendant's. Below the breakpoint
+  // navInner renders unwrapped/unscaled, same as always.
+  const headerElement = (
+    <header
+      id="navbarWrapper"
+      className="fixed top-0 left-0 z-[1000] w-full transition-all duration-500"
+      style={isDesktopRange ? { height: NAVBAR_DESKTOP_HEIGHT * scale } : undefined}
+    >
+      {isDesktopRange ? (
+        <div
+          style={{
+            width: DESKTOP_CANVAS_WIDTH,
+            transform: `scale(${scale})`,
+            transformOrigin: "top left",
+          }}
+        >
+          {navInner}
+        </div>
+      ) : (
+        navInner
+      )}
     </header>
+  );
+
+  // Bumping z-index alone didn't beat DesktopCanvas's content: it sits
+  // inside a `transform`-scaled sibling, and a `fixed` + `backdrop-blur`
+  // element nested a few levels up from a transformed sibling is exactly
+  // the setup where Chromium/WebKit compositing can ignore z-index math
+  // entirely (this only surfaced once the header was actually staying
+  // fixed while scrolling past that content — never showed up before).
+  // Portaling straight to `document.body` sidesteps the ambiguity outright,
+  // by using the exact same pattern floatingMobileDock already relies on
+  // below: it makes the header a direct sibling of MainPage's whole root
+  // div at the body level, instead of a nested descendant competing inside
+  // it, so z-index compares against that one opaque subtree rather than
+  // whatever's happening inside DesktopCanvas's transform layer. Renders
+  // inline (unportaled) until mount to match SSR output, same reasoning as
+  // floatingMobileDock further down.
+  const mainNavbarContent = mounted
+    ? createPortal(headerElement, document.body)
+    : headerElement;
+
+  // Reserves the flow space the header used to occupy back when it was
+  // `position: sticky` (which stays in flow) now that it's `fixed` (which
+  // doesn't) — same height logic as the header itself, so the gap it leaves
+  // always matches exactly, scaled or not.
+  const navbarSpacer = (
+    <div
+      aria-hidden="true"
+      className="h-16 md:h-24 w-full"
+      style={isDesktopRange ? { height: NAVBAR_DESKTOP_HEIGHT * scale } : undefined}
+    />
   );
 
   // Portable Floating Component Structure
@@ -291,6 +377,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
   return (
     <>
       {mainNavbarContent}
+      {navbarSpacer}
       {floatingMobileDock}
     </>
   );
