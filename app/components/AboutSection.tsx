@@ -113,7 +113,11 @@ export default function AboutSection() {
           { opacity: 1, y: 0, duration: 1, ease: "power3.out" },
           "-=0.9",
         )
-        // Kinetic Card Entrance — transform/opacity only, stays on the compositor
+        // Kinetic Readout Entrance — transform/opacity only, stays on the
+        // compositor. No curtain-open beat anymore: the panel is a
+        // full-height mask-faded readout now, not a boxed card, so there's
+        // no rectangle to "open" — this single fade/rise/tilt reads as one
+        // cohesive system booting up instead.
         .fromTo(
           ".kinetic-canvas-wrapper",
           { opacity: 0, y: 50, scale: 0.92, rotateX: -12 },
@@ -126,27 +130,6 @@ export default function AboutSection() {
             ease: "power4.out",
           },
           "-=1.1",
-        )
-        // Curtain Split Reveal — scaleY stand-in for the old clip-path wipe,
-        // same "opening" beat but pure transform so it never repaints
-        .fromTo(
-          ".entrance-curtain",
-          { scaleY: 1 },
-          { scaleY: 0, duration: 1.1, ease: "expo.inOut" },
-          "-=0.9",
-        )
-        // Interactive Text Marquees Sliding In Opposite Directions
-        .fromTo(
-          ".marquee-left",
-          { xPercent: 20 },
-          { xPercent: -5, duration: 1.8, ease: "power4.out" },
-          "-=1.2",
-        )
-        .fromTo(
-          ".marquee-right",
-          { xPercent: -20 },
-          { xPercent: 5, duration: 1.8, ease: "power4.out" },
-          "-=1.8",
         )
         // Tech Grid Matrix Stagger Reveal
         .fromTo(
@@ -163,7 +146,7 @@ export default function AboutSection() {
           "-=1.2",
         )
         // Continuous Fluid Background Float Line loop — deferred until the
-        // entrance settles so it isn't ticking underneath the curtain repaint
+        // entrance settles so it isn't ticking underneath the entrance itself
         .add(() => {
           gsap.to(".marquee-left-loop", {
             xPercent: -50,
@@ -210,11 +193,15 @@ export default function AboutSection() {
     const scaledDx = dx / scale;
     const scaledDy = dy / scale;
 
-    // Whole-card magnetic tilt toward the cursor — subtle, reads as real depth
-    // now that the wrapper actually sits inside a perspective context
+    // Whole-panel magnetic tilt toward the cursor — subtle, reads as real
+    // depth now that the wrapper actually sits inside a perspective context.
+    // Multipliers dampened from their original card-sized values now that
+    // this tracks the full-height readout instead of a ~420x525 card — dx/dy
+    // range over a much bigger area, so the same multipliers would have
+    // produced a noticeably more exaggerated tilt.
     gsap.to(matrixContainerRef.current, {
-      rotateX: dy * -0.02,
-      rotateY: dx * 0.02,
+      rotateX: dy * -0.012,
+      rotateY: dx * 0.012,
       duration: 0.6,
       ease: "power2.out",
     });
@@ -223,8 +210,8 @@ export default function AboutSection() {
     gsap.to(matrixContainerRef.current.querySelectorAll(".layer-heavy"), {
       x: scaledDx * 0.07,
       y: scaledDy * 0.07,
-      rotateX: dy * -0.03,
-      rotateY: dx * 0.03,
+      rotateX: dy * -0.018,
+      rotateY: dx * 0.018,
       duration: 0.5,
       ease: "power2.out",
     });
@@ -290,7 +277,12 @@ export default function AboutSection() {
       {/* Background Depth Ambient Flare */}
       <div className="absolute top-1/4 left-[-10%] w-[500px] h-[500px] bg-[var(--highlight)] opacity-[0.05] rounded-full blur-[140px] pointer-events-none -z-10" />
 
-      <div className="w-full grid grid-cols-12 gap-y-12 md:gap-x-12 lg:gap-x-16 items-center">
+      {/* items-stretch (not items-center): lets the right column's new
+          full-height readout panel stretch to match the text column's
+          natural (taller) height instead of being vertically centered
+          within it — needed for the "fills the section top to bottom"
+          effect below. */}
+      <div className="w-full grid grid-cols-12 gap-y-12 md:gap-x-12 lg:gap-x-16 items-stretch">
         {/* Left Side: Editorial Typography & Layout Panel */}
         <div className="col-span-12 md:col-span-7 flex flex-col justify-center relative z-20">
           {/* Section ID Header Flag */}
@@ -392,116 +384,143 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* Right Side: Interactive Kinetic Graphic Framework Panel */}
-        <div className="col-span-12 md:col-span-5 flex justify-center items-center relative [perspective:1200px]">
-          <div className="group relative w-full max-w-[420px] aspect-[4/5]">
-            <div
-              template-id="kinetic-canvas"
-              ref={matrixContainerRef}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              onTouchStart={handleTouchStart}
-              className="kinetic-canvas-wrapper relative w-full h-full rounded-2xl p-6 sm:p-8 overflow-hidden select-none cursor-crosshair flex flex-col justify-between transition-colors duration-300 shadow-[0_30px_60px_rgba(0,0,0,0.2)]"
-              style={
-                {
-                  "--mouse-x": "50%",
-                  "--mouse-y": "50%",
-                  transformStyle: "preserve-3d",
-                  border: "1px solid transparent",
-                  // Holographic gradient border sweep — a premium ID-card
-                  // signature distinct from the navbar's rotating glow ring,
-                  // driven by animating background-position (compositor-only)
-                  backgroundImage: `linear-gradient(var(--card-bg), var(--card-bg)), linear-gradient(120deg, transparent 30%, var(--highlight) 50%, transparent 70%)`,
-                  backgroundOrigin: "border-box",
-                  backgroundClip: "padding-box, border-box",
-                  backgroundSize: "100% 100%, 250% 250%",
-                  animation: "holoSweep 7s linear infinite",
-                } as React.CSSProperties
-              }
-            >
-              {/* Fine background grid texture — echoes the page's own ambient
-                  grid at card scale, reinforcing the "system console" feel */}
+        {/* Right Side: System Readout — a full-height ambient HUD instead of
+            a boxed card. No border, no fill, no rectangle: it's mask-faded
+            top and bottom so it dissolves into the section rather than
+            sitting on it, with a vertical "data spine" tying a top status
+            line, the kinetic M_N centerpiece, and a bottom signature into
+            one continuous readout instead of three stacked chunks. */}
+        {/* [perspective:1200px] lives on this outer wrapper, not on the
+            tilted element itself below — perspective has to be set on an
+            ANCESTOR of whatever gets the rotateX/rotateY tilt for the 3D
+            depth to actually read; putting it on the same element that's
+            also being rotated flattens the effect back to a 2D skew. */}
+        <div className="col-span-12 md:col-span-5 relative [perspective:1200px]">
+          <div
+            ref={matrixContainerRef}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            className="kinetic-canvas-wrapper group relative w-full h-[480px] sm:h-[560px] md:h-full flex flex-col justify-between select-none cursor-crosshair"
+            style={
+              {
+                "--mouse-x": "50%",
+                "--mouse-y": "50%",
+                transformStyle: "preserve-3d",
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
+                maskImage:
+                  "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
+              } as React.CSSProperties
+            }
+          >
+            {/* Ambient backdrop layer: fine grid, soft highlight glow, and
+                the giant ghost typography loop — now spanning the FULL
+                panel instead of a small card interior */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div
-                className="absolute inset-0 opacity-[0.05] pointer-events-none"
+                className="absolute inset-0 opacity-[0.04]"
                 style={{
                   backgroundImage:
                     "linear-gradient(var(--border-color) 1px, transparent 1px), linear-gradient(90deg, var(--border-color) 1px, transparent 1px)",
-                  backgroundSize: "24px 24px",
+                  backgroundSize: "32px 32px",
                 }}
               />
-
-              {/* Interactive radial track spotlight overlay effect linked to --radial-glow */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                style={{
-                  background: `radial-gradient(600px at var(--mouse-x) var(--mouse-y), var(--radial-glow), transparent 40.7%)`,
-                }}
-              />
-
-              {/* Curtain Split Reveal — scaleY-only entrance panels standing in for the
-                  old clip-path wipe, same "opening" beat with zero repaint cost */}
-              <div className="entrance-curtain absolute top-0 left-0 w-full h-1/2 bg-[var(--card-bg)] origin-top z-30 pointer-events-none" />
-              <div className="entrance-curtain absolute bottom-0 left-0 w-full h-1/2 bg-[var(--card-bg)] origin-bottom z-30 pointer-events-none" />
-
-              {/* HUD Scan-Line Sweep — always-on ambient motion (transform-only),
-                  so touch devices without hover still see the card feel alive */}
-              <div
-                className="absolute left-0 w-full h-20 pointer-events-none opacity-[0.08] animate-[scanSweep_5s_linear_infinite]"
-                style={{
-                  background: `linear-gradient(to bottom, transparent, var(--highlight), transparent)`,
-                }}
-              />
-
-              {/* Micro Top Status Tracker Line */}
-              <div className="relative flex justify-between items-center w-full border-b border-[var(--border-color)] pb-3 opacity-80 font-mono text-[10px] tracking-wider text-[var(--text)]">
-                <span className="layer-light">SYS_STATUS: ACTIVE</span>
-                <span className="layer-light tabular-nums">
-                  LOC: NYC // {nycTime ?? "--:--:--"} EST
-                </span>
-              </div>
-
-              {/* Center Heavy Graphical Layout Content Canvas */}
-              <div className="relative flex flex-col items-center justify-center my-auto py-4 pointer-events-none">
-                {/* Giant Kinetic Abstract Typography Track Loop Layer Background */}
-                <div className="absolute inset-0 flex flex-col justify-center space-y-4 opacity-[0.015] body.light:opacity-[0.025] select-none scale-105">
-                  <div className="marquee-left-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-5xl tracking-tighter">
-                    <span>
-                      MN MN MN MN MN MN MN MN MN MN MN MN MN MN MN MN MN MN
-                    </span>
-                  </div>
-                  <div className="marquee-right-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-5xl tracking-tighter">
-                    <span>NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY</span>
-                  </div>
+              {/* w-[65%] + aspect-square (not fixed px dimensions) — the
+                  panel is full-width on mobile/sm but narrows to ~5/12 of
+                  the row at md+, and a fixed 420-560px circle was wider
+                  than that narrower column, so it got clipped into a tall
+                  vertical band by the column's own edges instead of
+                  reading as a circle. Percentage width + forced 1:1 aspect
+                  ratio keeps it a true circle at any column width. */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[65%] aspect-square max-w-[380px] bg-[var(--highlight)] opacity-[0.1] blur-[100px] rounded-full" />
+              <div className="absolute inset-0 flex flex-col justify-center space-y-6 opacity-[0.05] select-none">
+                <div className="marquee-left-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-6xl sm:text-7xl tracking-tighter">
+                  <span>MN MN MN MN MN MN MN MN MN MN MN MN MN MN</span>
                 </div>
-
-                {/* Foreground Visual Depth Objects — decodes through scramble glyphs
-                    on boot / tap / periodic idle tick, mobile-first type scale */}
-                <h2 className="layer-heavy font-['Syne',sans-serif] text-6xl sm:text-7xl md:text-8xl font-black text-[var(--text-contrast)] tracking-tighter leading-none select-none transition-colors duration-300">
-                  {callsign}
-                </h2>
-                <div className="layer-light mt-4 flex items-center gap-2 bg-[var(--badge-bg)] text-[var(--highlight)] text-[10px] font-mono tracking-[0.2em] uppercase px-3 py-1.5 rounded-full border border-[var(--border-color)] shadow-sm">
-                  NYC · 40.7654° N
+                <div className="marquee-right-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-6xl sm:text-7xl tracking-tighter">
+                  <span>NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY</span>
                 </div>
               </div>
+              {/* Interactive radial spotlight, same --mouse-x/y tracking as before */}
+              <div
+                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                style={{
+                  background: `radial-gradient(500px at var(--mouse-x) var(--mouse-y), var(--radial-glow), transparent 45%)`,
+                }}
+              />
+            </div>
 
-              {/* Bottom Text Track Banner */}
-              <div className="marquee-right w-full text-right border-t border-[var(--border-color)] pt-3 overflow-visible whitespace-nowrap">
-                <span className="font-black text-2xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none block font-['Syne',sans-serif]">
-                  CREATIVE_LOGIC
-                </span>
-                <span className="font-mono text-[10px] text-[var(--text)] opacity-50 tracking-wider block mt-1">
-                  CORE_ENGINE_V2.026 // © ALL RIGHTS RESERVED
-                </span>
+            {/* Vertical data spine — literal thread connecting the
+                top/middle/bottom readouts into one system. Hidden on the
+                very smallest screens to keep the mobile layout clean. */}
+            <div
+              className="absolute left-2 sm:left-4 top-0 bottom-0 w-px pointer-events-none hidden sm:block"
+              style={{
+                WebkitMaskImage:
+                  "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+                maskImage:
+                  "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
+              }}
+            >
+              <div className="absolute inset-0 bg-[var(--highlight)] opacity-30" />
+              <span className="absolute left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)] animate-[railTravel_5s_linear_infinite]" />
+            </div>
+
+            {/* TOP: Status Readout */}
+            <div className="layer-light relative z-10 flex items-center justify-between font-mono text-[10px] sm:text-xs tracking-wider text-[var(--text)] pl-6 sm:pl-10">
+              <span>SYS_STATUS: ACTIVE</span>
+              <span className="tabular-nums">
+                LOC: NYC // {nycTime ?? "--:--:--"} EST
+              </span>
+            </div>
+
+            {/* MIDDLE: Kinetic Centerpiece — radar rings echo the custom
+                cursor's own reticle language, tying the page's interactive
+                chrome to its hero content */}
+            <div className="relative z-10 flex-1 flex flex-col items-center justify-center py-6 pointer-events-none">
+              {/* Border opacity bumped from an earlier /15 — that read fine
+                  against the dark theme's near-black background but was
+                  nearly invisible against the light theme's white one, a
+                  low-opacity blue border having far less contrast on white
+                  than the same fraction of bright cyan has on black. /35
+                  and /60 hold up in both themes. */}
+              <div className="absolute w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] pointer-events-none animate-[rotateGlow_30s_linear_infinite]">
+                <div className="absolute inset-0 rounded-full border border-[var(--highlight)]/35" />
+                <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-px h-2 bg-[var(--highlight)]/60" />
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-px h-2 bg-[var(--highlight)]/60" />
+                <span className="absolute -left-1 top-1/2 -translate-y-1/2 h-px w-2 bg-[var(--highlight)]/60" />
+                <span className="absolute -right-1 top-1/2 -translate-y-1/2 h-px w-2 bg-[var(--highlight)]/60" />
+              </div>
+              <div className="absolute w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] rounded-full border border-dashed border-[var(--highlight)]/30" />
+
+              {/* Foreground Visual Depth Objects — decodes through scramble
+                  glyphs on boot / tap / periodic idle tick, mobile-first
+                  type scale */}
+              <h2 className="layer-heavy font-['Syne',sans-serif] text-7xl sm:text-8xl md:text-9xl font-black text-[var(--text-contrast)] tracking-tighter leading-none select-none transition-colors duration-300">
+                {callsign}
+              </h2>
+              <div className="layer-light mt-5 flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-[var(--highlight)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--highlight)]" />
+                NYC · 40.7654° N
+              </div>
+            </div>
+
+            {/* BOTTOM: Signature — always stacked now (not side-by-side at
+                any width): CREATIVE_LOGIC on its own line, the system tag
+                on its own line underneath. No two elements competing for
+                the same row means nothing can get pushed past the edge and
+                clipped, on any screen size. */}
+            <div className="layer-light relative z-10 px-6 sm:px-10 border-t border-[var(--border-color)]/50 pt-4 pb-1">
+              <span className="block font-['Syne',sans-serif] font-black text-xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none">
+                CREATIVE_LOGIC
+              </span>
+              <div className="mt-2.5 flex items-center gap-2 font-mono text-[9px] sm:text-[10px] text-[var(--text)] opacity-60 tracking-wider uppercase">
+                <span className="w-1 h-1 rounded-full bg-[var(--highlight)] shrink-0" />
+                <span>CORE_ENGINE_V2.026 // © ALL RIGHTS RESERVED</span>
               </div>
             </div>
           </div>
-
-          {/* Edge Aesthetic Framing Corner Borders — brighten with the card on
-              hover so the frame reads as one cohesive activated system */}
-          <div className="absolute top-3 left-3 w-3 h-3 border-t-2 border-l-2 border-[var(--border-color)] opacity-60 group-hover:border-[var(--highlight)] group-hover:opacity-100 transition-all duration-300" />
-          <div className="absolute top-3 right-3 w-3 h-3 border-t-2 border-r-2 border-[var(--border-color)] opacity-60 group-hover:border-[var(--highlight)] group-hover:opacity-100 transition-all duration-300" />
-          <div className="absolute bottom-3 left-3 w-3 h-3 border-b-2 border-l-2 border-[var(--border-color)] opacity-60 group-hover:border-[var(--highlight)] group-hover:opacity-100 transition-all duration-300" />
-          <div className="absolute bottom-3 right-3 w-3 h-3 border-b-2 border-r-2 border-[var(--border-color)] opacity-60 group-hover:border-[var(--highlight)] group-hover:opacity-100 transition-all duration-300" />
         </div>
       </div>
     </section>
