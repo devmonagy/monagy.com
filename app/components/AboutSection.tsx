@@ -20,7 +20,16 @@ const MODERN_TECH_STACK: TechItem[] = [
   { name: "RESTful APIs", category: "architecture" },
 ];
 
-const SCRAMBLE_CHARS = "!<>-_\\/[]{}=+*^?#01";
+// Half-width katakana — the actual "Matrix digital rain" glyph set, not
+// just an aesthetic guess — mixed with the original symbol/digit set for a
+// denser, more chaotic decode. Deliberately NOT mixing in Arabic (the other
+// script suggested): Arabic is bidirectional text, and randomly splicing
+// RTL glyphs into an otherwise-LTR 3-character node that re-renders every
+// frame risks the browser's bidi algorithm reordering characters
+// unpredictably — a real rendering bug, not just a style choice. Katakana
+// is LTR like Latin, so it drops in safely.
+const SCRAMBLE_CHARS =
+  "ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ!<>-_\\/[]{}=+*^?#01";
 const CALLSIGN = "M_N";
 
 export default function AboutSection() {
@@ -30,6 +39,7 @@ export default function AboutSection() {
 
   const [nycTime, setNycTime] = useState<string | null>(null);
   const [callsign, setCallsign] = useState(CALLSIGN);
+  const [revealedCount, setRevealedCount] = useState(CALLSIGN.length);
 
   // Live NYC clock — real ticking data instead of a static "EST" label
   useEffect(() => {
@@ -51,18 +61,22 @@ export default function AboutSection() {
 
   // Terminal-style decode: scrambles through random glyphs before resolving
   // back to "M_N" — contained to a 3-char text node, so it's a cheap paint,
-  // not a layout-affecting animation
+  // not a layout-affecting animation. revealedCount is tracked alongside
+  // callsign so the JSX can color still-scrambling characters differently
+  // from already-resolved ones (see the render below).
   const runScramble = () => {
-    const totalFrames = 10;
+    const totalFrames = 14;
     let frame = 0;
 
     if (scrambleIntervalRef.current) {
       window.clearInterval(scrambleIntervalRef.current);
     }
+    setRevealedCount(0);
 
     scrambleIntervalRef.current = window.setInterval(() => {
       frame += 1;
       const revealCount = Math.floor((frame / totalFrames) * CALLSIGN.length);
+      setRevealedCount(revealCount);
       setCallsign(
         CALLSIGN.split("")
           .map((char, i) =>
@@ -79,8 +93,9 @@ export default function AboutSection() {
         window.clearInterval(scrambleIntervalRef.current!);
         scrambleIntervalRef.current = null;
         setCallsign(CALLSIGN);
+        setRevealedCount(CALLSIGN.length);
       }
-    }, 45);
+    }, 50);
   };
 
   // Boot the decode shortly after entrance, then repeat periodically so the
@@ -246,10 +261,12 @@ export default function AboutSection() {
   };
 
   // Touch devices can't hover for the magnetic tilt, so a tap gets its own
-  // punchy feedback burst plus a decode re-trigger — mobile-first equivalent
+  // punchy feedback burst — the decode re-trigger itself now lives on
+  // onClick below instead (a tap also fires a click event, so this still
+  // gets both effects together on mobile; onClick alone is what gives
+  // desktop a click-to-decode trigger without needing hover for it).
   const handleTouchStart = () => {
     if (!matrixContainerRef.current) return;
-    runScramble();
     gsap
       .timeline()
       .to(matrixContainerRef.current, {
@@ -282,7 +299,16 @@ export default function AboutSection() {
           natural (taller) height instead of being vertically centered
           within it — needed for the "fills the section top to bottom"
           effect below. */}
-      <div className="w-full grid grid-cols-12 gap-y-12 md:gap-x-12 lg:gap-x-16 items-stretch">
+      {/* gap-y-20 (was gap-y-12): only affects mobile, where the two grid
+          items stack — the system readout felt cramped directly under the
+          text column at 48px. Bumped to 80px, matching the section's own
+          py-20, rather than the full ~128px gap between About and
+          Experience (that's a section-to-section break; matching it here
+          would make the readout read as a disconnected block rather than
+          still being part of this section). Doesn't affect desktop, where
+          the two columns sit side by side in one row and gap-y never
+          applies. */}
+      <div className="w-full grid grid-cols-12 gap-y-20 md:gap-x-12 lg:gap-x-16 items-stretch">
         {/* Left Side: Editorial Typography & Layout Panel */}
         <div className="col-span-12 md:col-span-7 flex flex-col justify-center relative z-20">
           {/* Section ID Header Flag */}
@@ -407,6 +433,23 @@ export default function AboutSection() {
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouchStart}
+            onClick={runScramble}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                runScramble();
+              }
+            }}
+            role="button"
+            tabIndex={0}
+            aria-label="Replay M_N decode animation"
+            // role="button" is also what makes CustomCursor treat this as
+            // an interactive element (it checks e.target.closest("a,
+            // button, [role='button'], input, textarea, select")) — without
+            // it the crosshair cursor doesn't switch to its hover state
+            // here even though the panel is genuinely clickable now.
+            // tabIndex + onKeyDown make it keyboard-operable too, since a
+            // role="button" element should be.
             className="kinetic-canvas-wrapper group relative w-full h-[480px] sm:h-[560px] md:h-full flex flex-col justify-between select-none cursor-crosshair"
             style={
               {
@@ -490,21 +533,40 @@ export default function AboutSection() {
                   nearly invisible against the light theme's white one, a
                   low-opacity blue border having far less contrast on white
                   than the same fraction of bright cyan has on black. /35
-                  and /60 hold up in both themes. */}
+                  and /60 hold up in both themes. `about-ring`/`about-ring-
+                  tick`/`about-ring-dashed` classes are hooks for the
+                  light-theme-only opacity bump in globals.css — still
+                  barely visible in light mode at these opacities, and this
+                  keeps dark mode's values here completely untouched
+                  instead of raising both together. */}
               <div className="absolute w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] pointer-events-none animate-[rotateGlow_30s_linear_infinite]">
-                <div className="absolute inset-0 rounded-full border border-[var(--highlight)]/35" />
-                <span className="absolute -top-1 left-1/2 -translate-x-1/2 w-px h-2 bg-[var(--highlight)]/60" />
-                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-px h-2 bg-[var(--highlight)]/60" />
-                <span className="absolute -left-1 top-1/2 -translate-y-1/2 h-px w-2 bg-[var(--highlight)]/60" />
-                <span className="absolute -right-1 top-1/2 -translate-y-1/2 h-px w-2 bg-[var(--highlight)]/60" />
+                <div className="about-ring absolute inset-0 rounded-full border border-[var(--highlight)]/35" />
+                <span className="about-ring-tick absolute -top-1 left-1/2 -translate-x-1/2 w-px h-2 bg-[var(--highlight)]/60" />
+                <span className="about-ring-tick absolute -bottom-1 left-1/2 -translate-x-1/2 w-px h-2 bg-[var(--highlight)]/60" />
+                <span className="about-ring-tick absolute -left-1 top-1/2 -translate-y-1/2 h-px w-2 bg-[var(--highlight)]/60" />
+                <span className="about-ring-tick absolute -right-1 top-1/2 -translate-y-1/2 h-px w-2 bg-[var(--highlight)]/60" />
               </div>
-              <div className="absolute w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] rounded-full border border-dashed border-[var(--highlight)]/30" />
+              <div className="about-ring-dashed absolute w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] rounded-full border border-dashed border-[var(--highlight)]/30" />
 
               {/* Foreground Visual Depth Objects — decodes through scramble
-                  glyphs on boot / tap / periodic idle tick, mobile-first
-                  type scale */}
-              <h2 className="layer-heavy font-['Syne',sans-serif] text-7xl sm:text-8xl md:text-9xl font-black text-[var(--text-contrast)] tracking-tighter leading-none select-none transition-colors duration-300">
-                {callsign}
+                  glyphs on boot / tap / click / periodic idle tick,
+                  mobile-first type scale. Each character is its own span so
+                  still-scrambling glyphs can glow --highlight while already-
+                  resolved ones sit at the normal solid --text-contrast —
+                  reads as a live decode instead of just noise-then-text. */}
+              <h2 className="layer-heavy font-['Syne',sans-serif] text-7xl sm:text-8xl md:text-9xl font-black tracking-tighter leading-none select-none">
+                {callsign.split("").map((char, i) => (
+                  <span
+                    key={i}
+                    className={
+                      i < revealedCount
+                        ? "text-[var(--text-contrast)] transition-colors duration-150"
+                        : "text-[var(--highlight)] transition-colors duration-150"
+                    }
+                  >
+                    {char}
+                  </span>
+                ))}
               </h2>
               <div className="layer-light mt-5 flex items-center gap-2 font-mono text-[10px] sm:text-[11px] tracking-[0.2em] uppercase text-[var(--highlight)]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--highlight)]" />

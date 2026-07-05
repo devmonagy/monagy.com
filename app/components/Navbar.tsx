@@ -78,16 +78,25 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           start: "top 40%",
           end: "bottom 40%",
           onToggle: (self) => {
+            // Scoped to .nav-link (shared by the desktop nav and the mobile
+            // dock) — NOT a bare `a[href="#${id}"]`. That used to match ANY
+            // anchor anywhere with the same href, including FooterSection's
+            // own "Navigation Matrix" links, which reuse the same #about
+            // etc. hrefs but were never meant to participate in this
+            // scroll-spy highlighting. Since GSAP sets color via inline
+            // style, it was beating the footer links' hover/active CSS
+            // outright (inline always wins over stylesheet pseudo-classes),
+            // permanently pinning them to the "inactive" grey (var(--text))
+            // whenever their section wasn't the current one — hover or not.
             if (self.isActive) {
-              // Target elements across both desktop and mobile layouts safely
-              gsap.to(`a[href="#${id}"]`, {
+              gsap.to(`.nav-link[href="#${id}"]`, {
                 color: "var(--highlight)",
                 borderBottomColor: "var(--highlight)",
                 duration: 0.3,
                 overwrite: "auto",
               });
             } else {
-              gsap.to(`a[href="#${id}"]`, {
+              gsap.to(`.nav-link[href="#${id}"]`, {
                 color: "var(--text)",
                 borderBottomColor: "transparent",
                 duration: 0.3,
@@ -214,7 +223,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
             id="themeToggle"
             type="button"
             onClick={toggleTheme}
-            className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer relative hover:border-[var(--highlight)]/50 transition-all duration-300 shrink-0"
+            className="w-9 h-9 flex items-center justify-center bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl cursor-pointer relative hover:border-[var(--highlight)] hover:shadow-[0_0_20px_var(--hover-glow)] transition-all duration-300 shrink-0"
             aria-label="Toggle color pipeline"
           >
             <svg

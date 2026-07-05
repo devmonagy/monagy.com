@@ -50,9 +50,9 @@ export default function FooterSection() {
               <li>
                 <a
                   href="#about"
-                  className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
+                  className="hover:text-[var(--highlight)] active:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
                 >
-                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
+                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
                     01/
                   </span>{" "}
                   About
@@ -61,9 +61,9 @@ export default function FooterSection() {
               <li>
                 <a
                   href="#experience"
-                  className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
+                  className="hover:text-[var(--highlight)] active:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
                 >
-                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
+                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
                     02/
                   </span>{" "}
                   Experience
@@ -72,9 +72,9 @@ export default function FooterSection() {
               <li>
                 <a
                   href="#projects"
-                  className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
+                  className="hover:text-[var(--highlight)] active:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
                 >
-                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
+                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
                     03/
                   </span>{" "}
                   Projects
@@ -83,9 +83,9 @@ export default function FooterSection() {
               <li>
                 <a
                   href="#contact"
-                  className="hover:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
+                  className="hover:text-[var(--highlight)] active:text-[var(--highlight)] transition-colors duration-200 group flex items-center gap-2"
                 >
-                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 transition-opacity">
+                  <span className="text-xs font-mono opacity-40 group-hover:opacity-100 group-active:opacity-100 transition-opacity">
                     04/
                   </span>{" "}
                   Contact
