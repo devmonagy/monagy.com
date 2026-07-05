@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 
-const SITE_TITLE = "Mohamed Nagy | Front-End Developer";
+const SITE_TITLE = "Mohamed Nagy | Software Developer";
 const SITE_DESCRIPTION =
-  "Mohamed Nagy – Front-End Developer passionate about building clean, responsive, user-focused applications with modern technologies like React, Tailwind, and TypeScript.";
+  "Mohamed Nagy – Software Developer passionate about building clean, responsive, user-focused applications with modern technologies like React, Tailwind, and TypeScript.";
 
 export const metadata: Metadata = {
   // Required for the auto-generated opengraph-image/twitter-image routes to
