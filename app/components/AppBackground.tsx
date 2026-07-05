@@ -4,18 +4,29 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useDesktopScale } from "../lib/desktopScale";
 
 // Persistent ambient backdrop mounted once at the app root: two clipped
 // margin columns outside the max-w-7xl content column (the empty space
 // either side of the body on wide screens), plus a full-bleed film-grain
 // overlay. Each margin column has its own `overflow-hidden`, so the
 // glow/rain is physically clipped at the column edge — not just faded by
-// opacity — guaranteeing it can never bleed across the body copy. Column
-// width scales with the actual available gutter via calc(), so it fills
-// more of the space on ultra-wide monitors instead of a fixed thin strip.
-// Desktop-only by design (`hidden xl:block` on the outer wrapper) — there's
-// no side gutter on mobile/tablet to run this in, so it renders nothing
-// there at all rather than a scaled-down version.
+// opacity — guaranteeing it can never bleed across the body copy.
+// Desktop-only by design (`hidden lg:block` on the outer wrapper, matching
+// DesktopCanvas.tsx's own 1024px breakpoint) — there's no side gutter on
+// mobile/tablet to run this in, so it renders nothing there at all rather
+// than a scaled-down version.
+// Deliberately rendered as a sibling of DesktopCanvas, NOT inside it: this
+// component leans on `position: fixed` staying glued to the true viewport
+// during scroll, which breaks if a transformed ancestor is in the way (see
+// MainPage.tsx's comment for why) — so it stays outside the scaled canvas.
+//
+// The margin columns' own SIZE (width, ring, rain glyphs, rail-line
+// details) is still locked to the 1920px design baseline though, via
+// useDesktopScale() applied to individual pixel values below rather than a
+// single wrapper transform — a transform would also shrink the column's
+// height, leaving a gap at the bottom instead of it covering the full
+// viewport the way a persistent background should regardless of zoom.
 // See [[feedback_stacking_context_bg]]: -z-10 here only paints correctly
 // because MainPage.tsx's root wrapper has `isolate`.
 //
@@ -47,18 +58,26 @@ function buildRainColumn(seed: number) {
   return `${block}\n${block}`;
 }
 
-// Column width as a fraction of the real gutter: (100vw - 1280px) is the
-// full gutter on both sides combined; half of that is one side's gutter,
-// and this claims 80% of one side's gutter, leaving a 20% buffer before the
-// centered content column no matter how wide the viewport gets. Because
-// this is continuous (not a breakpoint jump), it scales from ~0 right at
-// 1280px (max-w-7xl's own width, first pixel of real gutter) up through a
-// full ambient zone at ultra-wide sizes — so 1366x768 gets a thin sliver
-// instead of nothing, and a 2560px monitor gets a lot more presence.
-const MARGIN_COLUMN_WIDTH = "calc((100vw - 1280px) * 0.4)";
+// 1920px-design-baseline pixel values for everything in the margin columns
+// that should visually lock in size regardless of window width or browser
+// zoom. Multiplied by the live scale factor below instead of expressed as
+// Tailwind classes.
+const BASE = {
+  columnWidth: 256,
+  ringSize: 56,
+  ringOffset: 24,
+  railOffset: 32,
+  tickOffset: 6,
+  rainFontSize: 10,
+  rainOffset: 12,
+  pulseSize: 6,
+  labelFontSize: 9,
+};
 
 export default function AppBackground() {
   const scopeRef = useRef<HTMLDivElement>(null);
+  const scale = useDesktopScale();
+  const s = (value: number) => value * scale;
 
   useGSAP(
     () => {
@@ -95,14 +114,16 @@ export default function AppBackground() {
   const rainRight = [buildRainColumn(3), buildRainColumn(4), buildRainColumn(6)];
 
   return (
-    <div ref={scopeRef} aria-hidden="true" className="hidden xl:block">
+    <div ref={scopeRef} aria-hidden="true" className="hidden lg:block">
       <div className="fixed inset-0 -z-10 pointer-events-none select-none">
-        {/* LEFT MARGIN COLUMN — width scales with the real gutter via
-            calc(), overflow-hidden physically clips everything at that
-            boundary so it can never reach the centered content column */}
+        {/* LEFT MARGIN COLUMN — width locked to the 1920px baseline (scaled
+            live), overflow-hidden physically clips everything at that
+            boundary so it can never reach the centered content column.
+            top-0 bottom-0 deliberately stays unscaled so the column always
+            covers the full real viewport height. */}
         <div
           className="absolute left-0 top-0 bottom-0 overflow-hidden"
-          style={{ width: MARGIN_COLUMN_WIDTH }}
+          style={{ width: s(BASE.columnWidth) }}
         >
           {/* Smooth gradient wash — no blurred circles, just a soft fade off
               the true viewport edge, scales with the column so it reads as a
@@ -112,8 +133,11 @@ export default function AppBackground() {
           {/* Ambient conic glow ring — same signature as the preloader/navbar
               badge */}
           <div
-            className="absolute left-6 top-[20%] w-14 h-14 rounded-full opacity-40 blur-md animate-[rotateGlow_8s_linear_infinite]"
+            className="absolute top-[20%] rounded-full opacity-40 blur-md animate-[rotateGlow_8s_linear_infinite]"
             style={{
+              left: s(BASE.ringOffset),
+              width: s(BASE.ringSize),
+              height: s(BASE.ringSize),
               background:
                 "conic-gradient(from 0deg, transparent 0%, var(--highlight) 18%, transparent 40%)",
             }}
@@ -131,20 +155,33 @@ export default function AppBackground() {
             }}
           >
             <div
-              className="absolute top-0 left-3 whitespace-pre text-center font-mono text-[10px] leading-[1.8] text-[var(--highlight)] opacity-[0.24] motion-reduce:animate-none animate-[railFall_linear_infinite]"
-              style={{ animationDuration: "17s" }}
+              className="absolute top-0 whitespace-pre text-center font-mono leading-[1.8] text-[var(--highlight)] opacity-[0.24] motion-reduce:animate-none animate-[railFall_linear_infinite]"
+              style={{
+                left: s(BASE.rainOffset),
+                fontSize: s(BASE.rainFontSize),
+                animationDuration: "17s",
+              }}
             >
               {rainLeft[0]}
             </div>
             <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 whitespace-pre text-center font-mono text-[10px] leading-[1.8] text-[var(--highlight)] opacity-[0.18] motion-reduce:animate-none animate-[railFall_linear_infinite]"
-              style={{ animationDuration: "20s", animationDelay: "-9s" }}
+              className="absolute top-0 left-1/2 -translate-x-1/2 whitespace-pre text-center font-mono leading-[1.8] text-[var(--highlight)] opacity-[0.18] motion-reduce:animate-none animate-[railFall_linear_infinite]"
+              style={{
+                fontSize: s(BASE.rainFontSize),
+                animationDuration: "20s",
+                animationDelay: "-9s",
+              }}
             >
               {rainLeft[1]}
             </div>
             <div
-              className="absolute top-0 right-3 whitespace-pre text-center font-mono text-[10px] leading-[1.8] text-[var(--highlight)] opacity-[0.14] motion-reduce:animate-none animate-[railFall_linear_infinite]"
-              style={{ animationDuration: "24s", animationDelay: "-4s" }}
+              className="absolute top-0 whitespace-pre text-center font-mono leading-[1.8] text-[var(--highlight)] opacity-[0.14] motion-reduce:animate-none animate-[railFall_linear_infinite]"
+              style={{
+                right: s(BASE.rainOffset),
+                fontSize: s(BASE.rainFontSize),
+                animationDuration: "24s",
+                animationDelay: "-4s",
+              }}
             >
               {rainLeft[2]}
             </div>
@@ -152,8 +189,9 @@ export default function AppBackground() {
 
           {/* Vertical data rail: line, tick marks, traveling pulses, HUD label */}
           <div
-            className="absolute inset-y-0 left-8 w-px"
+            className="absolute inset-y-0 w-px"
             style={{
+              left: s(BASE.railOffset),
               WebkitMaskImage:
                 "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
               maskImage:
@@ -162,15 +200,25 @@ export default function AppBackground() {
           >
             <div className="absolute inset-0 bg-[var(--highlight)] opacity-30" />
             <div
-              className="absolute inset-y-0 left-1.5 w-px opacity-40"
+              className="absolute inset-y-0 w-px opacity-40"
               style={{
+                left: s(BASE.tickOffset),
                 backgroundImage:
                   "repeating-linear-gradient(to bottom, var(--highlight) 0px, var(--highlight) 1px, transparent 1px, transparent 40px)",
               }}
             />
-            <span className="rail-pulse absolute left-0 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)]" />
-            <span className="rail-pulse absolute left-0 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)]" />
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-90deg] whitespace-nowrap font-mono text-[9px] tracking-[0.4em] text-[var(--highlight)] opacity-[0.3]">
+            <span
+              className="rail-pulse absolute left-0 -translate-x-1/2 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)]"
+              style={{ width: s(BASE.pulseSize), height: s(BASE.pulseSize) }}
+            />
+            <span
+              className="rail-pulse absolute left-0 -translate-x-1/2 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)]"
+              style={{ width: s(BASE.pulseSize), height: s(BASE.pulseSize) }}
+            />
+            <span
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-90deg] whitespace-nowrap font-mono tracking-[0.4em] text-[var(--highlight)] opacity-[0.3]"
+              style={{ fontSize: s(BASE.labelFontSize) }}
+            >
               SYS_ENGINE // AMBIENT_RENDER_ACTIVE
             </span>
           </div>
@@ -179,13 +227,16 @@ export default function AppBackground() {
         {/* RIGHT MARGIN COLUMN — mirrored */}
         <div
           className="absolute right-0 top-0 bottom-0 overflow-hidden"
-          style={{ width: MARGIN_COLUMN_WIDTH }}
+          style={{ width: s(BASE.columnWidth) }}
         >
           <div className="margin-wash absolute inset-0 opacity-[0.22] bg-gradient-to-l from-[var(--highlight)] via-[var(--highlight)]/30 to-transparent" />
 
           <div
-            className="absolute right-6 top-[65%] w-14 h-14 rounded-full opacity-40 blur-md animate-[rotateGlow_8s_linear_infinite]"
+            className="absolute top-[65%] rounded-full opacity-40 blur-md animate-[rotateGlow_8s_linear_infinite]"
             style={{
+              right: s(BASE.ringOffset),
+              width: s(BASE.ringSize),
+              height: s(BASE.ringSize),
               background:
                 "conic-gradient(from 0deg, transparent 0%, var(--highlight) 18%, transparent 40%)",
             }}
@@ -201,28 +252,42 @@ export default function AppBackground() {
             }}
           >
             <div
-              className="absolute top-0 right-3 whitespace-pre text-center font-mono text-[10px] leading-[1.8] text-[var(--highlight)] opacity-[0.24] motion-reduce:animate-none animate-[railFall_linear_infinite]"
-              style={{ animationDuration: "19s", animationDelay: "-3s" }}
+              className="absolute top-0 whitespace-pre text-center font-mono leading-[1.8] text-[var(--highlight)] opacity-[0.24] motion-reduce:animate-none animate-[railFall_linear_infinite]"
+              style={{
+                right: s(BASE.rainOffset),
+                fontSize: s(BASE.rainFontSize),
+                animationDuration: "19s",
+                animationDelay: "-3s",
+              }}
             >
               {rainRight[0]}
             </div>
             <div
-              className="absolute top-0 left-1/2 -translate-x-1/2 whitespace-pre text-center font-mono text-[10px] leading-[1.8] text-[var(--highlight)] opacity-[0.18] motion-reduce:animate-none animate-[railFall_linear_infinite]"
-              style={{ animationDuration: "21s" }}
+              className="absolute top-0 left-1/2 -translate-x-1/2 whitespace-pre text-center font-mono leading-[1.8] text-[var(--highlight)] opacity-[0.18] motion-reduce:animate-none animate-[railFall_linear_infinite]"
+              style={{
+                fontSize: s(BASE.rainFontSize),
+                animationDuration: "21s",
+              }}
             >
               {rainRight[1]}
             </div>
             <div
-              className="absolute top-0 left-3 whitespace-pre text-center font-mono text-[10px] leading-[1.8] text-[var(--highlight)] opacity-[0.14] motion-reduce:animate-none animate-[railFall_linear_infinite]"
-              style={{ animationDuration: "25s", animationDelay: "-11s" }}
+              className="absolute top-0 whitespace-pre text-center font-mono leading-[1.8] text-[var(--highlight)] opacity-[0.14] motion-reduce:animate-none animate-[railFall_linear_infinite]"
+              style={{
+                left: s(BASE.rainOffset),
+                fontSize: s(BASE.rainFontSize),
+                animationDuration: "25s",
+                animationDelay: "-11s",
+              }}
             >
               {rainRight[2]}
             </div>
           </div>
 
           <div
-            className="absolute inset-y-0 right-8 w-px"
+            className="absolute inset-y-0 w-px"
             style={{
+              right: s(BASE.railOffset),
               WebkitMaskImage:
                 "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
               maskImage:
@@ -231,15 +296,25 @@ export default function AppBackground() {
           >
             <div className="absolute inset-0 bg-[var(--highlight)] opacity-30" />
             <div
-              className="absolute inset-y-0 right-1.5 w-px opacity-40"
+              className="absolute inset-y-0 w-px opacity-40"
               style={{
+                right: s(BASE.tickOffset),
                 backgroundImage:
                   "repeating-linear-gradient(to bottom, var(--highlight) 0px, var(--highlight) 1px, transparent 1px, transparent 40px)",
               }}
             />
-            <span className="rail-pulse absolute right-0 translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)]" />
-            <span className="rail-pulse absolute right-0 translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)]" />
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap font-mono text-[9px] tracking-[0.4em] text-[var(--highlight)] opacity-[0.3]">
+            <span
+              className="rail-pulse absolute right-0 translate-x-1/2 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)]"
+              style={{ width: s(BASE.pulseSize), height: s(BASE.pulseSize) }}
+            />
+            <span
+              className="rail-pulse absolute right-0 translate-x-1/2 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)]"
+              style={{ width: s(BASE.pulseSize), height: s(BASE.pulseSize) }}
+            />
+            <span
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap font-mono tracking-[0.4em] text-[var(--highlight)] opacity-[0.3]"
+              style={{ fontSize: s(BASE.labelFontSize) }}
+            >
               FRAME_BUFFER // NO_SIGNAL_LOSS
             </span>
           </div>
@@ -247,7 +322,7 @@ export default function AppBackground() {
 
         {/* PERSISTENT CHASSIS CORNER BRACKETS — same bracket language as the
             preloader/kinetic card. Desktop-only along with the rest of this
-            component (see the `hidden xl:block` on the outer wrapper above),
+            component (see the `hidden lg:block` on the outer wrapper above),
             so mobile/tablet get none of this background treatment at all. */}
         <div className="absolute top-6 left-6 w-6 h-6 border-t-2 border-l-2 border-[var(--highlight)] opacity-30" />
         <div className="absolute top-6 right-6 w-6 h-6 border-t-2 border-r-2 border-[var(--highlight)] opacity-30" />

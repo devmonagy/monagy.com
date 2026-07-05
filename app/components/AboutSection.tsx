@@ -4,6 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { getDesktopScale } from "../lib/desktopScale";
 
 interface TechItem {
   name: string;
@@ -198,6 +199,17 @@ export default function AboutSection() {
     const dx = e.clientX - rect.left - rect.width / 2;
     const dy = e.clientY - rect.top - rect.height / 2;
 
+    // rect (and therefore dx/dy) is already in real, post-transform screen
+    // pixels — correct as-is for rotation (a tilt angle looks the same
+    // regardless of an ancestor's scale) but not for translation: gsap.to
+    // below sets THIS element's own x/y, which then gets re-multiplied by
+    // DesktopCanvas's ancestor scale when painted, so a real-pixel delta fed
+    // in directly would displace twice as far/near as intended. Dividing by
+    // the current scale up front cancels that out.
+    const scale = getDesktopScale();
+    const scaledDx = dx / scale;
+    const scaledDy = dy / scale;
+
     // Whole-card magnetic tilt toward the cursor — subtle, reads as real depth
     // now that the wrapper actually sits inside a perspective context
     gsap.to(matrixContainerRef.current, {
@@ -209,8 +221,8 @@ export default function AboutSection() {
 
     // Dampened push pull variables for structural layers
     gsap.to(matrixContainerRef.current.querySelectorAll(".layer-heavy"), {
-      x: dx * 0.07,
-      y: dy * 0.07,
+      x: scaledDx * 0.07,
+      y: scaledDy * 0.07,
       rotateX: dy * -0.03,
       rotateY: dx * 0.03,
       duration: 0.5,
@@ -218,8 +230,8 @@ export default function AboutSection() {
     });
 
     gsap.to(matrixContainerRef.current.querySelectorAll(".layer-light"), {
-      x: dx * -0.04,
-      y: dy * -0.04,
+      x: scaledDx * -0.04,
+      y: scaledDy * -0.04,
       duration: 0.6,
       ease: "power2.out",
     });
@@ -289,13 +301,38 @@ export default function AboutSection() {
           </div>
 
           {/* Master Structural Typography Headers */}
+          {/* `overflow-x-visible` earlier still produced a scrollbar: setting
+              overflow-x/overflow-y to different values on the SAME element
+              makes the browser silently coerce the "visible" axis to "auto"
+              (a real, spec-defined behavior, not a bug) — "auto" still
+              clips/scrolls on overflow, it just adds a scrollbar affordance
+              instead of hiding it outright. Fixed properly this time: each
+              line gets its OWN overflow-hidden mask sized to `w-max` (fits
+              exactly that line's content, nothing more) instead of one
+              mask sized to the column. Since nothing then overflows each
+              box's own bounds, plain `overflow-hidden` never needs to clip
+              anything, at any font size — "Mohamed" is free to extend past
+              the grid column into the column gap next to it (empty space,
+              comfortably wider than the ~7% this needs) instead of being
+              cropped or wrapping the layout into a scrollbar. */}
+          {/* Explicit text-[var(--text-contrast)] on these two spans, even
+              though the parent h1 already sets it: a global `h1 span {
+              color: var(--highlight) }` rule (originally written for when
+              the subtitle below was the ONLY span inside this h1) would
+              otherwise repaint them teal now that they're spans here too,
+              for the unrelated reveal-line masking split. */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-normal text-[var(--text-contrast)] leading-[1.05] transition-colors duration-300">
+            <span className="overflow-hidden block w-max">
+              <span className="reveal-line block text-[var(--text-contrast)]">Mohamed</span>
+            </span>
+            <span className="overflow-hidden block w-max">
+              <span className="reveal-line block text-[var(--text-contrast)]">Nagy.</span>
+            </span>
+          </h1>
           <div className="overflow-hidden mb-6 sm:mb-8">
-            <h1 className="reveal-line text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[var(--text-contrast)] leading-[1.05] transition-colors duration-300">
-              Mohamed Nagy.{" "}
-              <span className="font-medium text-2xl sm:text-3xl md:text-4xl block mt-3 opacity-70 tracking-tight">
-                Engineering high-fidelity visual architectures.
-              </span>
-            </h1>
+            <p className="reveal-line font-medium text-2xl sm:text-3xl md:text-4xl mt-3 opacity-70 tracking-tight text-[var(--highlight)]">
+              Engineering high-fidelity visual architectures.
+            </p>
           </div>
 
           {/* Core Copy Bio Blocks */}
