@@ -307,10 +307,20 @@ export default function AboutSection() {
           would make the readout read as a disconnected block rather than
           still being part of this section). Doesn't affect desktop, where
           the two columns sit side by side in one row and gap-y never
-          applies. */}
-      <div className="w-full grid grid-cols-12 gap-y-20 md:gap-x-12 lg:gap-x-16 items-stretch">
+          applies.
+
+          Column stacking uses lg: (1024px, DESKTOP_BREAKPOINT), not
+          Tailwind's default md: (768px) — the whole 1920px-canvas lock
+          (DesktopCanvas) only activates at 1024px, so between 768–1023px
+          the old md:-based two-column layout was rendering side by side
+          WITHOUT the scale-lock compensating for it, looking cramped/
+          broken in that gap. Stacking through the same 1024px threshold
+          the lock uses keeps every width below it in normal, unscaled
+          mobile layout. gap-x only needs the lg: tier now too, since it's
+          invisible until the columns are actually side by side. */}
+      <div className="w-full grid grid-cols-12 gap-y-20 lg:gap-x-16 items-stretch">
         {/* Left Side: Editorial Typography & Layout Panel */}
-        <div className="col-span-12 md:col-span-7 flex flex-col justify-center relative z-20">
+        <div className="col-span-12 lg:col-span-7 flex flex-col justify-center relative z-20">
           {/* Section ID Header Flag */}
           <div className="overflow-hidden mb-4">
             <span className="reveal-line inline-block font-mono text-xs sm:text-sm text-[var(--highlight)] tracking-widest uppercase font-semibold">
@@ -427,7 +437,7 @@ export default function AboutSection() {
             ANCESTOR of whatever gets the rotateX/rotateY tilt for the 3D
             depth to actually read; putting it on the same element that's
             also being rotated flattens the effect back to a 2D skew. */}
-        <div className="col-span-12 md:col-span-5 relative [perspective:1200px]">
+        <div className="col-span-12 lg:col-span-5 relative [perspective:1200px]">
           <div
             ref={matrixContainerRef}
             onMouseMove={handleMouseMove}
@@ -450,7 +460,7 @@ export default function AboutSection() {
             // here even though the panel is genuinely clickable now.
             // tabIndex + onKeyDown make it keyboard-operable too, since a
             // role="button" element should be.
-            className="kinetic-canvas-wrapper group relative w-full h-[480px] sm:h-[560px] md:h-full flex flex-col justify-between select-none cursor-crosshair"
+            className="kinetic-canvas-wrapper group relative w-full h-[480px] sm:h-[560px] lg:h-full flex flex-col justify-between select-none cursor-crosshair"
             style={
               {
                 "--mouse-x": "50%",
