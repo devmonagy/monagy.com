@@ -772,6 +772,46 @@ html.custom-cursor-active * {
   }
 }
 
+/* PERSONAL TELEMETRY SECTION — shared "glass" card chrome for all 4 cards
+   (Spotify/Weather/Countries/CurrentlyLearning). The sitewide
+   --border-color (rgba(255,255,255,0.04) in dark) reads as almost
+   invisible against --card-bg, which is what made these specific cards
+   feel flat/empty — this is a stronger, section-scoped override layered
+   on top instead of changing the global variable every other card on the
+   site also relies on. Deliberately NOT using !important: these cards
+   don't declare their own border-[var(--border-color)] utility anymore,
+   so there's no competing same-specificity rule to fight with, and the
+   one card with its own :hover border color (Spotify, while playing)
+   naturally still wins on hover since :hover raises its specificity.
+   An earlier version of this wrapped each card in a rotating conic-
+   gradient glow ring (the same technique as the navbar logo/flag badges)
+   — removed after feedback that it read as too busy/repetitive next to
+   the flag badges' identical effect right in the same section. This is a
+   static glass treatment instead: a diagonal light-sheen gradient layered
+   over the card's own background-color, plus the border/shadow below. */
+.telemetry-card {
+  border-color: rgba(255, 255, 255, 0.14);
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06),
+    transparent 45%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 12px 40px rgba(0, 0, 0, 0.45);
+}
+body.light .telemetry-card {
+  border-color: rgba(0, 0, 0, 0.14);
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.6),
+    transparent 45%
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
 /* ==========================================================================
    APP BACKGROUND — persistent SYS_ENGINE atmosphere (see AppBackground.tsx)
    ========================================================================== */
