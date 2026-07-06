@@ -13,8 +13,7 @@ import Preloader from "./Preloader";
 import CustomCursor from "./CustomCursor";
 import AppBackground from "./AppBackground";
 import DesktopCanvas from "./DesktopCanvas";
-import SpotifyNowPlayingBar from "./SpotifyNowPlayingBar";
-import SpotifyNowPlayingMobile from "./SpotifyNowPlayingMobile";
+import PersonalTelemetrySection from "./PersonalTelemetrySection";
 
 export default function MainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -221,35 +220,31 @@ export default function MainPage() {
         </div>
       )}
 
-      {/* Portaled to document.body, outside DesktopCanvas's transform, so it
-          can measure #navbarWrapper/#about-intro-flag (both real DOM
-          elements by this point) and position itself without any scale
-          math — see SpotifyNowPlayingBar.tsx for why. Gated on isLoaded
-          since both of those anchors only exist once Navbar/AboutSection
-          have mounted. */}
-      {isLoaded && <SpotifyNowPlayingBar />}
-
       <DesktopCanvas>
         {/* CORE WEB APPLICATION CONTAINER CORE REVEAL */}
         {isLoaded && (
           <div className="opacity-0 animate-[fadeInContent_1s_cubic-bezier(0.25,1,0.5,1)_forwards]">
             {/* CORE ALIGNED TRACKING CONTAINER CONTEXT */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-16">
-              {/* Mobile/tablet only — see SpotifyNowPlayingMobile.tsx. Real
-                  in-flow element (not the portaled desktop bar above), so
-                  it naturally pushes AboutSection down while expanded and
-                  collapses back to zero height when not, no measurement
-                  needed. Safe here below 1024px: DesktopCanvas renders
-                  <main>'s children unwrapped (no scale transform) at this
-                  breakpoint, so there's nothing for a real-pixel value to
-                  get re-multiplied by even though this uses plain layout,
-                  not that anyway. */}
-              <SpotifyNowPlayingMobile />
               <AboutSection />
               <ExperienceSection />
               <ProjectsSection />
               <ContactSection />
-              <div className="pt-8 sm:pt-16 md:pt-24 flex justify-center w-full">
+              {/* Off the main About→Experience→Projects→Contact trust-
+                  building funnel on purpose, and not in the nav (same
+                  treatment as EvolveTerminal below) — a personal-telemetry
+                  bonus beat after the "why hire me" case has already been
+                  made, not before it. */}
+              <PersonalTelemetrySection />
+              {/* No extra pt- here on purpose: PersonalTelemetrySection's
+                  own py-20 sm:py-28 md:py-36 bottom padding already gives
+                  this the same single-padding gap every other section-to-
+                  section transition on the page relies on (e.g. About's
+                  bottom padding + Experience's top padding) — stacking an
+                  additional pt- on top of that, like this wrapper used to
+                  do straight after ContactSection, is what produced the
+                  oversized gap before the terminal. */}
+              <div className="flex justify-center w-full">
                 <EvolveTerminal />
               </div>
               <FooterSection />
