@@ -46,7 +46,7 @@ export default function FooterSection() {
             <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--highlight)] font-semibold">
               // Navigation Matrix
             </span>
-            <ul className="flex flex-col gap-2 font-['Syne',sans-serif] text-xl font-bold text-[var(--text-contrast)]">
+            <ul className="flex flex-col gap-2 font-[family-name:var(--font-syne)] text-xl font-bold text-[var(--text-contrast)]">
               <li>
                 <a
                   href="#about"
@@ -173,7 +173,7 @@ export default function FooterSection() {
               y="70%"
               dominantBaseline="middle"
               textAnchor="middle"
-              className="font-['Syne',sans-serif] font-black tracking-tighter"
+              className="font-[family-name:var(--font-syne)] font-black tracking-tighter"
               style={{ fontSize: "170px", fill: "currentColor" }}
             >
               M_N

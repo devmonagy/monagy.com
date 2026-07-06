@@ -484,10 +484,10 @@ export default function AboutSection() {
                   ratio keeps it a true circle at any column width. */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[65%] aspect-square max-w-[380px] bg-[var(--highlight)] opacity-[0.1] blur-[100px] rounded-full" />
               <div className="absolute inset-0 flex flex-col justify-center space-y-6 opacity-[0.05] select-none">
-                <div className="marquee-left-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-6xl sm:text-7xl tracking-tighter">
+                <div className="marquee-left-loop flex whitespace-nowrap font-black font-[family-name:var(--font-syne)] text-6xl sm:text-7xl tracking-tighter">
                   <span>MN MN MN MN MN MN MN MN MN MN MN MN MN MN</span>
                 </div>
-                <div className="marquee-right-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-6xl sm:text-7xl tracking-tighter">
+                <div className="marquee-right-loop flex whitespace-nowrap font-black font-[family-name:var(--font-syne)] text-6xl sm:text-7xl tracking-tighter">
                   <span>NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY NAGY</span>
                 </div>
               </div>
@@ -554,7 +554,7 @@ export default function AboutSection() {
                   still-scrambling glyphs can glow --highlight while already-
                   resolved ones sit at the normal solid --text-contrast —
                   reads as a live decode instead of just noise-then-text. */}
-              <h2 className="layer-heavy font-['Syne',sans-serif] text-7xl sm:text-8xl md:text-9xl font-black tracking-tighter leading-none select-none">
+              <h2 className="layer-heavy font-[family-name:var(--font-syne)] text-7xl sm:text-8xl md:text-9xl font-black tracking-tighter leading-none select-none">
                 {callsign.split("").map((char, i) => (
                   <span
                     key={i}
@@ -580,7 +580,7 @@ export default function AboutSection() {
                 the same row means nothing can get pushed past the edge and
                 clipped, on any screen size. */}
             <div className="layer-light relative z-10 px-6 sm:px-10 border-t border-[var(--border-color)]/50 pt-4 pb-1">
-              <span className="block font-['Syne',sans-serif] font-black text-xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none">
+              <span className="block font-[family-name:var(--font-syne)] font-black text-xl sm:text-2xl text-[var(--text-contrast)] tracking-tighter uppercase leading-none">
                 CREATIVE_LOGIC
               </span>
               <div className="mt-2.5 flex items-center gap-2 font-mono text-[9px] sm:text-[10px] text-[var(--text)] opacity-60 tracking-wider uppercase">

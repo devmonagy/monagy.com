@@ -2,6 +2,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -105,9 +106,17 @@ export default function ProjectsSection() {
         if (isEvenLayout) {
           tl.fromTo(
             mask,
-            { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" },
+            // inset(top right bottom left): starts fully clipped from the
+            // right (100%), so the visible sliver has zero width pinned to
+            // the LEFT edge, then that right-side clip shrinks to 0 —
+            // growing the reveal left-to-right. A single changing number
+            // (the right inset) tweens far more reliably than the previous
+            // 4-point degenerate-polygon collapse, which is what was
+            // causing the reversed (odd-row) version to jump straight to
+            // its end state instead of animating.
+            { clipPath: "inset(0 100% 0 0)" },
             {
-              clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+              clipPath: "inset(0 0% 0 0)",
               duration: 0.9,
               ease: "power4.inOut",
             },
@@ -194,9 +203,14 @@ export default function ProjectsSection() {
             )
             .fromTo(
               mask,
-              { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" },
+              // Mirrored from the even-row version: clipped from the LEFT
+              // (100%) instead of the right, so the visible sliver is
+              // pinned to the RIGHT edge and grows leftward as the left
+              // inset shrinks to 0 — a right-to-left wipe, matching this
+              // row's image sitting on the right side of the layout.
+              { clipPath: "inset(0 0 0 100%)" },
               {
-                clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+                clipPath: "inset(0 0 0 0%)",
                 duration: 0.9,
                 ease: "power4.inOut",
               },
@@ -319,10 +333,21 @@ export default function ProjectsSection() {
                       {project.status}
                     </div>
                   )}
-                  <img
+                  {/* next/image instead of a plain <img>: gives automatic
+                      responsive srcset (mobile doesn't download the same
+                      full-size file as desktop) and, more importantly here,
+                      real lazy-loading — these are below-the-fold images
+                      that were previously downloading eagerly regardless of
+                      scroll position. `fill` since the parent box already
+                      has a fixed aspect via h-[220px]/sm:h-[400px] and we
+                      want object-cover cropping regardless of each
+                      screenshot's own native dimensions. */}
+                  <Image
                     src={project.image}
                     alt={project.title}
-                    className="project-parallax-img w-full h-full object-cover object-center scale-110 grayscale-[70%] opacity-90 group-hover/img-link:grayscale-0 group-hover/img-link:opacity-100 group-hover/img-link:scale-115 transition-all duration-700 ease-out"
+                    fill
+                    sizes="(min-width: 1024px) 700px, 100vw"
+                    className="project-parallax-img object-cover object-center scale-110 grayscale-[70%] opacity-90 group-hover/img-link:grayscale-0 group-hover/img-link:opacity-100 group-hover/img-link:scale-115 transition-all duration-700 ease-out"
                   />
 
                   {/* SYS-styled duotone tech tint, replacing the old flat

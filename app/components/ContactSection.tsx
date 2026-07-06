@@ -93,7 +93,7 @@ export default function ContactSection() {
       {/* Giant faint repeating background typography — same motif as the
           About section's MN/NAGY marquee and the footer's M_N wordmark */}
       <div className="absolute inset-0 flex items-center opacity-[0.025] select-none pointer-events-none -z-10 overflow-hidden">
-        <div className="contact-marquee-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-[16vw] tracking-tighter text-[var(--text-contrast)]">
+        <div className="contact-marquee-loop flex whitespace-nowrap font-black font-[family-name:var(--font-syne)] text-[16vw] tracking-tighter text-[var(--text-contrast)]">
           <span className="px-8">
             SAY HELLO • SAY HELLO • SAY HELLO • SAY HELLO •
           </span>
@@ -112,7 +112,7 @@ export default function ContactSection() {
           </span>
         </div>
 
-        <h2 className="contact-reveal font-['Syne',sans-serif] text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter text-[var(--text-contrast)] leading-[1.05] transition-colors duration-300">
+        <h2 className="contact-reveal font-[family-name:var(--font-syne)] text-5xl sm:text-6xl md:text-7xl font-black tracking-tighter text-[var(--text-contrast)] leading-[1.05] transition-colors duration-300">
           Say Hello<span className="text-[var(--highlight)]">.</span>
         </h2>
 
@@ -144,7 +144,7 @@ export default function ContactSection() {
 
           <span className="relative z-10 w-2 h-2 rounded-full bg-[var(--highlight)] animate-pulse shrink-0" />
 
-          <span className="relative z-10 font-['Syne',sans-serif] font-black text-base sm:text-2xl tracking-tight break-all sm:break-normal">
+          <span className="relative z-10 font-[family-name:var(--font-syne)] font-black text-base sm:text-2xl tracking-tight break-all sm:break-normal">
             {CONTACT_EMAIL}
           </span>
 

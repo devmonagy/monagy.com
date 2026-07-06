@@ -38,9 +38,13 @@
   /* Radial mouse cursor glow configuration override */
   --radial-glow: rgba(0, 255, 204, 0.12);
 
-  /* Luxury Typographic Micro Scales */
-  --font-display: "Syne", "Space Grotesk", sans-serif;
-  --font-body: "Space Grotesk", sans-serif;
+  /* Luxury Typographic Micro Scales — these reference next/font-generated
+     CSS variables (set on <html> in layout.tsx) instead of literal font
+     name strings now, since next/font's self-hosted fonts get build-time
+     hashed family names, not the plain "Syne"/"Space Grotesk" strings a
+     Google Fonts <link> would have produced. */
+  --font-display: var(--font-syne), var(--font-space-grotesk), sans-serif;
+  --font-body: var(--font-space-grotesk), sans-serif;
 }
 
 html.light,

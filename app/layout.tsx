@@ -1,6 +1,43 @@
 import type { Metadata } from "next";
+import { Syne, Plus_Jakarta_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
+
+// Self-hosted via next/font instead of a <link> to Google's CSS API: that
+// old approach was a render-blocking external request (DNS + connection +
+// stylesheet fetch, all before text could paint in the right font, plus the
+// classic FOIT/FOUT flash). next/font downloads these at BUILD time, serves
+// them from this same origin, and injects the right font-display + preload
+// automatically — one of the highest-impact, lowest-risk Next.js perf wins
+// available. Exposed as CSS variables (not applied directly) because the
+// rest of the app references these fonts by name all over the place via
+// Tailwind arbitrary values — see globals.css's --font-display/--font-body
+// and the "family-name" arbitrary-property font utilities used throughout
+// components (not spelled out literally here on purpose: Tailwind's JIT
+// scans the raw text of every file for anything that looks like a class,
+// comments included — writing that bracket syntax with a wildcard in a
+// comment previously got a bogus utility generated for it and broke the
+// production build with a CSS parse error).
+const syne = Syne({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-syne",
+  display: "swap",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-plus-jakarta-sans",
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-space-grotesk",
+  display: "swap",
+});
 
 const SITE_TITLE = "Mohamed Nagy | Software Developer";
 const SITE_DESCRIPTION =
@@ -31,20 +68,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        {/* Speed up font loading by preconnecting to Google Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${syne.variable} ${plusJakartaSans.variable} ${spaceGrotesk.variable}`}
+    >
       <body
         className="bg-[var(--bg)] text-[var(--text)] transition-colors duration-500"
         suppressHydrationWarning
