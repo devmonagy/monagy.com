@@ -96,7 +96,18 @@ export default function EvolveTerminal() {
           type="button"
           onClick={runSequence}
           disabled={isRunning}
-          className="ml-auto flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[var(--highlight)] border border-[var(--highlight)]/30 hover:border-[var(--highlight)] hover:bg-[var(--hover-glow)] px-2.5 py-1 rounded-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          // transition-[border-color,background-color,opacity] instead of
+          // transition-all, matching .terminal-window's own narrower
+          // transition right above — transition-all here was letting a
+          // mobile WebKit repaint-ghosting bug show through: on the
+          // automatic first run (ScrollTrigger firing the instant the
+          // terminal scrolls into view), the button's disabled/text state
+          // flips rapidly at the exact same moment as a scroll-driven
+          // layout recalculation, and a broad transition-all can leave the
+          // old "RUN" paint briefly lingering on top of the new one on
+          // mobile. A manual click never coincides with that scroll event,
+          // which is why it only ever showed up on the automatic trigger.
+          className="ml-auto flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[var(--highlight)] border border-[var(--highlight)]/30 hover:border-[var(--highlight)] hover:bg-[var(--hover-glow)] px-2.5 py-1 rounded-md transition-[border-color,background-color,opacity] duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
         >
           <span className={isRunning ? "animate-pulse" : ""}>▶</span>
           {isRunning ? "RUNNING" : "RUN"}
