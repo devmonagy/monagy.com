@@ -133,15 +133,15 @@ export default function SpotifyNowPlaying() {
     return () => window.removeEventListener("resize", checkOverflow);
   }, [displayData.isPlaying, displayData.title, displayData.artist]);
 
-  return (
-    <a
-      href={displayData.url ?? "https://open.spotify.com"}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group/spotify flex items-center w-full h-full min-h-[128px] sm:min-h-[140px] rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)]/90 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-[var(--highlight)]/60 hover:bg-[var(--hover-glow)] transition-colors duration-300"
-    >
-      <div ref={contentRef} className="flex items-center gap-3 sm:gap-4 w-full">
-        {displayData.isPlaying ? (
+  // Only clickable while actually playing — offline, there's nowhere
+  // meaningful to send someone (no track), so it renders as a plain,
+  // non-interactive div instead of a dead/misleading link.
+  const cardClassName =
+    "group/spotify flex items-center w-full h-full min-h-[128px] sm:min-h-[140px] rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)]/90 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-colors duration-300";
+
+  const content = (
+    <div ref={contentRef} className="flex items-center gap-3 sm:gap-4 w-full">
+      {displayData.isPlaying ? (
           <>
             {displayData.albumArt && (
               <Image
@@ -242,7 +242,19 @@ export default function SpotifyNowPlaying() {
             </div>
           </>
         )}
-      </div>
+    </div>
+  );
+
+  return displayData.isPlaying ? (
+    <a
+      href={displayData.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`${cardClassName} hover:border-[var(--highlight)]/60 hover:bg-[var(--hover-glow)]`}
+    >
+      {content}
     </a>
+  ) : (
+    <div className={cardClassName}>{content}</div>
   );
 }
