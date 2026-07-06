@@ -184,7 +184,19 @@ export default function SpotifyNowPlaying({
             <span className="eq-bar w-[2px] h-full rounded-full bg-[var(--highlight)] [animation-delay:150ms]" />
             <span className="eq-bar w-[2px] h-full rounded-full bg-[var(--highlight)] [animation-delay:300ms]" />
           </span>
-          Mo is currently listening to
+          Mo is now on Spotify
+          {/* SVG instead of a "♫"/"♪" glyph — currentColor makes it follow
+              the highlight color exactly (a Unicode note can't be colored
+              the same way) and it renders identically across every OS,
+              where music glyphs are notoriously inconsistent font-to-font. */}
+          <svg
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0"
+            aria-hidden="true"
+          >
+            <path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z" />
+          </svg>
         </span>
         {/* Bounded container the overflow check measures against; mask
             fades the edges so the marquee copy doesn't hard-clip mid-loop. */}
