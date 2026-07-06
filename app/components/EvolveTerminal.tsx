@@ -96,21 +96,18 @@ export default function EvolveTerminal() {
           type="button"
           onClick={runSequence}
           disabled={isRunning}
-          // transition-[border-color,background-color,opacity] instead of
-          // transition-all, matching .terminal-window's own narrower
-          // transition right above — transition-all here was letting a
-          // mobile WebKit repaint-ghosting bug show through: on the
-          // automatic first run (ScrollTrigger firing the instant the
-          // terminal scrolls into view), the button's disabled/text state
-          // flips rapidly at the exact same moment as a scroll-driven
-          // layout recalculation, and a broad transition-all can leave the
-          // old "RUN" paint briefly lingering on top of the new one on
-          // mobile. A manual click never coincides with that scroll event,
-          // which is why it only ever showed up on the automatic trigger.
-          className="ml-auto flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[var(--highlight)] border border-[var(--highlight)]/30 hover:border-[var(--highlight)] hover:bg-[var(--hover-glow)] px-2.5 py-1 rounded-md transition-[border-color,background-color,opacity] duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          // Fixed-width label (7ch = "RUNNING") stops the button reflowing
+          // when the text swaps; no `opacity` in the transition list so the
+          // disabled dim snaps instantly instead of cross-fading; and the
+          // tap-highlight reset + own compositing layer stop mobile WebKit's
+          // native grey tap flash from lingering/blending with that reflow
+          // into the "ghost" double-text look this has shown on mobile.
+          className="ml-auto flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[var(--highlight)] border border-[var(--highlight)]/30 hover:border-[var(--highlight)] hover:bg-[var(--hover-glow)] px-2.5 py-1 rounded-md transition-[border-color,background-color] duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer touch-manipulation [-webkit-tap-highlight-color:transparent] [transform:translateZ(0)]"
         >
           <span className={isRunning ? "animate-pulse" : ""}>▶</span>
-          {isRunning ? "RUNNING" : "RUN"}
+          <span className="inline-block w-[7ch]">
+            {isRunning ? "RUNNING" : "RUN"}
+          </span>
         </button>
       </div>
 
