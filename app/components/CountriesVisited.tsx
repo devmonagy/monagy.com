@@ -14,7 +14,7 @@ const COUNTRIES = [
 
 export default function CountriesVisited() {
   return (
-    <div className="flex flex-col w-full h-full min-h-[128px] sm:min-h-[140px] justify-center rounded-2xl border border-[var(--border-color)] bg-[var(--card-bg)]/90 backdrop-blur-md px-4 sm:px-5 py-3 sm:py-4 shadow-[0_8px_24px_rgba(0,0,0,0.08)]">
+    <div className="telemetry-card flex flex-col w-full h-full min-h-[128px] sm:min-h-[140px] justify-center rounded-2xl border bg-[var(--card-bg)]/80 backdrop-blur-xl px-4 sm:px-5 py-3 sm:py-4">
       <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-[var(--highlight)] mb-3">
         Countries Visited
       </span>

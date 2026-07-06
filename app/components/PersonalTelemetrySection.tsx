@@ -66,16 +66,16 @@ export default function PersonalTelemetrySection() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-        <div className="telemetry-reveal">
+        <div className="telemetry-reveal h-full">
           <SpotifyNowPlaying />
         </div>
-        <div className="telemetry-reveal">
+        <div className="telemetry-reveal h-full">
           <WeatherWidget />
         </div>
-        <div className="telemetry-reveal">
+        <div className="telemetry-reveal h-full">
           <CountriesVisited />
         </div>
-        <div className="telemetry-reveal">
+        <div className="telemetry-reveal h-full">
           <CurrentlyLearning />
         </div>
       </div>

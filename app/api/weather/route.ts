@@ -24,6 +24,9 @@ export interface WeatherData {
   isDay: boolean;
   condition: WeatherCondition;
   windMph: number;
+  humidity: number;
+  sunriseISO: string;
+  sunsetISO: string;
 }
 
 // WMO weather codes (Open-Meteo's `weather_code`) collapsed into the
@@ -46,7 +49,8 @@ export async function GET() {
   try {
     const url =
       `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}` +
-      `&current=temperature_2m,apparent_temperature,weather_code,is_day,wind_speed_10m` +
+      `&current=temperature_2m,apparent_temperature,weather_code,is_day,wind_speed_10m,relative_humidity_2m` +
+      `&daily=sunrise,sunset` +
       `&temperature_unit=fahrenheit&wind_speed_unit=mph` +
       `&timezone=America%2FNew_York`;
 
@@ -62,6 +66,9 @@ export async function GET() {
       isDay: current.is_day === 1,
       condition: codeToCondition(current.weather_code),
       windMph: Math.round(current.wind_speed_10m),
+      humidity: Math.round(current.relative_humidity_2m),
+      sunriseISO: data.daily?.sunrise?.[0] ?? "",
+      sunsetISO: data.daily?.sunset?.[0] ?? "",
     };
 
     return NextResponse.json(weather, {
