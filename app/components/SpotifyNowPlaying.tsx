@@ -19,7 +19,17 @@ interface NowPlayingData {
 const POLL_INTERVAL_MS = 8000;
 const HIDDEN_POLL_INTERVAL_MS = 25000;
 
-export default function SpotifyNowPlaying() {
+interface SpotifyNowPlayingProps {
+  // Lets a wrapper (SpotifyNowPlayingMobile) track this component's own
+  // mount/unmount timing without duplicating the isPlaying/exit-tween logic
+  // above — desktop's SpotifyNowPlayingBar doesn't pass this, so nothing
+  // changes for it.
+  onVisibleChange?: (visible: boolean) => void;
+}
+
+export default function SpotifyNowPlaying({
+  onVisibleChange,
+}: SpotifyNowPlayingProps = {}) {
   const [data, setData] = useState<NowPlayingData | null>(null);
   // Whether the card is in the DOM at all — the ONLY thing the render
   // below gates on. Turning on is immediate; turning off plays an exit
@@ -90,6 +100,10 @@ export default function SpotifyNowPlaying() {
     // playing state itself changes, not when the exit tween flips it off.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.isPlaying]);
+
+  useEffect(() => {
+    onVisibleChange?.(visible);
+  }, [visible, onVisibleChange]);
 
   useEffect(() => {
     if (!visible || !cardRef.current) return;
