@@ -178,11 +178,11 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             becomes a continuously scrolling band instead: only a transient
             sliver ever passes behind the badge rather than a static chunk
             sitting permanently occluded */}
-        <div className="kinetic-element hidden md:block absolute text-[14vw] font-black font-['Syne',sans-serif] text-[var(--highlight)]/5 opacity-[0.03] select-none pointer-events-none tracking-tighter -z-10 transform -translate-y-6">
+        <div className="kinetic-element hidden md:block absolute text-[14vw] font-black font-[family-name:var(--font-syne)] text-[var(--highlight)]/5 opacity-[0.03] select-none pointer-events-none tracking-tighter -z-10 transform -translate-y-6">
           SYS_INIT
         </div>
         <div className="kinetic-element md:hidden absolute inset-x-0 flex overflow-hidden opacity-[0.05] select-none pointer-events-none -z-10">
-          <div className="sysinit-marquee-loop flex whitespace-nowrap font-black font-['Syne',sans-serif] text-[16vw] tracking-tighter text-[var(--highlight)]">
+          <div className="sysinit-marquee-loop flex whitespace-nowrap font-black font-[family-name:var(--font-syne)] text-[16vw] tracking-tighter text-[var(--highlight)]">
             <span className="px-6">SYS_INIT • SYS_INIT • SYS_INIT •</span>
             <span className="px-6">SYS_INIT • SYS_INIT • SYS_INIT •</span>
           </div>
@@ -200,7 +200,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             }}
           />
           <div className="relative w-full h-full flex items-center justify-center rounded-3xl bg-[var(--card-bg)] border-2 border-[var(--highlight)]/50">
-            <span className="font-['Syne',sans-serif] font-black text-2xl sm:text-3xl md:text-4xl tracking-tighter text-[var(--text-contrast)]">
+            <span className="font-[family-name:var(--font-syne)] font-black text-2xl sm:text-3xl md:text-4xl tracking-tighter text-[var(--text-contrast)]">
               M<span className="text-[var(--highlight)]">_</span>N
             </span>
           </div>
@@ -208,7 +208,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
         {/* Core Main Branding String */}
         <div className="overflow-hidden mb-2">
-          <h2 className="loader-text-main kinetic-element font-['Syne',sans-serif] text-2xl sm:text-3xl md:text-4xl font-black tracking-[0.2em] text-[var(--text-contrast)] uppercase leading-none transition-all">
+          <h2 className="loader-text-main kinetic-element font-[family-name:var(--font-syne)] text-2xl sm:text-3xl md:text-4xl font-black tracking-[0.2em] text-[var(--text-contrast)] uppercase leading-none transition-all">
             NAGY<span className="text-[var(--highlight)]">.</span>SYS
           </h2>
         </div>

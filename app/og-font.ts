@@ -1,6 +1,6 @@
 // Shared font loader for generated icons/social images (ImageResponse/satori
-// can't use the <link>-loaded Google Font the rest of the site uses — it
-// needs the actual font file bytes handed to it directly).
+// can't use next/font like the rest of the site does — it needs the actual
+// font file bytes handed to it directly, so this fetches them separately).
 let cachedFont: ArrayBuffer | null = null;
 
 export async function getSyneFont(): Promise<ArrayBuffer> {

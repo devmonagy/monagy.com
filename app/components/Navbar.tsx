@@ -143,7 +143,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
               }}
             />
             <div className="relative w-full h-full flex items-center justify-center rounded-xl bg-[var(--card-bg)] border border-[var(--highlight)]/40 group-hover/logo:border-[var(--highlight)] transition-all duration-300 group-active/logo:scale-95">
-              <span className="font-['Syne',sans-serif] font-black text-sm sm:text-base tracking-tighter text-[var(--text-contrast)] leading-none">
+              <span className="font-[family-name:var(--font-syne)] font-black text-sm sm:text-base tracking-tighter text-[var(--text-contrast)] leading-none">
                 M<span className="text-[var(--highlight)]">_</span>N
               </span>
             </div>
@@ -156,7 +156,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
 
         {/* DESKTOP ONLY NAVIGATION */}
         <nav className="hidden md:flex items-center">
-          <ul className="flex items-center gap-8 font-['Plus_Jakarta_Sans',sans-serif] text-xs font-semibold uppercase tracking-[0.18em]">
+          <ul className="flex items-center gap-8 font-[family-name:var(--font-plus-jakarta-sans)] text-xs font-semibold uppercase tracking-[0.18em]">
             <li>
               <a
                 href="#about"
@@ -343,7 +343,7 @@ export default function Navbar({ theme, toggleTheme }: NavbarProps) {
           className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] w-[92vw] max-w-[360px] will-change-transform"
         >
           <nav className="bg-[var(--card-bg)]/85 border border-[var(--border-color)] rounded-full backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.3)] px-3 py-3 overflow-hidden">
-            <ul className="flex items-center justify-between font-['Plus_Jakarta_Sans',sans-serif] text-[10px] font-bold uppercase tracking-[0.03em] whitespace-nowrap">
+            <ul className="flex items-center justify-between font-[family-name:var(--font-plus-jakarta-sans)] text-[10px] font-bold uppercase tracking-[0.03em] whitespace-nowrap">
               <li>
                 <a
                   href="#about"
