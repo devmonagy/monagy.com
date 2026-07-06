@@ -597,6 +597,39 @@ html.custom-cursor-active * {
   }
 }
 
+/* SPOTIFY NOW PLAYING — equalizer bars. Plain CSS infinite loop rather than
+   a GSAP tween: it just needs to run for as long as the element exists, no
+   JS orchestration required, so it can't get orphaned/stuck the way a
+   JS-driven infinite tween tied to a React effect's lifecycle can. */
+.eq-bar {
+  transform-origin: bottom;
+  animation: eqBounce 0.9s ease-in-out infinite;
+}
+
+@keyframes eqBounce {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* Track/artist marquee — only ever applied (see SpotifyNowPlaying.tsx) when
+   the text actually overflows its container. Two copies of the text sit
+   side by side with a gap; translating exactly -50% scrolls through the
+   first copy fully, and the second copy is already in position to continue
+   seamlessly, so the loop point is invisible. */
+@keyframes spotifyMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* ==========================================================================
    APP BACKGROUND — persistent SYS_ENGINE atmosphere (see AppBackground.tsx)
    ========================================================================== */

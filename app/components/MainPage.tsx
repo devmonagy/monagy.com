@@ -13,6 +13,7 @@ import Preloader from "./Preloader";
 import CustomCursor from "./CustomCursor";
 import AppBackground from "./AppBackground";
 import DesktopCanvas from "./DesktopCanvas";
+import SpotifyNowPlayingBar from "./SpotifyNowPlayingBar";
 
 export default function MainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -218,6 +219,14 @@ export default function MainPage() {
           <Navbar theme={theme} toggleTheme={toggleTheme} />
         </div>
       )}
+
+      {/* Portaled to document.body, outside DesktopCanvas's transform, so it
+          can measure #navbarWrapper/#about-intro-flag (both real DOM
+          elements by this point) and position itself without any scale
+          math — see SpotifyNowPlayingBar.tsx for why. Gated on isLoaded
+          since both of those anchors only exist once Navbar/AboutSection
+          have mounted. */}
+      {isLoaded && <SpotifyNowPlayingBar />}
 
       <DesktopCanvas>
         {/* CORE WEB APPLICATION CONTAINER CORE REVEAL */}
