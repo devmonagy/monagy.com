@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import type { WeatherCondition, WeatherData } from "../api/weather/route";
 
 // Weather changes slowly — no reason to poll anywhere near Spotify's 8s
-// cadence. Open-Meteo's own current-conditions data refreshes roughly every
-// 15 minutes anyway, so polling faster than that would just repeat stale
-// numbers.
-const POLL_INTERVAL_MS = 15 * 60 * 1000;
+// cadence. Open-Meteo's own current-conditions data itself only refreshes
+// roughly every 15 minutes, so 5 here won't surface fresher numbers than
+// 15 would — it's purely so the widget feels more alive/frequently checked,
+// at the cost of a few extra harmless requests.
+const POLL_INTERVAL_MS = 5 * 60 * 1000;
 
 const CONDITION_LABEL: Record<WeatherCondition, string> = {
   clear: "Clear",
