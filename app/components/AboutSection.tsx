@@ -344,8 +344,11 @@ export default function AboutSection() {
       <div className="w-full grid grid-cols-12 gap-y-20 lg:gap-x-16 items-stretch">
         {/* Left Side: Editorial Typography & Layout Panel */}
         <div className="col-span-12 lg:col-span-7 flex flex-col justify-center relative z-20">
-          {/* Section ID Header Flag */}
-          <div className="overflow-hidden mb-4">
+          {/* Section ID Header Flag — id is a cross-component anchor for
+              SpotifyNowPlayingBar.tsx, which needs to measure where this
+              text visually starts from outside this component tree (it's
+              portaled to document.body, not nested here) */}
+          <div id="about-intro-flag" className="overflow-hidden mb-4">
             <span className="reveal-line inline-block font-mono text-xs sm:text-sm text-[var(--highlight)] tracking-widest uppercase font-semibold">
               01. Introduction & Background
             </span>
