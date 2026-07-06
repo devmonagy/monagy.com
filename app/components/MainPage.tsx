@@ -14,6 +14,7 @@ import CustomCursor from "./CustomCursor";
 import AppBackground from "./AppBackground";
 import DesktopCanvas from "./DesktopCanvas";
 import SpotifyNowPlayingBar from "./SpotifyNowPlayingBar";
+import SpotifyNowPlayingMobile from "./SpotifyNowPlayingMobile";
 
 export default function MainPage() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -234,6 +235,16 @@ export default function MainPage() {
           <div className="opacity-0 animate-[fadeInContent_1s_cubic-bezier(0.25,1,0.5,1)_forwards]">
             {/* CORE ALIGNED TRACKING CONTAINER CONTEXT */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-16">
+              {/* Mobile/tablet only — see SpotifyNowPlayingMobile.tsx. Real
+                  in-flow element (not the portaled desktop bar above), so
+                  it naturally pushes AboutSection down while expanded and
+                  collapses back to zero height when not, no measurement
+                  needed. Safe here below 1024px: DesktopCanvas renders
+                  <main>'s children unwrapped (no scale transform) at this
+                  breakpoint, so there's nothing for a real-pixel value to
+                  get re-multiplied by even though this uses plain layout,
+                  not that anyway. */}
+              <SpotifyNowPlayingMobile />
               <AboutSection />
               <ExperienceSection />
               <ProjectsSection />

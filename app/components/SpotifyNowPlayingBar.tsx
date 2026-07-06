@@ -112,7 +112,13 @@ export default function SpotifyNowPlayingBar() {
     };
   }, [mounted, isDesktopRange, scale]);
 
-  if (!mounted) return null;
+  // Desktop only — SpotifyNowPlayingMobile.tsx handles mobile/tablet with a
+  // deliberately different, simpler in-flow mechanism (see its own
+  // comments). Returning null here (not just CSS-hiding) matters: it stops
+  // this component's own <SpotifyNowPlaying /> from mounting and polling
+  // at all on mobile, instead of running invisibly alongside the mobile
+  // version's separate instance.
+  if (!mounted || !isDesktopRange) return null;
 
   return createPortal(
     <div
