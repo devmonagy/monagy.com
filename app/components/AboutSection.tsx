@@ -31,11 +31,15 @@ const MODERN_TECH_STACK: TechItem[] = [
 const SCRAMBLE_CHARS =
   "ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ!<>-_\\/[]{}=+*^?#01";
 const CALLSIGN = "M_N";
+// How long to wait after a decode finishes (whether it played automatically
+// or from a click/tap) before the next automatic one is allowed to fire.
+const AUTO_REPEAT_DELAY = 8000;
 
 export default function AboutSection() {
   const scopeRef = useRef<HTMLDivElement>(null);
   const matrixContainerRef = useRef<HTMLDivElement>(null);
   const scrambleIntervalRef = useRef<number | null>(null);
+  const autoRepeatTimeoutRef = useRef<number | null>(null);
 
   const [nycTime, setNycTime] = useState<string | null>(null);
   const [callsign, setCallsign] = useState(CALLSIGN);
@@ -64,6 +68,13 @@ export default function AboutSection() {
   // not a layout-affecting animation. revealedCount is tracked alongside
   // callsign so the JSX can color still-scrambling characters differently
   // from already-resolved ones (see the render below).
+  //
+  // Every call — whether from the boot timeout, a manual click/tap, or the
+  // auto-repeat itself — reschedules the NEXT auto-repeat a full pause
+  // (AUTO_REPEAT_DELAY) later, instead of the old fixed setInterval that
+  // fired on its own schedule regardless of manual triggers. That old
+  // version could let a click be followed by an auto-repeat moments later;
+  // this way a click always earns its own full pause afterward.
   const runScramble = () => {
     const totalFrames = 14;
     let frame = 0;
@@ -96,18 +107,30 @@ export default function AboutSection() {
         setRevealedCount(CALLSIGN.length);
       }
     }, 50);
+
+    if (autoRepeatTimeoutRef.current) {
+      window.clearTimeout(autoRepeatTimeoutRef.current);
+    }
+    autoRepeatTimeoutRef.current = window.setTimeout(runScramble, AUTO_REPEAT_DELAY);
   };
 
-  // Boot the decode shortly after entrance, then repeat periodically so the
-  // card stays "alive" without requiring hover — matters on touch devices
+  // Boot the decode shortly after entrance — runScramble itself takes over
+  // scheduling every repeat after that (see above), so the card stays
+  // "alive" without requiring hover, matters on touch devices. Intentional
+  // empty dep array: this should only ever run once, on mount, regardless
+  // of runScramble being redefined each render — it isn't memoized (a
+  // useCallback version broke a stricter compiler-compatibility rule,
+  // since it calls itself recursively for the auto-repeat above).
   useEffect(() => {
     const bootTimeout = window.setTimeout(runScramble, 2400);
-    const loop = window.setInterval(runScramble, 8000);
     return () => {
       window.clearTimeout(bootTimeout);
-      window.clearInterval(loop);
+      if (autoRepeatTimeoutRef.current) {
+        window.clearTimeout(autoRepeatTimeoutRef.current);
+      }
       if (scrambleIntervalRef.current) window.clearInterval(scrambleIntervalRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Awwwards-Grade Cinematic Entrance Animations
