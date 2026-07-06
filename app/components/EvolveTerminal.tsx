@@ -105,7 +105,7 @@ export default function EvolveTerminal() {
           className="ml-auto flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-[var(--highlight)] border border-[var(--highlight)]/30 hover:border-[var(--highlight)] hover:bg-[var(--hover-glow)] px-2.5 py-1 rounded-md transition-[border-color,background-color] duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer touch-manipulation [-webkit-tap-highlight-color:transparent] [transform:translateZ(0)]"
         >
           <span className={isRunning ? "animate-pulse" : ""}>▶</span>
-          <span className="inline-block w-[7ch]">
+          <span className="inline-block w-[7ch] lg:w-auto">
             {isRunning ? "RUNNING" : "RUN"}
           </span>
         </button>
