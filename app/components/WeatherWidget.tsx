@@ -127,7 +127,11 @@ function WeatherIcon({
 
       {showMoon && (
         <g
-          transform={small ? "translate(3 2) scale(0.68)" : "translate(5 4) scale(0.9)"}
+          // translate(5.2 5.2) — this path's exact bounding-box center
+          // (computed via the actual SVG arc-to-center formula, not
+          // eyeballed) is (12,12), so scale*12+translate=16 needs
+          // translate=16-12*0.9=5.2 on both axes to land it dead center.
+          transform={small ? "translate(3 2) scale(0.68)" : "translate(5.2 5.2) scale(0.9)"}
           filter="url(#softGlow)"
         >
           <path
@@ -150,7 +154,17 @@ function WeatherIcon({
           transform={
             condition === "partly-cloudy"
               ? "translate(9 13) scale(0.95)"
-              : "translate(3 9) scale(1.15)"
+              : // translate(2.2 2.2) — this path's exact bounding-box
+                // center, computed via the real SVG arc-to-center formula
+                // (not eyeballed), is (12,12), not (12,16) or anywhere
+                // else — so scale*12+translate=16 needs translate=2.2 on
+                // BOTH axes to land it dead center. The previous
+                // translate(3 9) landed x close to right (16.8) but put y
+                // at 22.8 — 6.8 units low out of a 32-tall canvas, which
+                // is exactly the "sitting toward the bottom" it looked
+                // like. Everything below (rain/snow/bolt/fog) is
+                // repositioned to match this new, higher cloud position.
+                "translate(2.2 2.2) scale(1.15)"
           }
         >
           <g className="weather-cloud-drift">
@@ -164,23 +178,23 @@ function WeatherIcon({
 
       {(condition === "rain" || condition === "drizzle") && (
         <g stroke="#7DD3FC" strokeWidth="1.6" strokeLinecap="round">
-          <line x1="10" y1="24" x2="8.5" y2="28" className="weather-drop weather-drop-1" />
-          <line x1="15" y1="24" x2="13.5" y2="28" className="weather-drop weather-drop-2" />
-          <line x1="20" y1="24" x2="18.5" y2="28" className="weather-drop weather-drop-3" />
+          <line x1="11" y1="26" x2="9.5" y2="30" className="weather-drop weather-drop-1" />
+          <line x1="16" y1="26" x2="14.5" y2="30" className="weather-drop weather-drop-2" />
+          <line x1="21" y1="26" x2="19.5" y2="30" className="weather-drop weather-drop-3" />
         </g>
       )}
 
       {condition === "snow" && (
         <g fill="#F0F9FF">
-          <circle cx="10" cy="25" r="1.1" className="weather-snow weather-snow-1" />
-          <circle cx="16" cy="27" r="1.1" className="weather-snow weather-snow-2" />
-          <circle cx="21" cy="25" r="1.1" className="weather-snow weather-snow-3" />
+          <circle cx="11" cy="26" r="1.1" className="weather-snow weather-snow-1" />
+          <circle cx="16" cy="29" r="1.1" className="weather-snow weather-snow-2" />
+          <circle cx="21" cy="26" r="1.1" className="weather-snow weather-snow-3" />
         </g>
       )}
 
       {condition === "thunderstorm" && (
         <path
-          d="M15 21 10 28h4l-1 5 6-8h-4l1-4z"
+          d="M15 14 10 21h4l-1 5 6-8h-4l1-4z"
           fill="#FDE047"
           filter="url(#softGlow)"
           className="weather-bolt"
@@ -189,9 +203,9 @@ function WeatherIcon({
 
       {condition === "fog" && (
         <g stroke="#94A3B8" strokeWidth="1.4" strokeLinecap="round" className="weather-fog">
-          <line x1="6" y1="22" x2="18" y2="22" />
-          <line x1="9" y1="25.5" x2="24" y2="25.5" />
-          <line x1="6" y1="29" x2="19" y2="29" />
+          <line x1="6" y1="16" x2="18" y2="16" />
+          <line x1="9" y1="19.5" x2="24" y2="19.5" />
+          <line x1="6" y1="23" x2="19" y2="23" />
         </g>
       )}
     </svg>
