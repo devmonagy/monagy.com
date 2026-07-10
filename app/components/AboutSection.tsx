@@ -386,7 +386,9 @@ export default function AboutSection() {
               <span className="reveal-line block text-[var(--text-contrast)] [text-shadow:none]">Mohamed</span>
             </span>
             <span className="overflow-hidden block w-max">
-              <span className="reveal-line block text-[var(--text-contrast)] [text-shadow:none]">Nagy.</span>
+              <span className="reveal-line block text-[var(--text-contrast)] [text-shadow:none]">
+                Nagy<span className="text-[var(--highlight)] [text-shadow:none]">.</span>
+              </span>
             </span>
           </h1>
           <div className="overflow-hidden mb-6 sm:mb-8">
