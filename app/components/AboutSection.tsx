@@ -457,9 +457,9 @@ export default function AboutSection() {
         {/* Right Side: System Readout — a full-height ambient HUD instead of
             a boxed card. No border, no fill, no rectangle: it's mask-faded
             top and bottom so it dissolves into the section rather than
-            sitting on it, with a vertical "data spine" tying a top status
-            line, the kinetic M_N centerpiece, and a bottom signature into
-            one continuous readout instead of three stacked chunks. */}
+            sitting on it, with a top status line, the kinetic M_N
+            centerpiece, and a bottom signature stacked into one continuous
+            readout instead of three separate chunks. */}
         {/* [perspective:1200px] lives on this outer wrapper, not on the
             tilted element itself below — perspective has to be set on an
             ANCESTOR of whatever gets the rotateX/rotateY tilt for the 3D
@@ -536,22 +536,6 @@ export default function AboutSection() {
                   background: `radial-gradient(500px at var(--mouse-x) var(--mouse-y), var(--radial-glow), transparent 45%)`,
                 }}
               />
-            </div>
-
-            {/* Vertical data spine — literal thread connecting the
-                top/middle/bottom readouts into one system. Hidden on the
-                very smallest screens to keep the mobile layout clean. */}
-            <div
-              className="absolute left-2 sm:left-4 top-0 bottom-0 w-px pointer-events-none hidden sm:block"
-              style={{
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
-                maskImage:
-                  "linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)",
-              }}
-            >
-              <div className="absolute inset-0 bg-[var(--highlight)] opacity-30" />
-              <span className="absolute left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[var(--highlight)] shadow-[0_0_10px_2px_var(--highlight)] animate-[railTravel_5s_linear_infinite]" />
             </div>
 
             {/* TOP: Status Readout */}

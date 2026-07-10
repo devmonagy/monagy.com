@@ -511,28 +511,6 @@ body:not(.light) .tile:hover {
   }
 }
 
-/* Traveling pulse dot on AboutSection's vertical data rail — `top` (not
-   transform) is deliberate here: it needs to resolve as a percentage of the
-   rail's own height, which varies with viewport/content, and this is a
-   single small element animating a few seconds apart, so the layout cost is
-   negligible. */
-@keyframes railTravel {
-  0% {
-    top: -4%;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    top: 104%;
-    opacity: 0;
-  }
-}
-
 /* ==========================================================================
    CUSTOM SYSTEM CURSOR — replaces the native pointer with a themed reticle.
    Only ever activated on devices with a real mouse (see CustomCursor.tsx's
