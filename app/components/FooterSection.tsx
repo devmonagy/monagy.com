@@ -170,7 +170,7 @@ export default function FooterSection() {
           >
             <text
               x="50%"
-              y="70%"
+              y="55%"
               dominantBaseline="middle"
               textAnchor="middle"
               className="font-[family-name:var(--font-syne)] font-black tracking-tighter"

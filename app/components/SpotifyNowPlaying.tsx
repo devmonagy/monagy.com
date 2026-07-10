@@ -153,7 +153,7 @@ export default function SpotifyNowPlaying() {
               />
             )}
             <div className="flex flex-col min-w-0 flex-1">
-              <span className="flex items-center gap-2 font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-[var(--highlight)]">
+              <span className="flex items-center gap-2 font-mono text-xs sm:text-sm text-[var(--highlight)]">
                 {/* Pure CSS loop (see .eq-bar in globals.css) instead of a
                     GSAP tween — it can't get orphaned/stuck across remounts
                     the way a JS-driven infinite tween keyed to a stale
@@ -232,7 +232,7 @@ export default function SpotifyNowPlaying() {
               </svg>
             </div>
             <div className="flex flex-col min-w-0">
-              <span className="flex items-center gap-2 font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-[var(--text)] opacity-50">
+              <span className="flex items-center gap-2 font-mono text-xs sm:text-sm text-[var(--text)] opacity-50">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--text)] opacity-40 shrink-0" />
                 Mo is offline on Spotify
               </span>

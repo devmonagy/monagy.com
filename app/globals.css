@@ -24,9 +24,9 @@
     0,
     255,
     204,
-    0.3
+    0.5
   ); /* Uses bright accent color in dark mode */
-  --dotted-frame-opacity: 0.25;
+  --dotted-frame-opacity: 0.55;
   --dotted-frame-hover-opacity: 0.75;
   --tile-shadow-base: rgba(0, 0, 0, 0.6);
   --tile-shadow-hover: rgba(0, 0, 0, 0.85);
