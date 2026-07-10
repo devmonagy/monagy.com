@@ -24,9 +24,9 @@
     0,
     255,
     204,
-    0.3
+    0.5
   ); /* Uses bright accent color in dark mode */
-  --dotted-frame-opacity: 0.25;
+  --dotted-frame-opacity: 0.55;
   --dotted-frame-hover-opacity: 0.75;
   --tile-shadow-base: rgba(0, 0, 0, 0.6);
   --tile-shadow-hover: rgba(0, 0, 0, 0.85);
@@ -508,28 +508,6 @@ body:not(.light) .tile:hover {
   }
   to {
     transform: translateY(500%);
-  }
-}
-
-/* Traveling pulse dot on AboutSection's vertical data rail — `top` (not
-   transform) is deliberate here: it needs to resolve as a percentage of the
-   rail's own height, which varies with viewport/content, and this is a
-   single small element animating a few seconds apart, so the layout cost is
-   negligible. */
-@keyframes railTravel {
-  0% {
-    top: -4%;
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    top: 104%;
-    opacity: 0;
   }
 }
 
